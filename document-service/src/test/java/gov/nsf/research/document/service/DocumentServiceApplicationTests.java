@@ -47,5 +47,16 @@ public class DocumentServiceApplicationTests {
 		
 		System.out.println(projDesc.toString());
 	}
+	
+	@Ignore
+	@Test
+	public void testSaveProjectDescDocument(){
+		projectDescRepository.saveProjectDescDocument();
+	}
 
+	@Ignore
+	@Test
+	public void testGetProjDescDocument(){
+		projectDescRepository.getProjDescDocument();
+	}
 }

@@ -6,4 +6,6 @@ public interface ProjectDescRepository{
 
 	public void insertProjDesc(ProjectDesc projDesc);
 	public ProjectDesc getProjectDescByTempPropId(String tempPropId);
+	public void saveProjectDescDocument();
+	public void getProjDescDocument();
 }

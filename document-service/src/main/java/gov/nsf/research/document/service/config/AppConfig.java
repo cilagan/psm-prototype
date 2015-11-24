@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
 import gov.nsf.research.document.service.repository.ProjectDescRepository;
 import gov.nsf.research.document.service.repository.impl.ProjectDescRepositoryImpl;
@@ -14,8 +15,11 @@ public class AppConfig {
 	@Autowired
 	MongoTemplate mongoTemplate;
 	
+	@Autowired
+	GridFsTemplate gridFsTemplate;
+	
 	@Bean
 	public ProjectDescRepository projectDescRepository(){
-		return new ProjectDescRepositoryImpl(mongoTemplate);
+		return new ProjectDescRepositoryImpl(mongoTemplate, gridFsTemplate);
 	}
 }
