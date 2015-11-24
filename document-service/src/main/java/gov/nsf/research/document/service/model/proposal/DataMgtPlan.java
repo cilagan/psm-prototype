@@ -5,6 +5,7 @@ import gov.nsf.research.document.service.model.UploadableSection;
 
 public class DataMgtPlan extends UploadableSection {
 
+	private static final long serialVersionUID = 1922905486673946796L;
 	private SectionType sectionType;
 	
 	public DataMgtPlan(){
