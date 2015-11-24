@@ -26,6 +26,4 @@ public class DataMgtPlan extends UploadableSection {
 	public void setSectionType(SectionType sectionType) {
 		this.sectionType = sectionType;
 	}
-	
-	
 }
