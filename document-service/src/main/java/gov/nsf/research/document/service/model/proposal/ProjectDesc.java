@@ -5,6 +5,8 @@ import gov.nsf.research.document.service.model.UploadableSection;
 
 public class ProjectDesc extends UploadableSection{
 
+	private static final long serialVersionUID = -91018213384813666L;
+	
 	private SectionType sectionType;
 	
 	public ProjectDesc(){

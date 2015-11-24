@@ -2,6 +2,8 @@ package gov.nsf.research.document.service.controller;
 
 import java.util.Date;
 
+import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,12 +14,14 @@ import gov.nsf.research.document.service.model.proposal.Proposal;
 @RestController
 public class DocumentServiceController {
 	
-	@RequestMapping(path="/proposal")
+	GridFsTemplate gfsTemplate;
+	GridFsOperations gfsOperations;
+	
+	@RequestMapping(path="/proposal" )
 	public Proposal getProposal(){
 		Proposal sampleProposal = getSampleProposal();
 		return sampleProposal;
 	}
-	
 	
 	private Proposal getSampleProposal(){
 		

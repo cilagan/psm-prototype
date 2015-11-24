@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class UploadableSection extends Section {
 
+	private static final long serialVersionUID = -5417536402738985794L;
+	
 	private Date uploadDate;
 
 	/**
