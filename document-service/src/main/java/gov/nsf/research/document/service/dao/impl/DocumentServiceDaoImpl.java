@@ -4,14 +4,19 @@ import gov.nsf.research.document.service.dao.DocumentServiceDao;
 import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.List;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 
 
@@ -48,11 +53,29 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 	}
 
 	@Override
-	public OutputStream viewDocument(String tempPropId, SectionType sectionType) {
+	public ByteArrayOutputStream viewDocument(String tempPropId, SectionType sectionType) {
 		
+		Query query = new Query().addCriteria(Criteria.where("_id").is(tempPropId));
+		List<GridFSDBFile> fileList = gridFsTemplate.find(query);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+		int i=0;
 		
-		return null;
+		for(GridFSDBFile file : fileList){
+			try {
+								
+				i++;				
+				file.writeTo(outputStream);
+				System.out.println("Output Stream: " + outputStream != null);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		
+		return outputStream;
 	}
+	
 
 	@Override
 	public void viewEntireProposal(String tempPropId) {
@@ -79,7 +102,7 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 
 
 	@Override
-	public OutputStream viewDMP(String tempPropId) {
+	public ByteArrayOutputStream viewDMP(String tempPropId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -87,7 +110,7 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 
 
 	@Override
-	public OutputStream viewProjectDesc(String tempPropId) {
+	public ByteArrayOutputStream viewProjectDesc(String tempPropId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

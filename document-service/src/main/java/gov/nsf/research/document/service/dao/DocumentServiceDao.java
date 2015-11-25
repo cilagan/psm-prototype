@@ -1,11 +1,11 @@
 package gov.nsf.research.document.service.dao;
 
 
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 
 
 public interface DocumentServiceDao{
@@ -26,7 +26,7 @@ public interface DocumentServiceDao{
 	 * @return outputStream
 	 */
 	
-	public OutputStream viewDocument(String tempPropId, SectionType sectionType);
+	public ByteArrayOutputStream viewDocument(String tempPropId, SectionType sectionType);
 	
 	/**
 	 * 
@@ -41,7 +41,7 @@ public interface DocumentServiceDao{
 	 * @return
 	 */
 	
-	public OutputStream viewDMP(String tempPropId);
+	public ByteArrayOutputStream viewDMP(String tempPropId);
 	
 	
 	/**
@@ -50,7 +50,7 @@ public interface DocumentServiceDao{
 	 * @return
 	 */
 	
-	public OutputStream viewProjectDesc(String tempPropId);
+	public ByteArrayOutputStream viewProjectDesc(String tempPropId);
 	
 	
 	
