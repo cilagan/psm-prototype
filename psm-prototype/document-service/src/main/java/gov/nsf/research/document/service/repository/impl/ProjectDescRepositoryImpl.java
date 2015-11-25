@@ -1,12 +1,10 @@
 package gov.nsf.research.document.service.repository.impl;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.MongoTemplate;

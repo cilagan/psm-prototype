@@ -26,7 +26,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	public ByteArrayOutputStream getPropSection(String tempPropId, SectionType sectionType) {
-		return pdr.getProjDescDocument();
+		return docServiceDao.viewDocument(tempPropId, sectionType);
 	}
 
 	@Override
