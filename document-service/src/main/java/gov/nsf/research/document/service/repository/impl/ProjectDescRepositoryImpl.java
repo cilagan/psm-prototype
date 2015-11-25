@@ -73,7 +73,7 @@ public class ProjectDescRepositoryImpl implements ProjectDescRepository {
 	
 	public ByteArrayOutputStream getProjDescDocument(){
 		//Query query = new Query().addCriteria(Criteria.where("length").is(new Long(1870557)));
-		Query query = new Query().addCriteria(Criteria.where("_id").is("565434fa02bdf28ea773816a"));
+		Query query = new Query().addCriteria(Criteria.where("_id").is("56560b5d51dfce4e8e9d9949"));
 		List<GridFSDBFile> fileList = gridFsTemplate.find(query);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 

@@ -39,10 +39,10 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 		DBObject metaData = new BasicDBObject();
 		metaData.put("_id", tempPropId);
 				
-		metaData.put("sectionType", sectionType.DATA_MANAGEMENT_PLAN.toString());
+		metaData.put("sectionType", sectionType.toString());
 		GridFSFile gridFSfile = gridFsTemplate.store(inputStream, tempPropId,
 				CONTENT_TYPE_PDF, metaData);
-		
+		System.out.println("Document saved in mongoDB.");
 		return setDocmentMetaData(gridFSfile);
 
 	}
@@ -68,6 +68,8 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 		documentMetaData.setLength(gridFSfile.getLength());
 		documentMetaData.setUploadDate(gridFSfile.getUploadDate());
 		documentMetaData.setMD5(gridFSfile.getMD5());
+		
+		System.out.println("Metadata: " + documentMetaData.toString());
 		
 		return documentMetaData;
 		
