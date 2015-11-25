@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
 import gov.nsf.research.document.service.business.DocumentService;
 import gov.nsf.research.document.service.business.DocumentServiceImpl;
+import gov.nsf.research.document.service.dao.DocumentServiceDao;
+import gov.nsf.research.document.service.dao.impl.DocumentServiceDaoImpl;
 import gov.nsf.research.document.service.repository.ProjectDescRepository;
 import gov.nsf.research.document.service.repository.impl.ProjectDescRepositoryImpl;
 
@@ -28,5 +30,10 @@ public class AppConfig {
 	@Bean
 	public ProjectDescRepository projectDescRepository(){
 		return new ProjectDescRepositoryImpl(mongoTemplate, gridFsTemplate);
+	}
+	
+	@Bean
+	public DocumentServiceDao documentServiceDao(){
+		return new DocumentServiceDaoImpl(mongoTemplate, gridFsTemplate);
 	}
 }
