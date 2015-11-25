@@ -51,7 +51,7 @@ public class DocumentServiceApplicationTests {
 	@Ignore
 	@Test
 	public void testSaveProjectDescDocument(){
-		projectDescRepository.saveProjectDescDocument();
+		projectDescRepository.saveProjectDescDocument("test");
 	}
 
 	@Ignore
