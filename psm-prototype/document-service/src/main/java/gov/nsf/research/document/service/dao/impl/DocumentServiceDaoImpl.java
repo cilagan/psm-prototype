@@ -42,8 +42,7 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 			String tempPropId, SectionType sectionType) {
 
 		DBObject metaData = new BasicDBObject();
-		metaData.put("_id", tempPropId);
-				
+						
 		metaData.put("sectionType", sectionType.toString());
 		GridFSFile gridFSfile = gridFsTemplate.store(inputStream, tempPropId,
 				CONTENT_TYPE_PDF, metaData);
@@ -55,7 +54,7 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 	@Override
 	public ByteArrayOutputStream viewDocument(String tempPropId, SectionType sectionType) {
 		
-		Query query = new Query().addCriteria(Criteria.where("_id").is(tempPropId));
+		Query query = new Query().addCriteria(Criteria.where("filename").is(tempPropId));
 		List<GridFSDBFile> fileList = gridFsTemplate.find(query);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
