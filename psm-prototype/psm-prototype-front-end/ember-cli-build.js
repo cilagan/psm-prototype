@@ -7,6 +7,14 @@ module.exports = function(defaults) {
     // Add options here
   });
 
+  //Script
+  app.import('bower_components/jquery/dist/jquery.min.js');
+  app.import('bower_components/bootstrap/dist/js/bootstrap.min.js');
+  app.import('bower_components/bootstrap-fileinput/js/fileinput.min.js');
+
+  //Style
+  app.import('bower_components/bootstrap-fileinput/css/fileinput.min.css');
+
   // Use `app.import` to add additional libraries to the generated
   // output files.
   //
