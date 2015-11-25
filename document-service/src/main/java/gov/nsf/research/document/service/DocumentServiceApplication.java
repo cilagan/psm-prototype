@@ -1,4 +1,4 @@
-package gov.nsf.research.document.service;
+package gov.nsf.research.document.service.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -11,4 +11,6 @@ public class DocumentServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(DocumentServiceApplication.class, args);
     }
+    
+    
 }

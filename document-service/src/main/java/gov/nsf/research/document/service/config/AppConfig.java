@@ -6,8 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
-import gov.nsf.research.document.service.business.DocumentService;
-import gov.nsf.research.document.service.business.DocumentServiceImpl;
 import gov.nsf.research.document.service.repository.ProjectDescRepository;
 import gov.nsf.research.document.service.repository.impl.ProjectDescRepositoryImpl;
 
@@ -19,11 +17,6 @@ public class AppConfig {
 	
 	@Autowired
 	GridFsTemplate gridFsTemplate;
-	
-	@Bean
-	public DocumentService documentService(){
-		return new DocumentServiceImpl();
-	}
 	
 	@Bean
 	public ProjectDescRepository projectDescRepository(){
