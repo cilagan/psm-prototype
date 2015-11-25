@@ -1,0 +1,9 @@
+<html>
+<body>
+	<form method="POST" enctype="multipart/form-data"
+	      action="http://localhost/docService/proposal/1234567/projdesc">
+	   File to upload: <input type="file" name="uploadedFile"><br />
+	   <input type="submit" value="Upload">
+	</form>
+</body>
+</html>
