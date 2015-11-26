@@ -129,7 +129,17 @@ public class DocumentServiceController {
 	}
 	
 	@RequestMapping(path="/proposal/{tempPropId}", method = RequestMethod.GET)
-	public Proposal getEntireProposal(@PathVariable String tempPropId){
-		return new Proposal();
+	public void getEntireProposal(@PathVariable String tempPropId, HttpServletResponse response){
+		
+		ByteArrayOutputStream outputStream = docService.getEntirePropSection(tempPropId);
+		
+		try {
+			 FileCopyUtils.copy(outputStream.toByteArray(), response.getOutputStream());
+			 response.setContentType("application/pdf");      
+			 response.flushBuffer();
+		} catch (IOException  e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 }

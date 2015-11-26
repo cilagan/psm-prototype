@@ -80,6 +80,13 @@
 			<version>1.0.0.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- Third Party -->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>1.8.10</version>
+		</dependency>
+
 	</dependencies>
 	
 	<build>
