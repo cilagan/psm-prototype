@@ -21,9 +21,10 @@
 
 </head>
 
+<!-- http://kidmondo.com/wp-content/themes/kidmondo2/images/kidmondo_face_sad.gif -->
 <body class="login">
   <div class="error_page">
-    <img alt="Kidmondo_face_sad" src="http://kidmondo.com/wp-content/themes/kidmondo2/images/kidmondo_face_sad.gif" />
+    <img alt="Kidmondo_face_sad" src="https://media.giphy.com/media/myMQkYuinutZ6/giphy.gif" />
     <h1>We're sorry...</h1>
     <p>An error occured</p>
     <!--<p><a href="http://kidmondo.com">Return to the homepage</a></p> -->
