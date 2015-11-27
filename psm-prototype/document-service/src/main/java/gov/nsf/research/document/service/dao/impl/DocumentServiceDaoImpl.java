@@ -1,12 +1,15 @@
 package gov.nsf.research.document.service.dao.impl;
 
 import gov.nsf.research.document.service.dao.DocumentServiceDao;
+import gov.nsf.research.document.service.model.Document;
 import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -26,8 +29,7 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 	GridFsTemplate gridFsTemplate;
 	
 	private static final String CONTENT_TYPE_PDF = "application/pdf";
-	private static final String PD_COLLECTION = "proj_desc";
-	private static final String DMP_COLLECTION = "data_mgnt_plan";
+	
 	
 	
 	public DocumentServiceDaoImpl(MongoTemplate mongoTemplate, GridFsTemplate gridFsTemplate){
@@ -53,8 +55,8 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 
 	@Override
 	public ByteArrayOutputStream viewDocument(String tempPropId, SectionType sectionType) {
-		
-		Query query = new Query().addCriteria(Criteria.where("filename").is(tempPropId));
+		Query query = new Query().addCriteria(Criteria.where("filename").is(tempPropId).and("metadata.sectionType").is(sectionType));
+		System.out.println("DAO...Viewdocument..query:"+query.toString());
 		List<GridFSDBFile> fileList = gridFsTemplate.find(query);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -65,6 +67,8 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 								
 				i++;				
 				file.writeTo(outputStream);
+				
+				//file.writeTo("C:\\Users\\spendyal\\Desktop\\psm_test_output_files\\"+file.getFilename()+"_"+file.getMetaData().get("sectionType")+"_"+i+".pdf");
 				System.out.println("Output Stream: " + outputStream != null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -76,11 +80,7 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 	}
 	
 
-	@Override
-	public void viewEntireProposal(String tempPropId) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	private DocumentMetaData setDocmentMetaData(GridFSFile gridFSfile)
 	{
@@ -101,17 +101,22 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 
 
 	@Override
-	public ByteArrayOutputStream viewDMP(String tempPropId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<Document> viewAllFilesFromDB() {
+		
+		List<GridFSDBFile> fileList = gridFsTemplate.find(null);
 
+		Document doc = null;
+		List<Document> list = new ArrayList<Document>();
 
+		for (GridFSDBFile file : fileList) {
 
-	@Override
-	public ByteArrayOutputStream viewProjectDesc(String tempPropId) {
-		// TODO Auto-generated method stub
-		return null;
+			doc = new Document(file.getFilename(), SectionType.valueOf(file
+					.getMetaData().get("sectionType").toString()));
+			list.add(doc);
+
+		}
+
+		return list;
 	}
 
 	
