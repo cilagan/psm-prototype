@@ -57,7 +57,7 @@ public class DocumentServiceController {
 	}
 	
 	@RequestMapping(path="/proposal/{tempPropId}/projdesc", method = RequestMethod.POST)
-	public String uploadProjDesc(@PathVariable String tempPropId, MultipartHttpServletRequest request){
+	public void uploadProjDesc(@PathVariable String tempPropId, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception{
 
 		Map<String, MultipartFile> fileMap = request.getFileMap();
 		MultipartFile file = fileMap.get("uploadedFile");
@@ -73,8 +73,7 @@ public class DocumentServiceController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return "Success";
+		response.sendRedirect("/upload");
 	}
 	
 	@RequestMapping(path="/proposal/{tempPropId}/projdesc", method = RequestMethod.GET)
@@ -92,7 +91,7 @@ public class DocumentServiceController {
 	}
 	
 	@RequestMapping(path="/proposal/{tempPropId}/dmp", method = RequestMethod.POST)
-	public String uploadDMP(@PathVariable String tempPropId, MultipartHttpServletRequest request){
+	public void uploadDMP(@PathVariable String tempPropId, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		Map<String, MultipartFile> fileMap = request.getFileMap();
 		MultipartFile file = fileMap.get("uploadedFile");
@@ -109,8 +108,7 @@ public class DocumentServiceController {
 			e.printStackTrace();
 		}
 		
-		return "Success";
-		
+		response.sendRedirect("/upload");
 	}
 	
 	@RequestMapping(path="/proposal/{tempPropId}/dmp", method = RequestMethod.GET)
