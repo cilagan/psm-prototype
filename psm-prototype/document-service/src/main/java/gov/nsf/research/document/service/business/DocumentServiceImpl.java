@@ -2,7 +2,6 @@ package gov.nsf.research.document.service.business;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +35,12 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	public ByteArrayOutputStream getEntirePropSection(String tempPropId) {
 		List<ByteArrayOutputStream> baosList = new ArrayList<ByteArrayOutputStream>();
-		for(int i=0; i<2; i++){
-			baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION));
-		}
+				
+		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION));
+		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN));
+		
 		ByteArrayOutputStream baos = (ByteArrayOutputStream)PDFUtility.concatenateDocuments(baosList);
+		
 		return baos;
 	}
-
-	
-	
 }
