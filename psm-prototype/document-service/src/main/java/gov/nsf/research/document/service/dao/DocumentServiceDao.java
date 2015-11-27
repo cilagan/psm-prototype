@@ -1,11 +1,14 @@
 package gov.nsf.research.document.service.dao;
 
 
+import gov.nsf.research.document.service.model.Document;
 import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
 
 
 public interface DocumentServiceDao{
@@ -29,28 +32,12 @@ public interface DocumentServiceDao{
 	public ByteArrayOutputStream viewDocument(String tempPropId, SectionType sectionType);
 	
 	/**
-	 * 
-	 * @param tempPropId
+	 *  
+	 * @return 
 	 */
 	
-	public void viewEntireProposal(String tempPropId);
+	public List<Document> viewAllFilesFromDB();
 	
-	/**
-	 * 
-	 * @param tempPropId
-	 * @return
-	 */
-	
-	public ByteArrayOutputStream viewDMP(String tempPropId);
-	
-	
-	/**
-	 * 
-	 * @param tempPropId
-	 * @return
-	 */
-	
-	public ByteArrayOutputStream viewProjectDesc(String tempPropId);
 	
 	
 	
