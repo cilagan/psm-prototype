@@ -4,7 +4,10 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="styles/app.css">
+<script src="/static/scripts/fileinput.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/static/styles/app.css">
+<link rel="stylesheet" type="text/css" href="/static/styles/fileinput.min.css">
 
 </head>
 <body>
@@ -57,7 +60,26 @@
 			<label class="control-label">File to upload:</label>
 			<input id="input-dim-1" name="inputdim1[]" type="file" multiple class="file-loading" accept="image/*">
 			
+			<input class="btn btn-primary" type="submit" value="Upload">
+			
 		</form>
+		
+				<br><br>
+		<br>Project Description<br>
+			#foreach($doc in $pdList)
+			<br><a href="/docService/proposal/$doc.tempPropId/$doc.getURLEnd()">$doc.tempPropId</a>
+			#end
+		<br>
+		<br>Data Management Plan<br>
+			#foreach($doc in $dmpList)
+			<br><a href="/docService/proposal/$doc.tempPropId/$doc.getURLEnd()">$doc.tempPropId</a>
+			#end
+		<br>
+		<br>Proposals<br>
+			#foreach($tempPropId in $propList)
+			<br><a href="/docService/proposal/$tempPropId">$tempPropId</a>
+			#end
+		<br>
 
 
 
@@ -65,22 +87,7 @@
       </div>
     </div>
 
-<br><br>
-<br>Project Description<br>
-	#foreach($doc in $pdList)
-	<br><a href="/docService/proposal/$doc.tempPropId/$doc.getURLEnd()">$doc.tempPropId</a>
-	#end
-<br>
-<br>Data Management Plan<br>
-	#foreach($doc in $dmpList)
-	<br><a href="/docService/proposal/$doc.tempPropId/$doc.getURLEnd()">$doc.tempPropId</a>
-	#end
-<br>
-<br>Proposals<br>
-	#foreach($tempPropId in $propList)
-	<br><a href="/docService/proposal/$tempPropId">$tempPropId</a>
-	#end
-<br>
+
 
 <script>
 
@@ -129,8 +136,8 @@
 	 $("#input-dim-1").fileinput({
           uploadUrl: "http://localhost/docService/proposal/1234567/projdesc",
           allowedFileExtensions: ["jpg", "png", "gif"],
-          minImageWidth: 250,
-          minImageHeight: 250
+          minImageWidth: 50,
+          minImageHeight: 50
       });
 
 </script>
