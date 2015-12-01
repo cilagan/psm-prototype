@@ -28,6 +28,10 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 	GridFsTemplate gridFsTemplate;
 	
 	private static final String CONTENT_TYPE_PDF = "application/pdf";
+	private static final String SECTION_TYPE = "sectionType";
+	private static final String FILENAME = "filename";
+	private static final String META_DATA_SECTION_TYPE = "metadata.sectionType";
+	private static final String FILE_LENGTH = "length";
 	
 	
 	
@@ -40,18 +44,12 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 	public DocumentMetaData saveDocument(InputStream inputStream,
 			String tempPropId, SectionType sectionType) {
 		
-		Query query = new Query().addCriteria(Criteria.where("filename")
-				.is(tempPropId).and("metadata.sectionType").is(sectionType));
-		List<GridFSDBFile> fileList = gridFsTemplate.find(query);
-
-		if (fileList.size() > 0) {
+		if (isDocumentExists(tempPropId, sectionType)) {
 			deleteDocument(tempPropId, sectionType);
-			System.out.println("Found one document and deleted from DB:"
-					+ query.toString());
 		}
 
 		DBObject metaData = new BasicDBObject();
-		metaData.put("sectionType", sectionType.toString());
+		metaData.put(SECTION_TYPE, sectionType.toString());
 		GridFSFile gridFSfile = gridFsTemplate.store(inputStream, tempPropId,
 				CONTENT_TYPE_PDF, metaData);
 		System.out.println("Document saved in mongoDB.");
@@ -61,8 +59,7 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 
 	@Override
 	public ByteArrayOutputStream viewDocument(String tempPropId, SectionType sectionType) {
-		Query query = new Query().addCriteria(Criteria.where("filename").is(tempPropId).and("metadata.sectionType").is(sectionType));
-		System.out.println("DAO...Viewdocument..query:"+query.toString());
+		Query query = new Query().addCriteria(Criteria.where(FILENAME).is(tempPropId).and(META_DATA_SECTION_TYPE).is(sectionType).and(FILE_LENGTH).gt(0));
 		List<GridFSDBFile> fileList = gridFsTemplate.find(query);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		
@@ -85,10 +82,7 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 		documentMetaData.setFileName(gridFSfile.getFilename());
 		documentMetaData.setLength(gridFSfile.getLength());
 		documentMetaData.setUploadDate(gridFSfile.getUploadDate());
-		documentMetaData.setMD5(gridFSfile.getMD5());
-		
-		System.out.println("Metadata: " + documentMetaData.toString());
-		
+		documentMetaData.setMD5(gridFSfile.getMD5());		
 		return documentMetaData;
 	}
 
@@ -98,20 +92,22 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 	public List<Document> viewAllFilesFromDB() {
 		
 		List<SectionType> listOfDocs = new ArrayList<SectionType>();
-		
-		listOfDocs.add(SectionType.DATA_MANAGEMENT_PLAN);
-		listOfDocs.add(SectionType.PROJECT_DESCRIPTION);		
 
-		Query query = new Query().addCriteria(Criteria.where("metadata.sectionType").in(listOfDocs));
-		
+		listOfDocs.add(SectionType.DATA_MANAGEMENT_PLAN);
+		listOfDocs.add(SectionType.PROJECT_DESCRIPTION);
+
+		Query query = new Query().addCriteria(Criteria.where(
+				META_DATA_SECTION_TYPE).in(listOfDocs));
+
 		List<GridFSDBFile> fileList = gridFsTemplate.find(query);
 
 		Document doc = null;
 		List<Document> list = new ArrayList<Document>();
-		
+
 		for (GridFSDBFile file : fileList) {
 
-			doc = new Document(file.getFilename(), SectionType.valueOf(file.getMetaData().get("sectionType").toString()));
+			doc = new Document(file.getFilename(), SectionType.valueOf(file
+					.getMetaData().get(SECTION_TYPE).toString()));
 			list.add(doc);
 
 		}
@@ -120,9 +116,26 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 
 	@Override
 	public void deleteDocument(String tempPropId, SectionType sectionType) {
-		Query query = new Query().addCriteria(Criteria.where("filename").is(tempPropId).and("metadata.sectionType").is(sectionType));
-		System.out.println("DAO...deleteDocument..query:"+query.toString());
-				
+		Query query = new Query().addCriteria(Criteria.where(FILENAME).is(tempPropId).and(META_DATA_SECTION_TYPE).is(sectionType));
+			
 		gridFsTemplate.delete(query);
+	}
+
+	@Override
+	public boolean isDocumentExists(String tempPropId, SectionType sectionType) {
+		
+		boolean status = false;
+		Query query = new Query().addCriteria(Criteria.where(FILENAME)
+				.is(tempPropId).and(META_DATA_SECTION_TYPE).is(sectionType));
+		//List<GridFSDBFile> fileList = gridFsTemplate.find(query);
+		List<GridFSDBFile> fileList = gridFsTemplate.find(query);
+
+		if (fileList.size() > 0) {
+			status = true;
+		}
+		
+		return status;
 	}	
+	
+	
 }
