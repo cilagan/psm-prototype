@@ -1,43 +1,71 @@
 <html>
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="styles/app.css">
+
 </head>
 <body>
 
+<div class="container">
+      <div class="row">
+        <div class="col-xs-2 col-xs-offset-8">
+          <button class="btn btn-primary" type="button">Prepare New</button>
+        </div>
+        <div class="col-xs-2">
+          <button class="btn btn-primary" type="button">Temp Prop ID</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <h1>Proposal Header Area</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-2">
+          <ul class="nav nav-pills nav-stacked">
+            <li role="presentation"><a href="">Cover Sheet</a></li>
+            <li role="presentation"><a href="">Project Description</a></li>
+            <li role="presentation"><a href="">Data Management Plan</a></li>
+          </ul>
 
-<br>
-<br>
-	
- 	<!--<div ng-app = "">
-	<form>
-	Temp Prop Id: &nbsp;<input type="text" placeholder="Temp Prop Id" ng-model="tempPropId"><br><br>{{tempPropId}}
-	<form>
-	</div>--> 
-	<form method="POST" enctype="multipart/form-data" action="http://localhost/docService/proposal/1234567/projdesc">
-	Temp Prop Id: &nbsp;<input type="text" placeholder="Temp Prop Id" ng-model="tempPropId"><br><br>
-	Section Type: <select name="sectionType">
-	  <option value="projdesc">Project Description</option>
-	  <option value="dmp">Data Management Plan</option>
-	</select><br><br>
-	File to upload: <input type="file" name="uploadedFile"><br />
-	<br><br><input type="submit" value="Upload">
-	
-	</form>
-	
-	<form method="POST" enctype="multipart/form-data" action="http://localhost/docService/proposal/1234567/dmp">
-	Temp Prop Id: &nbsp;<input type="text" placeholder="Temp Prop Id" ng-model="tempPropId"><br><br>
-	Section Type: <select name="sectionType">
-	  <option value="dmp">Data Management Plan</option>
-	  <option value="projdesc">Project Description</option>
-	</select><br><br>
-	File to upload: <input type="file" name="uploadedFile"><br />
-	<br><br><input type="submit" value="Upload">
-	
-	</form>
+        </div>
+        <div class="col-xs-10">
+          <h1>Temporary Drag Drop Upload</h1>
 
-<br>
-<br>
-<br>
+
+		  
+		  
+
+          <form id="form" method="POST" enctype="multipart/form-data" action="http://localhost/docService/proposal/1234567/projdesc">
+			
+			Temp Prop Id: &nbsp;<input type="text" placeholder="Temp Prop Id" id="tempPropId"><br><br>
+			
+			Section Type: <select id="sectionType" name="sectionType">
+			  <option id="projdesc" value="projdesc">Project Description</option>
+			  <option id="dmp" value="dmp">Data Management Plan</option>
+			</select>
+			
+			<br><br>
+			
+			
+			<!--File to upload: <input type="file" name="uploadedFile"><br />
+			<br><br><input type="submit" value="Upload"> -->
+			
+			<label class="control-label">File to upload:</label>
+			<input id="input-dim-1" name="inputdim1[]" type="file" multiple class="file-loading" accept="image/*">
+			
+		</form>
+
+
+
+        </div>
+      </div>
+    </div>
+
+<br><br>
 <br>Project Description<br>
 	#foreach($doc in $pdList)
 	<br><a href="/docService/proposal/$doc.tempPropId/$doc.getURLEnd()">$doc.tempPropId</a>
@@ -53,5 +81,59 @@
 	<br><a href="/docService/proposal/$tempPropId">$tempPropId</a>
 	#end
 <br>
+
+<script>
+
+	$(document).ready(function(){
+		 $('input[type="submit"]').prop('disabled', true);
+	});
+
+	$( "#tempPropId" ).change(function() {
+	
+		var eVal = $(this).val();
+		//var eValLength = eVal.length;
+		
+		var pattern = /\d{7}/;
+		var result = pattern.test(eVal);
+		
+		if (result) {
+		
+			action = $("#form").attr("action");
+			
+			action = action.replace(pattern, eVal);
+			
+			$("#form").attr("action", action);	
+		
+			$('input[type="submit"]').prop('disabled', false);
+		} else {
+			$('input[type="submit"]').prop('disabled', true);
+		}
+		
+	});
+	
+	$("#sectionType").change(function() {
+		
+		value = $(this).val();
+		
+		action = $("#form").attr("action");
+		
+		lastSlash = action.lastIndexOf("/");
+		
+		remove = action.substring(lastSlash+1, action.length);
+		
+		action = action.replace(remove, value);
+		
+		$("#form").attr("action", action);		
+	});
+	
+	 $("#input-dim-1").fileinput({
+          uploadUrl: "http://localhost/docService/proposal/1234567/projdesc",
+          allowedFileExtensions: ["jpg", "png", "gif"],
+          minImageWidth: 250,
+          minImageHeight: 250
+      });
+
+</script>
+
 </body>
 </html>
