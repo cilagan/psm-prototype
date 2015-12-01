@@ -35,8 +35,6 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 		this.mongoTemplate = mongoTemplate;
 		this.gridFsTemplate = gridFsTemplate;
 	}
-	
-	
 
 	@Override
 	public DocumentMetaData saveDocument(InputStream inputStream,
@@ -67,28 +65,18 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 		System.out.println("DAO...Viewdocument..query:"+query.toString());
 		List<GridFSDBFile> fileList = gridFsTemplate.find(query);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-		int i=0;
 		
 		for(GridFSDBFile file : fileList){
-			try {
-								
-				i++;				
-				file.writeTo(outputStream);
-				
-				file.writeTo("C:\\Users\\spendyal\\Desktop\\psm_test_output_files\\"+file.getFilename()+"_"+file.getMetaData().get("sectionType")+"_"+i+".pdf");
-				System.out.println("Output Stream: " + outputStream != null);
+			try {			
+					file.writeTo(outputStream);
+					System.out.println("Output Stream: " + outputStream != null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}
-		
 		return outputStream;
 	}
-	
-
-	
 	
 	private DocumentMetaData setDocmentMetaData(GridFSFile gridFSfile)
 	{
@@ -102,8 +90,6 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 		System.out.println("Metadata: " + documentMetaData.toString());
 		
 		return documentMetaData;
-		
-		
 	}
 
 
@@ -125,20 +111,12 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 		
 		for (GridFSDBFile file : fileList) {
 
-			doc = new Document(file.getFilename(), SectionType.valueOf(file
-					.getMetaData().get("sectionType").toString()));
-	
+			doc = new Document(file.getFilename(), SectionType.valueOf(file.getMetaData().get("sectionType").toString()));
 			list.add(doc);
 
 		}
-
 		return list;
 	}
-
-
-
-	
-
 
 	@Override
 	public void deleteDocument(String tempPropId, SectionType sectionType) {
@@ -146,10 +124,5 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 		System.out.println("DAO...deleteDocument..query:"+query.toString());
 				
 		gridFsTemplate.delete(query);
-	}
-
-	
-
-	
-			
+	}	
 }

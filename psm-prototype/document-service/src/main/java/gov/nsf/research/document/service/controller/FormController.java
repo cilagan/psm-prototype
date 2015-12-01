@@ -5,14 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import gov.nsf.research.document.service.dao.DocumentServiceDao;
 import gov.nsf.research.document.service.model.Document;
@@ -57,13 +53,5 @@ public class FormController {
 		model.addAttribute("propList", propList);
 		
 		return "upload_form";
-	}
-	
-	@RequestMapping(path="/redirect" )
-	public void redirectUpload(MultipartHttpServletRequest request, HttpServletResponse response, @RequestParam String tempPropId, @RequestParam String sectionType) throws Exception{
-		
-		String url = "/docService/proposal/"+ tempPropId + "/" + sectionType;
-		System.out.println(url);
-		request.getRequestDispatcher(url).forward(request, response);
 	}
 }
