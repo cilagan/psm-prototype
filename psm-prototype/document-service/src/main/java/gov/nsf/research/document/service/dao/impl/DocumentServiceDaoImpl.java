@@ -9,7 +9,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -42,9 +41,18 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 	@Override
 	public DocumentMetaData saveDocument(InputStream inputStream,
 			String tempPropId, SectionType sectionType) {
+		
+		Query query = new Query().addCriteria(Criteria.where("filename")
+				.is(tempPropId).and("metadata.sectionType").is(sectionType));
+		List<GridFSDBFile> fileList = gridFsTemplate.find(query);
+
+		if (fileList.size() > 0) {
+			deleteDocument(tempPropId, sectionType);
+			System.out.println("Found one document and deleted from DB:"
+					+ query.toString());
+		}
 
 		DBObject metaData = new BasicDBObject();
-						
 		metaData.put("sectionType", sectionType.toString());
 		GridFSFile gridFSfile = gridFsTemplate.store(inputStream, tempPropId,
 				CONTENT_TYPE_PDF, metaData);
@@ -68,7 +76,7 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 				i++;				
 				file.writeTo(outputStream);
 				
-				//file.writeTo("C:\\Users\\spendyal\\Desktop\\psm_test_output_files\\"+file.getFilename()+"_"+file.getMetaData().get("sectionType")+"_"+i+".pdf");
+				file.writeTo("C:\\Users\\spendyal\\Desktop\\psm_test_output_files\\"+file.getFilename()+"_"+file.getMetaData().get("sectionType")+"_"+i+".pdf");
 				System.out.println("Output Stream: " + outputStream != null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -103,20 +111,41 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 	@Override
 	public List<Document> viewAllFilesFromDB() {
 		
-		List<GridFSDBFile> fileList = gridFsTemplate.find(null);
+		List<SectionType> listOfDocs = new ArrayList<SectionType>();
+		
+		listOfDocs.add(SectionType.DATA_MANAGEMENT_PLAN);
+		listOfDocs.add(SectionType.PROJECT_DESCRIPTION);		
+
+		Query query = new Query().addCriteria(Criteria.where("metadata.sectionType").in(listOfDocs));
+		
+		List<GridFSDBFile> fileList = gridFsTemplate.find(query);
 
 		Document doc = null;
 		List<Document> list = new ArrayList<Document>();
-
+		
 		for (GridFSDBFile file : fileList) {
 
 			doc = new Document(file.getFilename(), SectionType.valueOf(file
 					.getMetaData().get("sectionType").toString()));
+	
 			list.add(doc);
 
 		}
 
 		return list;
+	}
+
+
+
+	
+
+
+	@Override
+	public void deleteDocument(String tempPropId, SectionType sectionType) {
+		Query query = new Query().addCriteria(Criteria.where("filename").is(tempPropId).and("metadata.sectionType").is(sectionType));
+		System.out.println("DAO...deleteDocument..query:"+query.toString());
+				
+		gridFsTemplate.delete(query);
 	}
 
 	
