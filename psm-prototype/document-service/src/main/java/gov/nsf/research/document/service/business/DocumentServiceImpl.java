@@ -43,4 +43,10 @@ public class DocumentServiceImpl implements DocumentService {
 		
 		return baos;
 	}
+
+	@Override
+	public void deletePropSection(String tempPropId, SectionType sectionType) {
+		System.out.println("deleting - " + tempPropId +" | " + sectionType);
+		docServiceDao.deleteDocument(tempPropId, sectionType);
+	}
 }

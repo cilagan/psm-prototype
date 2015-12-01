@@ -11,5 +11,6 @@ public interface DocumentService {
 	public DocumentMetaData uploadPropSection(ByteArrayInputStream inputStream, String tempPropId, SectionType sectionType);
 	public ByteArrayOutputStream getPropSection(String tempPropId, SectionType sectionType);
 	public ByteArrayOutputStream getEntirePropSection(String tempPropId);
+	public void deletePropSection(String tempPropId, SectionType sectionType);
 	
 }
