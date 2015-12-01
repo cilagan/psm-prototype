@@ -39,6 +39,14 @@ public interface DocumentServiceDao{
 	public List<Document> viewAllFilesFromDB();
 	
 	
+		
+	/**
+	 * 
+	 * @param tempPropId
+	 * @param sectionType
+	 * @return
+	 */
+	public void deleteDocument(String tempPropId, SectionType sectionType);
 	
 	
 	
