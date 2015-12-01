@@ -6,7 +6,7 @@
 	<groupId>gov.nsf.research.document.service</groupId>
 	<artifactId>document-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>document-service</name>
 	<description>Document Store Microservice</description>

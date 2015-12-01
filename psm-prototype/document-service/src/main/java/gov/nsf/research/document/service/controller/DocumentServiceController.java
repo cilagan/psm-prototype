@@ -140,4 +140,19 @@ public class DocumentServiceController {
 			e.printStackTrace();
 		} 
 	}
+	
+	@RequestMapping(path="/delete/proposal/{tempPropId}/projdesc", method = RequestMethod.GET)
+	public void deleteProjDesc(@PathVariable String tempPropId, HttpServletResponse response) throws Exception {
+		docService.deletePropSection(tempPropId, SectionType.PROJECT_DESCRIPTION);
+		System.out.println("delete proj desc");
+		response.sendRedirect("/upload");
+	}
+	
+	
+	@RequestMapping(path="/delete/proposal/{tempPropId}/dmp", method = RequestMethod.GET)
+	public void deleteDMP(@PathVariable String tempPropId, HttpServletResponse response) throws Exception {
+		docService.deletePropSection(tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
+		System.out.println("delete dmp");
+		response.sendRedirect("/upload");
+	}
 }
