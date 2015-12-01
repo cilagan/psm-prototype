@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.List;  
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,7 +52,7 @@ public class DocumentServiceDaoImplUnitTests {
 		 */
 
 		InputStream inputStream = null;
-		String tempPropId = "1526869";
+		String tempPropId = "1111111";
 		try {
 			inputStream = new FileInputStream(
 					"C:\\Users\\spendyal\\Desktop\\psm_test_input_ files\\1526869_PD.pdf");
@@ -90,6 +90,13 @@ public class DocumentServiceDaoImplUnitTests {
 	
 	}
 	
+	@Test
+	public void testDeleteDocument(){	
+
+		 documentServiceDao.deleteDocument("1234567", SectionType.PROJECT_DESCRIPTION);		
+
+	
+	}
 	
 	}
 
