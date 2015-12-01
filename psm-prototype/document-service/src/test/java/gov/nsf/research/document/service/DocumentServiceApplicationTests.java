@@ -28,7 +28,6 @@ public class DocumentServiceApplicationTests {
 	}
 	
 	@Test
-	@Ignore
 	public void testProjDesc(){
 		
 		ProjectDesc projDesc = new ProjectDesc();
@@ -39,7 +38,7 @@ public class DocumentServiceApplicationTests {
 		projectDescRepository.insertProjDesc(projDesc);
 	}
 	
-	@Test
+	
 	public void testGetProjDesc(){
 		String tempPropId = "2345678";
 		ProjectDesc projDesc = projectDescRepository.getProjectDescByTempPropId(tempPropId);
@@ -48,14 +47,13 @@ public class DocumentServiceApplicationTests {
 		System.out.println(projDesc.toString());
 	}
 	
-	@Ignore
-	@Test
+	
+	
 	public void testSaveProjectDescDocument(){
 		projectDescRepository.saveProjectDescDocument("test");
 	}
 
-	@Ignore
-	@Test
+	
 	public void testGetProjDescDocument(){
 		projectDescRepository.getProjDescDocument();
 	}

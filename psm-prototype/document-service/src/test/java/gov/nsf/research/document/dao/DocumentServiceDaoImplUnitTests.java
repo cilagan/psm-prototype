@@ -52,10 +52,10 @@ public class DocumentServiceDaoImplUnitTests {
 		 */
 
 		InputStream inputStream = null;
-		String tempPropId = "1111111";
+		String tempPropId = "8888888";
 		try {
 			inputStream = new FileInputStream(
-					"C:\\Users\\spendyal\\Desktop\\psm_test_input_ files\\1526869_PD.pdf");
+					"C:\\Users\\spendyal\\Desktop\\psm_test_input_ files\\12335.pdf");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,9 +73,9 @@ public class DocumentServiceDaoImplUnitTests {
 	public void testviewDocument(){
 
 		ByteArrayOutputStream inputStream = null;
-		String tempPropId = "1540860";
+		String tempPropId = "8888888";
 		
-		inputStream = documentServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
+		inputStream = documentServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION);
 		System.out.println("**END"+inputStream.size());
 
 	
@@ -93,7 +93,7 @@ public class DocumentServiceDaoImplUnitTests {
 	@Test
 	public void testDeleteDocument(){	
 
-		 documentServiceDao.deleteDocument("1234567", SectionType.PROJECT_DESCRIPTION);		
+		 documentServiceDao.deleteDocument("1111111", SectionType.DATA_MANAGEMENT_PLAN);		
 
 	
 	}

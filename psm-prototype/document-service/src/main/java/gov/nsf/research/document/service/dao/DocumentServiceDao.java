@@ -38,6 +38,14 @@ public interface DocumentServiceDao{
 	
 	public List<Document> viewAllFilesFromDB();
 	
+	/**
+	 * 
+	 * @param tempPropId
+	 * @param sectionType
+	 * @return
+	 */
+	public boolean isDocumentExists (String tempPropId, SectionType sectionType) ;
+	
 	
 		
 	/**
