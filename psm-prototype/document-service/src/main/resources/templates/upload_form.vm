@@ -86,7 +86,7 @@
 						<thead><th colspan="2">Proposals</th></thead>
 						<tbody>
 							#foreach($tempPropId in $propList)
-							<tr><td>$tempPropId</td><td><a target="_blank" href="/docService/proposal/$tempPropId">Open</a> | Delete</td></tr>
+							<tr><td>$tempPropId</td><td><a target="_blank" href="/docService/proposal/$tempPropId">Open</a></td></tr>
 							#end
 						</tbody>
 					</table>
