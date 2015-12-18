@@ -32,24 +32,24 @@ Router.map(function() {
 
 
   //Nested Routes
-  this.route('proposals', function () {
-    // this.route('proposal', {path: '/proposal/:proposal_id', resetNamespace: true}, function() {
-    this.route('proposal', {path: ':proposal_id', resetNamespace: true}, function() {
-      this.route('cover-sheet');
-      this.route('project-description');
-      this.route('data-management-plan', { path: '/dmp' });
-      this.route('bio-sketch');
-    });
-  });
-
-  // this.route('proposals');
-  // // this.route('proposal', function() {
-  // this.route('proposal', {path: '/proposal/:proposal_id'}, function() {
-  //   this.route('cover-sheet');
-  //   this.route('project-description');
-  //   this.route('data-management-plan', { path: '/dmp' });
-  //   this.route('bio-sketch');
+  // this.route('proposals', function () {
+  //   // this.route('proposal', {path: '/proposal/:proposal_id', resetNamespace: true}, function() {
+  //   this.route('proposal', {path: ':proposal_id', resetNamespace: true}, function() {
+  //     this.route('cover-sheet');
+  //     this.route('project-description');
+  //     this.route('data-management-plan', { path: '/dmp' });
+  //     this.route('bio-sketch');
+  //   });
   // });
+
+  this.route('proposals');
+  // this.route('proposal', function() {
+  this.route('proposal', {path: '/proposal/:proposal_id'}, function() {
+    this.route('cover-sheet');
+    this.route('project-description');
+    this.route('data-management-plan', { path: '/dmp' });
+    this.route('bio-sketch');
+  });
 
 
 
