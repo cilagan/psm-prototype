@@ -16,38 +16,46 @@ Router.map(function() {
   *
   */
 
-  this.route('cover-sheet');
-  this.route('project-description');
-  this.route('data-management-plan', { path: '/dmp'});
+  // this.route('cover-sheet');
+  // this.route('project-description');
+  // this.route('data-management-plan', { path: '/dmp'});
 
   /*
   //dynamic segment -- SHOULD PROBABLY USE NESTED ROUTES (BELOW)
   this.route('proposal', { path: '/proposal/:proposal-id'});
 
   //if proposal has an id, the other paths must also be dynamic
-  this.route('cover-sheet', { path: '/proposal/:proposal-id'/cover-sheet} );
+  this.route('cover-sheet', { path: '/proposal/:proposal-id/cover-sheet'} );
   this.route('project-description', { path: '/proposal/:proposal-id/project-description'});
   this.route('data-management-plan', { path: '/proposal/:proposal-id/dmp'});
   */
 
-  /*
+
   //Nested Routes
-  this.route('proposal', { path: '/proposal/:proposal-id'}, function () {
-    //path: /proposal/:proposal-id/cover-sheet,
-    //loads the cover-sheet.hbs template not the proposal/cover-sheet.hbs template
-    //
-    this.route('cover-sheet', { resetNamespace: true });
-    this.route('project-description', { resetNamespace: true });
-    //path: /proposal/:proposal-id/dmp,
-    loads the data-management-plan.hbs template not the proposal/data-management-plan.hbs template
-    //
-    this.route('data-management-plan', { path: '/dmp', resetNamespace: true });
+  this.route('proposals', function () {
+    // this.route('proposal', {path: '/proposal/:proposal_id', resetNamespace: true}, function() {
+    this.route('proposal', {path: ':proposal_id', resetNamespace: true}, function() {
+      this.route('cover-sheet');
+      this.route('project-description');
+      this.route('data-management-plan', { path: '/dmp' });
+      this.route('bio-sketch');
+    });
   });
-  */
+
+  // this.route('proposals');
+  // // this.route('proposal', function() {
+  // this.route('proposal', {path: '/proposal/:proposal_id'}, function() {
+  //   this.route('cover-sheet');
+  //   this.route('project-description');
+  //   this.route('data-management-plan', { path: '/dmp' });
+  //   this.route('bio-sketch');
+  // });
+
+
 
 
   //Page Not Found
-  //this.route('page-not-found', { path: '/*wildcard' });
+  this.route('page-not-found', { path: '/*wildcard' });
 
 });
 
