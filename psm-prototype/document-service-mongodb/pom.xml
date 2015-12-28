@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>gov.nsf.research.document.service</groupId>
-	<artifactId>document-service</artifactId>
+	<artifactId>document-service-mongodb</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>document-service</name>
-	<description>Document Store Microservice</description>
+	<name>document-service-mongodb</name>
+	<description>Document Store Microservice (MongoDB)</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
