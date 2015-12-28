@@ -17,59 +17,8 @@
   <body>
     {{content-for 'body'}}
 
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-2 col-xs-offset-8">
-          <button class="btn btn-primary" type="button">Prepare New</button>
-        </div>
-        <div class="col-xs-2">
-          <button class="btn btn-primary" type="button">Temp Prop ID</button>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <h1>Proposal Header Area</h1>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-2">
-          <ul class="nav nav-pills nav-stacked">
-            <li role="presentation"><a href="#">Cover Sheet</a></li>
-            <li role="presentation" class="active"><a href="#">Project Description</a></li>
-            <li role="presentation"><a href="#">Data Management Plan</a></li>
-          </ul>
-
-        </div>
-        <div class="col-xs-10">
-          <h1>Temporary Drag Drop Upload</h1>
-
-
-          <form method="POST" enctype="multipart/form-data" action="http://localhost/docService/proposal/1234567/projdesc">
-           <input id="input-dim-1" name="inputdim1[]" type="file" multiple class="file-loading" accept="image/*">
-         </form>
-
-          <!--<label class="control-label">Select File</label>
-          <input id="input-dim-1" name="inputdim1[]" type="file" multiple class="file-loading" accept="image/*">-->
-
-
-
-        </div>
-      </div>
-    </div>
-
-
-
     <script src="assets/vendor.js"></script>
     <script src="assets/psm-prototype-front-end.js"></script>
-
-    <script>
-
-      $("#input-dim-1").fileinput({
-          allowedFileExtensions: ["jpg", "png", "gif"],
-          minImageWidth: 50,
-          minImageHeight: 50
-      });
-    </script>
 
 
     {{content-for 'body-footer'}}
