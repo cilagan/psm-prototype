@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>gov.nsf.research.document.service</groupId>
-	<artifactId>document-service</artifactId>
+	<artifactId>document-service-couchbase</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>document-service</name>
-	<description>Document Store Microservice</description>
+	<name>document-service-couchbase</name>
+	<description>Document Store Microservice (CouchBase)</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -68,6 +68,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-ws</artifactId>
 		</dependency>
+		<!-- CouchBase -->
+		<dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-couchbase</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+        </dependency>
+
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
