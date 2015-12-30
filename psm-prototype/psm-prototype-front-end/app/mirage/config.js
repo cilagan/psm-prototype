@@ -9,12 +9,26 @@ export default function() {
   this.namespace = 'api';    // make this `api`, for example, if your API is namespaced
   // this.timing = 400;      // delay for each request, automatically set to 0 during testing
 
-  this.get('/proposals', 'proposals');
+  this.get('/proposals', function(db) {
+    return {
+      proposals: db.proposals
+    };
+  });
 
-  this.get('/proposal/:proposal_id', function(db, request) {
-    var proposalId = +request.params.id;
+  this.get('/proposals/:proposal_id', function(db, request) {
+  // this.get('/proposal/:proposal_id', function(db, request) {
+    var proposalId = +request.params.proposal_id;
     return {
       proposal: db.proposals.find(proposalId)
+    };
+  });
+
+  // this.get('/proposals/:proposal_id/cover-sheet', function(db) {
+  this.get('/proposals/:proposal_id/cover-sheet', function(db, request) {
+    var proposal_Id = +request.params.proposal_id;
+    alert("proposal ID: "+ proposal_Id);
+    return {
+      proposal: db.coverSheets.where({proposalId: proposal_Id})
     };
   });
 
