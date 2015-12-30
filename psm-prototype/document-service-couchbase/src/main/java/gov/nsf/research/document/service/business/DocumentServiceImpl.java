@@ -11,15 +11,12 @@ import gov.nsf.research.document.service.dao.DocumentServiceDao;
 import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
 import gov.nsf.research.document.service.pdf.PDFUtility;
-import gov.nsf.research.document.service.repository.ProjectDescRepository;
 
 public class DocumentServiceImpl implements DocumentService {
 
 	@Autowired
 	DocumentServiceDao docServiceDao;
 	
-	@Autowired
-	ProjectDescRepository pdr;
 	
 	@Override
 	public DocumentMetaData uploadPropSection(ByteArrayInputStream inputStream, String tempPropId, SectionType sectionType) {

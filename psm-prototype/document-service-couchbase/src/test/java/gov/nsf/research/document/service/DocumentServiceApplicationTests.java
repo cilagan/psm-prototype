@@ -6,12 +6,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.couchbase.core.CouchbaseTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import gov.nsf.research.document.service.model.proposal.ProjectDesc;
-import gov.nsf.research.document.service.repository.ProjectDescRepository;
-import jdk.nashorn.internal.ir.annotations.Ignore;
+import gov.nsf.research.document.service.dao.DocumentServiceDao;
+import gov.nsf.research.document.service.model.document.User;
 
 import static org.junit.Assert.*;
 
@@ -19,42 +19,26 @@ import static org.junit.Assert.*;
 @SpringApplicationConfiguration(classes = DocumentServiceApplication.class)
 //@WebAppConfiguration
 public class DocumentServiceApplicationTests {
-
+	
 	@Autowired
-	ProjectDescRepository projectDescRepository;
+	CouchbaseTemplate couchBaseTemplate;
+	
+	@Autowired
+	DocumentServiceDao docServiceDao;
 	
 	@Test
 	public void contextLoads() {
 	}
 	
 	@Test
-	public void testProjDesc(){
-		
-		ProjectDesc projDesc = new ProjectDesc();
-		projDesc.setTempPropId("2345678");
-		projDesc.setUploadDate(new Date());
-		projDesc.setLastUpdateDate(new Date());
-		
-		projectDescRepository.insertProjDesc(projDesc);
+	public void testInsert(){
+		User user = new User("2", "Carlo", "Ilagan");
+		couchBaseTemplate.insert(user);
+		System.out.println(couchBaseTemplate.findById("2", User.class).toString());
 	}
 	
-	
-	public void testGetProjDesc(){
-		String tempPropId = "2345678";
-		ProjectDesc projDesc = projectDescRepository.getProjectDescByTempPropId(tempPropId);
-		assertTrue(projDesc != null);
-		
-		System.out.println(projDesc.toString());
-	}
-	
-	
-	
-	public void testSaveProjectDescDocument(){
-		projectDescRepository.saveProjectDescDocument("test");
-	}
-
-	
-	public void testGetProjDescDocument(){
-		projectDescRepository.getProjDescDocument();
+	@Test
+	public void testSaveDocument(){
+		docServiceDao.saveDocument(null, null, null);
 	}
 }
