@@ -90,6 +90,14 @@
 			<version>1.0.0.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- java client for couchbase -->
+		
+			<dependency>
+				<groupId>com.couchbase.client</groupId>
+				<artifactId>java-client</artifactId>
+				<version>2.2.2</version>
+			</dependency>
+	
 		<!-- Third Party -->
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
