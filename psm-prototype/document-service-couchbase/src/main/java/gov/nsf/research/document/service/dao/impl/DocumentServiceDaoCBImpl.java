@@ -112,7 +112,10 @@ public class DocumentServiceDaoCBImpl implements  DocumentServiceDao {
 
 	@Override
 	public void deleteDocument(String tempPropId, SectionType sectionType) {
-		// TODO Auto-generated method stub
+		CouchbaseClient client = couchBaseTemplate.getCouchbaseClient();
+		
+			
+		 client.delete(tempPropId);
 		
 	}	
 }
