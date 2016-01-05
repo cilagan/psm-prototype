@@ -63,5 +63,14 @@ public class DocumentServiceApplicationTests {
 		System.out.println("**END" + outputStream.size());
 	}
 	
+	@Test
+	public void testDeleteDocument() {
+	
+		String tempPropId = "1234568";
+
+		docServiceDao.deleteDocument(tempPropId,SectionType.PROJECT_DESCRIPTION);
+		
+	}
+	
 }
 
