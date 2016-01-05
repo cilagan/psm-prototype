@@ -1,9 +1,5 @@
 package gov.nsf.research.document.service;
 
-import gov.nsf.research.document.service.dao.DocumentServiceDao;
-import gov.nsf.research.document.service.model.SectionType;
-import gov.nsf.research.document.service.model.document.User;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.couchbase.core.CouchbaseTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import gov.nsf.research.document.service.dao.DocumentServiceDao;
+import gov.nsf.research.document.service.model.SectionType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DocumentServiceApplication.class)
@@ -29,13 +28,6 @@ public class DocumentServiceApplicationTests {
 	
 	@Test
 	public void contextLoads() {
-	}
-	
-	@Test
-	public void testInsert(){
-		User user = new User("8", "Carlo", "Ilagan");
-		couchBaseTemplate.insert(user);
-		System.out.println(couchBaseTemplate.findById("8", User.class).toString());
 	}
 	
 	@Test
