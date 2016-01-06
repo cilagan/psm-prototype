@@ -4,9 +4,9 @@ export default DS.Model.extend({
   proposalId: DS.attr('number'),
   proposalTitle: DS.attr('string'),
 
-  coverSheet: DS.belongsTo('proposal/cover-sheet'),
-  projectDescription: DS.belongsTo('proposal/project-description'),
-  dmp: DS.belongsTo('proposal/data-management-plan'),
-  bioSketches: DS.hasMany('proposal/bio-sketch')
+  coverSheet: DS.belongsTo('proposal/cover-sheet', {async: true}),
+  projectDescription: DS.belongsTo('proposal/project-description', {async: true}),
+  dmp: DS.belongsTo('proposal/data-management-plan', {async: true}),
+  bioSketches: DS.hasMany('proposal/bio-sketch', {async: true})
 
 });

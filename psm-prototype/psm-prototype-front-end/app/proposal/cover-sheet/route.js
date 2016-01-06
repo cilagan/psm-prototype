@@ -8,12 +8,12 @@ export default Ember.Route.extend({
 
   model: function () {
 
-    var proposal = this.modelFor('proposal');
+    let proposal = this.modelFor('proposal');
 
     // if (proposal.get('cover-sheet'))
 
-    // var coversheet = proposal.get('coverSheet');
-    // return coversheet;
+    let coversheet = proposal.get('coverSheet');
+    return coversheet;
 
     //TODO: Should check to see if the proposal has a cover-sheet?
     //TODO: If there is a cover-sheet found in the DB, it should be put in the proposal
@@ -23,13 +23,13 @@ export default Ember.Route.extend({
     //Native: GET '/docService/proposal/coverSheets/2'
     //Now with overridden buildURL in the cover-sheet adapter /docService/proposal/:proposal_id/coversheet
 
-    var cs = this.store.findRecord('proposal.coverSheet', proposal.get('proposalId'));
+    // var cs = this.store.findRecord('proposal.coverSheet', proposal.get('proposalId'));
 
     //proposal.set('coverSheet', cs);
 
     // this.store.push(proposal);
 
-    return cs;
+    // return cs;
   }
 
 });
