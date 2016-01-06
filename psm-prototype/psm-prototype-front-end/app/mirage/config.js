@@ -23,6 +23,8 @@ export default function() {
     };
   });
 
+  this.del('delete/proposal/:proposal_id');
+
   /*Cover Sheet*/
 
   this.get('/proposal/:proposal_id/cover-sheet', function(db, request) {

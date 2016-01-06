@@ -9,6 +9,7 @@ Router.map(function() {
 
   this.route('proposals', {path: '/'});
   this.route('proposal', {path: '/proposal/:proposal_id'}, function() {
+    this.route('new');
     this.route('cover-sheet');
     this.route('project-description');
     this.route('data-management-plan', { path: '/dmp' });
