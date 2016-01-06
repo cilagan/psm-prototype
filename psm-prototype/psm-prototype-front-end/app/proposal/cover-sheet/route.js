@@ -8,10 +8,28 @@ export default Ember.Route.extend({
 
   model: function () {
 
-    //return this.store.findRecord('proposal/cover-sheet', this.modelFor('proposal').get('proposalId'));
+    var proposal = this.modelFor('proposal');
 
-    return this.store.queryRecord('proposal/cover-sheet', { proposalId: this.modelFor('proposal').get('proposalId')});
-    // /api/proposal/coverSheets?proposalId=3
+    // if (proposal.get('cover-sheet'))
+
+    // var coversheet = proposal.get('coverSheet');
+    // return coversheet;
+
+    //TODO: Should check to see if the proposal has a cover-sheet?
+    //TODO: If there is a cover-sheet found in the DB, it should be put in the proposal
+    //TODO: If the proposal does not have a cover-sheet, and the db does not have a cover-sheet for this proposal, then new cover-sheet
+
+
+    //Native: GET '/docService/proposal/coverSheets/2'
+    //Now with overridden buildURL in the cover-sheet adapter /docService/proposal/:proposal_id/coversheet
+
+    var cs = this.store.findRecord('proposal.coverSheet', proposal.get('proposalId'));
+
+    //proposal.set('coverSheet', cs);
+
+    // this.store.push(proposal);
+
+    return cs;
   }
 
 });

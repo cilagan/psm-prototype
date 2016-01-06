@@ -6,7 +6,7 @@ export default function() {
     Note: these only affect routes defined *after* them!
   */
   // this.urlPrefix = '';    // make this `http://localhost:8080`, for example, if your API is on a different server
-  this.namespace = 'api';    // make this `api`, for example, if your API is namespaced
+  this.namespace = 'docService';    // make this `api`, for example, if your API is namespaced
   // this.timing = 400;      // delay for each request, automatically set to 0 during testing
 
   this.get('/proposals', function(db) {
@@ -23,15 +23,18 @@ export default function() {
     };
   });
 
-  // this.get('/proposals/:proposal_id/cover-sheet', function(db) {
-  this.get('/proposals/:proposal_id/cover-sheet', function(db, request) {
+  /*Cover Sheet*/
+
+  this.get('/proposal/:proposal_id/cover-sheet', function(db, request) {
     var proposal_Id = +request.params.proposal_id;
-    alert("proposal ID: "+ proposal_Id);
     return {
-      proposal: db.coverSheets.where({proposalId: proposal_Id})
+      'proposal/cover-sheet': db.coversheets.where({proposalId: proposal_Id})
     };
   });
 
+  this.post('/proposal/:proposal_id/cover-sheet', 'proposal/cover-sheet');
+
+  this.del('/proposal/:proposal_id/cover-sheet', 'proposal/cover-sheet');
 
   /*
     Route shorthand cheatsheet
