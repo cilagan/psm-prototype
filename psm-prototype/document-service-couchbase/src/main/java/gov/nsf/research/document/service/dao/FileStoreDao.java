@@ -11,7 +11,7 @@ public interface FileStoreDao {
 	 * @param fileName
 	 * @return
 	 */
-	public boolean checkFileExist(String bucketName, String fileName);
+	public boolean checkFileExist(String fileName);
 	
 	/**
 	 * Uploads file from specified bucket
@@ -20,7 +20,7 @@ public interface FileStoreDao {
 	 * @param fileName
 	 * @return
 	 */
-	public boolean uploadFile(InputStream inputStream, String bucketName, String fileName);
+	public boolean uploadFile(InputStream inputStream, String fileName);
 	
 	/**
 	 * Deletes file from specified bucket
@@ -28,7 +28,7 @@ public interface FileStoreDao {
 	 * @param fileName
 	 * @return
 	 */
-	public boolean deleteFile(String bucketName, String fileName);
+	public boolean deleteFile(String fileName);
 	
 	/**
 	 * Downloads file from specified bucket
@@ -36,5 +36,5 @@ public interface FileStoreDao {
 	 * @param fileName
 	 * @return
 	 */
-	public OutputStream downloadFile(String bucketName, String fileName);
+	public OutputStream downloadFile(String fileName);
 }

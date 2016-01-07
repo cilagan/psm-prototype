@@ -30,7 +30,7 @@ public class FormController {
 		List<String> propList = new ArrayList<String>();
 		Map<String, Document> propMap = new HashMap<String, Document>();
 		
-		List<Document> tempList = docServiceDao.viewAllFilesFromDB();
+		List<Document> tempList = new ArrayList<Document>();//docServiceDao.viewAllFilesFromDB();
 		
 		for(Document doc : tempList){
 			if(SectionType.PROJECT_DESCRIPTION.equals(doc.getSectionType())){
