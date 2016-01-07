@@ -36,7 +36,7 @@ public class DocumentServiceDaoCBImpl implements  DocumentServiceDao {
 			SectionType sectionType) {
 
 		CouchbaseClient client = couchBaseTemplate.getCouchbaseClient();
-
+		
 		try {
 
 			BufferedImage image = ImageIO.read(inputStream);
