@@ -27,7 +27,7 @@ public class FileStoreDaoAmazonS3ImplTest {
 	public void testUploadFile(){
 		
 		InputStream inputStream = null;
-		String tempPropId = "123456";
+		String tempPropId = "123454";
 		
 		try {
 			inputStream = new ByteArrayInputStream(
