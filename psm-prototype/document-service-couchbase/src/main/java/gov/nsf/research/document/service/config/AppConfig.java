@@ -23,7 +23,9 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import gov.nsf.research.document.service.business.DocumentService;
 import gov.nsf.research.document.service.business.DocumentServiceImpl;
 import gov.nsf.research.document.service.dao.DocumentServiceDao;
+import gov.nsf.research.document.service.dao.FileStoreDao;
 import gov.nsf.research.document.service.dao.impl.DocumentServiceDaoCBImpl;
+import gov.nsf.research.document.service.dao.impl.FileStoreDaoAmazonS3Impl;
 
 @Configuration
 //@ImportResource("classpath:aws-config.xml")
@@ -54,10 +56,10 @@ public class AppConfig {
 		return new DocumentServiceImpl();
 	}
 	
-	@Bean
-	public DocumentServiceDao documentServiceDao(){
-		return new DocumentServiceDaoCBImpl(couchBaseTemplate);
-	}
+//	@Bean
+//	public DocumentServiceDao documentServiceDao(){
+//		return new DocumentServiceDaoCBImpl(couchBaseTemplate);
+//	}
 	
 	@EnableCouchbaseRepositories
 	@Configuration
@@ -90,6 +92,11 @@ public class AppConfig {
 	public AmazonS3 amazonS3(){
 		AWSCredentials credentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY);
 		return new AmazonS3Client(credentials);
+	}
+	
+	@Bean
+	public FileStoreDao fileStoreDao(){
+		return new FileStoreDaoAmazonS3Impl();
 	}
 	
 }

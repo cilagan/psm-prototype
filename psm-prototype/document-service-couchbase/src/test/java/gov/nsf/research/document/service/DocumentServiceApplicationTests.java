@@ -38,40 +38,7 @@ public class DocumentServiceApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
-	
-	@Test
-	public void testSaveDocument(){
-		InputStream inputStream = null;
-		String tempPropId = "12343333";
-		try {
-			inputStream = new FileInputStream(
-					"C:\\Users\\spendyal\\Desktop\\psm_test_input_ files\\DSC_0175.JPG");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		docServiceDao.saveDocument(inputStream, tempPropId, null);
-	}
-	
-	@Test
-	public void testViewDocument() {
-		ByteArrayOutputStream outputStream = null;
-		String tempPropId = "1234568";
 
-		outputStream = docServiceDao.viewDocument(tempPropId,
-				SectionType.PROJECT_DESCRIPTION);
-		System.out.println("**END" + outputStream.size());
-	}
-	
-	@Test
-	public void testDeleteDocument() {
-	
-		String tempPropId = "1234568";
-
-		docServiceDao.deleteDocument(tempPropId,SectionType.PROJECT_DESCRIPTION);
-		
-	}
 	
 	@Test
 	@Ignore
