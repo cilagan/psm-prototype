@@ -26,15 +26,16 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	public ByteArrayOutputStream getPropSection(String tempPropId, SectionType sectionType) {
-		return docServiceDao.viewDocument(tempPropId, sectionType);
+		//return docServiceDao.viewDocument(tempPropId, sectionType);
+		return null;
 	}
 
 	@Override
 	public ByteArrayOutputStream getEntirePropSection(String tempPropId) {
 		List<ByteArrayOutputStream> baosList = new ArrayList<ByteArrayOutputStream>();
 				
-		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION));
-		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN));
+//		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION));
+//		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN));
 		
 		ByteArrayOutputStream baos = (ByteArrayOutputStream)PDFUtility.concatenateDocuments(baosList);
 		
@@ -44,6 +45,6 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	public void deletePropSection(String tempPropId, SectionType sectionType) {
 		System.out.println("deleting - " + tempPropId +" | " + sectionType);
-		docServiceDao.deleteDocument(tempPropId, sectionType);
+//		docServiceDao.deleteDocument(tempPropId, sectionType);
 	}
 }

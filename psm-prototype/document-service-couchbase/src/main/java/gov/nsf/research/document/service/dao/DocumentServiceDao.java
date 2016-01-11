@@ -29,14 +29,7 @@ public interface DocumentServiceDao{
 	 * @return outputStream
 	 */
 	
-	public ByteArrayOutputStream viewDocument(String tempPropId, SectionType sectionType);
-	
-	/**
-	 *  
-	 * @return 
-	 */
-	
-	public List<Document> viewAllFilesFromDB();
+	public ByteArrayOutputStream viewDocument(String tempPropId, SectionType sectionType, int seqNum);
 	
 	/**
 	 * 
@@ -44,7 +37,7 @@ public interface DocumentServiceDao{
 	 * @param sectionType
 	 * @return
 	 */
-	public boolean isDocumentExists (String tempPropId, SectionType sectionType) ;
+	public boolean isDocumentExists (String tempPropId, SectionType sectionType, int seqNum) ;
 	
 	
 		
@@ -54,7 +47,7 @@ public interface DocumentServiceDao{
 	 * @param sectionType
 	 * @return
 	 */
-	public void deleteDocument(String tempPropId, SectionType sectionType);
+	public void deleteDocument(String tempPropId, SectionType sectionType, int seqNum);
 	
 	
 	
