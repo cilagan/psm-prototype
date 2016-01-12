@@ -1,11 +1,7 @@
 package gov.nsf.research.document.service.dao.impl;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +20,12 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 import gov.nsf.research.document.service.dao.FileStoreDao;
 import gov.nsf.research.document.service.dao.MetaDataServiceDao;
+import gov.nsf.research.document.service.model.DocumentMetaData;
 
 public class FileStoreDaoAmazonS3Impl implements FileStoreDao {
 	
 	private static final String BUCKET_NAME = "psm-data-store-01";
+	private static final String FILENAME = "fileName";
 
 	@Autowired
 	AmazonS3 amazonS3;
@@ -72,9 +70,12 @@ public class FileStoreDaoAmazonS3Impl implements FileStoreDao {
 	}
 
 	@Override
-	public boolean uploadFile(InputStream inputStream, String fileName) {
+	public boolean uploadFile(InputStream inputStream, DocumentMetaData docMetaData) {
+		ObjectMetadata omd = new ObjectMetadata();
+		omd.addUserMetadata(FILENAME, docMetaData.getFileName());
+		//TODO: add more metadata here.
 		
-		amazonS3.putObject(new PutObjectRequest(BUCKET_NAME, fileName,
+		amazonS3.putObject(new PutObjectRequest(BUCKET_NAME, docMetaData.getFileName(),
 				inputStream, new ObjectMetadata()));
 
 		return true;

@@ -35,7 +35,7 @@ public class DocumentServiceDaoImpl implements DocumentServiceDao {
 		try {
 			docMetaData = DocServiceUtility.assembleMetaData(inputStream, tempPropId, sectionType);
 			metadataServiceDao.saveDocumentMetaData(docMetaData);
-			fileStoreDao.uploadFile(inputStream, docMetaData.getFileName());
+			fileStoreDao.uploadFile(inputStream, docMetaData);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
