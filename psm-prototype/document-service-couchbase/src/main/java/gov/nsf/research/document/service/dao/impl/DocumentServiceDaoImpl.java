@@ -47,8 +47,8 @@ public class DocumentServiceDaoImpl implements DocumentServiceDao {
 	@Override
 	public ByteArrayOutputStream viewDocument(String tempPropId, SectionType sectionType, int seqNum) {
 		//TODO: fileStoreDao need to return ByteArrayOutputStream
-		//fileStoreDao.downloadFile(DocServiceUtility.getFileName(tempPropId, sectionType));
-		return null;
+		ByteArrayOutputStream out = (ByteArrayOutputStream) fileStoreDao.downloadFile(DocServiceUtility.getFileName(tempPropId, sectionType));
+		return out;
 	}
 
 	@Override

@@ -55,5 +55,15 @@ public class DocumentServiceApplicationTests {
 //		conn.putObject("psm-data-store", "hello.txt", input, new ObjectMetadata());
 	}
 	
+	
+	@Test
+	@Ignore
+	public void testViewDocument(){
+	
+		docServiceDao.viewDocument("test.txt", SectionType.DATA_MANAGEMENT_PLAN, 1);
+//		ByteArrayInputStream input = new ByteArrayInputStream("Hello World!".getBytes());
+//		conn.putObject("psm-data-store", "hello.txt", input, new ObjectMetadata());
+	}
+	
 }
 

@@ -1,6 +1,8 @@
 package gov.nsf.research.document.service.dao.impl;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,7 +27,7 @@ import gov.nsf.research.document.service.dao.MetaDataServiceDao;
 
 public class FileStoreDaoAmazonS3Impl implements FileStoreDao {
 	
-	private static final String BUCKET_NAME = "psm_data_store_01";
+	private static final String BUCKET_NAME = "psm-data-store-01";
 
 	@Autowired
 	AmazonS3 amazonS3;
@@ -111,14 +113,18 @@ public class FileStoreDaoAmazonS3Impl implements FileStoreDao {
 
 	@Override
 	public OutputStream downloadFile(String fileName) {
-		// TODO Auto-generated method stub
-		// return null;
-		String bucketName = "";
+		ByteArrayOutputStream out = null;
 		try {
-			System.out.println("Downloading an object");
-			S3Object object = amazonS3.getObject(new GetObjectRequest(bucketName,fileName));
+			System.out.println("Downloading an object fileName : "+fileName);
+			S3Object object = amazonS3.getObject(new GetObjectRequest(BUCKET_NAME,fileName));
 			System.out.println("Content-Type: " + object.getObjectMetadata().getContentType());
-			displayTextInputStream(object.getObjectContent());
+			InputStream in = object.getObjectContent();
+			byte[] buff = new byte[in.read()];
+			int bytesRead = 0;
+			out = new ByteArrayOutputStream();
+			while((bytesRead = in.read(buff)) != -1) {
+				out.write(buff, 0, bytesRead);
+			}
 		} catch (AmazonServiceException ase) {
 			System.out.println("Caught an AmazonServiceException, which" +
 					" means your request made it " +
@@ -139,21 +145,8 @@ public class FileStoreDaoAmazonS3Impl implements FileStoreDao {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return null;
+		return out;
 
 	}
-
-	private static void displayTextInputStream(InputStream input) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-		while (true) {
-			String line = reader.readLine();
-			if (line == null)
-				break;
-
-			System.out.println("    " + line);
-		}
-		System.out.println();
-	}
-
 
 }
