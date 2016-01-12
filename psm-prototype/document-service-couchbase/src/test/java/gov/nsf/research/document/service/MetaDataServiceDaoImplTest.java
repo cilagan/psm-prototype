@@ -25,7 +25,7 @@ public class MetaDataServiceDaoImplTest {
 	public void testSaveDocumentMetaData() {
 		DocumentMetaData documentMetaData = new DocumentMetaData();
 
-		String tempPropID = "1111111";
+		String tempPropID = "1111112";
 		SectionType sectionType = SectionType.DATA_MANAGEMENT_PLAN;
 		String fileName = tempPropID + "_" + sectionType;
 		String id = tempPropID + "_" + sectionType;
@@ -52,6 +52,32 @@ public class MetaDataServiceDaoImplTest {
 
 		DocumentMetaData documentMetaData = metaDataServiceDao.viewDocumentMetaData(key);
 		System.out.println("testViewDocumentMetaData: "+documentMetaData.toString());
+
+		
+
+	}
+	
+	
+	@Test
+	public void testIsDocExist() {
+		
+		String tempPropID = "1111115";
+		SectionType sectionType = SectionType.DATA_MANAGEMENT_PLAN;
+		String key = tempPropID + "_" + sectionType;
+		
+
+		boolean test =  metaDataServiceDao.isDocExist(key);
+		System.out.println("testIsDocExist: "+test);
+
+		
+
+	}
+	
+	//@Test
+	public void testgetAllDocs() {
+		
+		
+		metaDataServiceDao.getAllDocs();
 
 		
 
