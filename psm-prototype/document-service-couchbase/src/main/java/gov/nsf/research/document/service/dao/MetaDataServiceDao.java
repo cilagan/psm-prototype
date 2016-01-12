@@ -23,5 +23,7 @@ public interface MetaDataServiceDao {
 	 * @return
 	 */
 	public boolean deleteDocumentMetaData(String key);
-
+	
+	//TODO: where is this method? ---> public List<DocumentMetaData> getAllDocs()
+	//TODO: where is this method? ---> public isDocExist?
 }

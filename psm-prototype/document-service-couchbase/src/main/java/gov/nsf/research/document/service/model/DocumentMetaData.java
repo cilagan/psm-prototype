@@ -129,4 +129,13 @@ public class DocumentMetaData extends AbstractTransferObject {
 		this.content = content;
 	}
 	
+	public String getURLEnd(){
+		if(SectionType.PROJECT_DESCRIPTION.equals(this.sectionType)){
+			return "projdesc";
+		} else if(SectionType.DATA_MANAGEMENT_PLAN.equals(this.sectionType)){
+			return "dmp";
+		} else {
+			return null;
+		}
+	}
 }
