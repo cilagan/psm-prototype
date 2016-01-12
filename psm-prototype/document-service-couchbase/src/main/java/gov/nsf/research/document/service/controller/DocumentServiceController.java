@@ -2,6 +2,8 @@ package gov.nsf.research.document.service.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
@@ -18,10 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import gov.nsf.research.document.service.business.DocumentService;
+import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
 import gov.nsf.research.document.service.model.proposal.DataMgtPlan;
 import gov.nsf.research.document.service.model.proposal.ProjectDesc;
 import gov.nsf.research.document.service.model.proposal.Proposal;
+import gov.nsf.research.document.service.pdf.DocServiceUtility;
 
 @RestController
 @RequestMapping(path="/docService")
@@ -154,5 +158,30 @@ public class DocumentServiceController {
 		docService.deletePropSection(tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
 		System.out.println("delete dmp");
 		response.sendRedirect("/upload");
+	}
+	
+	@RequestMapping(path="/proposal/{tempPropId}/projdesc/metadata", method = RequestMethod.GET)
+	public DocumentMetaData getProjDescMetaData(@PathVariable String tempPropId){
+		return null;
+	}
+	
+	@RequestMapping(path="/proposal/{tempPropId}/dmp/metadata", method = RequestMethod.GET)
+	public DocumentMetaData getDMPMetaData(@PathVariable String tempPropId){
+		return getSampleDMD();	
+	}
+	
+	private DocumentMetaData getSampleDMD(){
+		try {
+			return DocServiceUtility.assembleMetaData(new FileInputStream("C://Apps//mongo_result_1.pdf"), "1234567", SectionType.DATA_MANAGEMENT_PLAN);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 }
