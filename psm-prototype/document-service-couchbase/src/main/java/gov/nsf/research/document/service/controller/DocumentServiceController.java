@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -162,12 +163,32 @@ public class DocumentServiceController {
 	
 	@RequestMapping(path="/proposal/{tempPropId}/projdesc/metadata", method = RequestMethod.GET)
 	public DocumentMetaData getProjDescMetaData(@PathVariable String tempPropId){
-		return null;
+		DocumentMetaData dmd = getMockDMD();
+		dmd.setId("1234567-PROJECT_DESCRIPTION");
+		dmd.setFileName("1234567-PROJECT_DESCRIPTION.pdf");
+		dmd.setSectionType(SectionType.PROJECT_DESCRIPTION);
+		return dmd;
 	}
 	
 	@RequestMapping(path="/proposal/{tempPropId}/dmp/metadata", method = RequestMethod.GET)
 	public DocumentMetaData getDMPMetaData(@PathVariable String tempPropId){
-		return getSampleDMD();	
+		return getMockDMD();	
+	}
+	
+	private DocumentMetaData getMockDMD(){
+		DocumentMetaData dmd = new DocumentMetaData();
+		dmd.setContent("This is a test content");
+		dmd.setId("1234567-DATA_MANAGEMENT_PLAN");
+		dmd.setFileName("1234567-DATA_MANAGEMENT_PLAN.pdf");
+		dmd.setSectionType(SectionType.DATA_MANAGEMENT_PLAN);
+		dmd.setTempPropId("1234567");
+		
+		dmd.setPages(15);
+		dmd.setSize(new Long(32165487));
+		
+		dmd.setUploadDate(new DateTime().toDate());
+		
+		return dmd;
 	}
 	
 	private DocumentMetaData getSampleDMD(){

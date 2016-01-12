@@ -1,5 +1,7 @@
 package gov.nsf.research.document.service.dao;
 
+import java.util.List;
+
 import gov.nsf.research.document.service.model.DocumentMetaData;
 
 public interface MetaDataServiceDao {
@@ -24,6 +26,16 @@ public interface MetaDataServiceDao {
 	 */
 	public boolean deleteDocumentMetaData(String key);
 	
-	//TODO: where is this method? ---> public List<DocumentMetaData> getAllDocs()
-	//TODO: where is this method? ---> public isDocExist?
+	/**
+	 * 
+	 * @return
+	 */
+	public List<DocumentMetaData> getAllDocs();
+	
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public boolean isDocExist(String key);
 }
