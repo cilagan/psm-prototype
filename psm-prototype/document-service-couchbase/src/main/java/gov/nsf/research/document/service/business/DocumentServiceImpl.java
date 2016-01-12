@@ -14,28 +14,26 @@ import gov.nsf.research.document.service.pdf.PDFUtility;
 
 public class DocumentServiceImpl implements DocumentService {
 
-//	@Autowired
-//	DocumentServiceDao docServiceDao;
+	@Autowired
+	DocumentServiceDao docServiceDao;
 	
 	
 	@Override
-	public DocumentMetaData uploadPropSection(ByteArrayInputStream inputStream, String tempPropId, SectionType sectionType) {
-		System.out.println("saving doc on service layer.");
-		return null;//docServiceDao.saveDocument(inputStream, tempPropId, sectionType);
+	public DocumentMetaData uploadPropSection(ByteArrayInputStream inputStream, String tempPropId, SectionType sectionType) {		
+		return docServiceDao.saveDocument(inputStream, tempPropId, sectionType);
 	}
 
 	@Override
 	public ByteArrayOutputStream getPropSection(String tempPropId, SectionType sectionType) {
-		//return docServiceDao.viewDocument(tempPropId, sectionType);
-		return null;
+		return docServiceDao.viewDocument(tempPropId, sectionType, 0);
 	}
 
 	@Override
 	public ByteArrayOutputStream getEntirePropSection(String tempPropId) {
 		List<ByteArrayOutputStream> baosList = new ArrayList<ByteArrayOutputStream>();
 				
-//		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION));
-//		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN));
+		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION, 0));
+		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN, 0));
 		
 		ByteArrayOutputStream baos = (ByteArrayOutputStream)PDFUtility.concatenateDocuments(baosList);
 		
@@ -44,7 +42,6 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	public void deletePropSection(String tempPropId, SectionType sectionType) {
-		System.out.println("deleting - " + tempPropId +" | " + sectionType);
-//		docServiceDao.deleteDocument(tempPropId, sectionType);
+		docServiceDao.deleteDocument(tempPropId, sectionType, 0);
 	}
 }
