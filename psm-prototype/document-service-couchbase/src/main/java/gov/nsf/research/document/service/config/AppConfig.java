@@ -4,10 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.couchbase.config.AbstractCouchbaseConfiguration;
 import org.springframework.data.couchbase.core.CouchbaseTemplate;
 import org.springframework.data.couchbase.repository.config.EnableCouchbaseRepositories;
@@ -24,11 +22,12 @@ import gov.nsf.research.document.service.business.DocumentService;
 import gov.nsf.research.document.service.business.DocumentServiceImpl;
 import gov.nsf.research.document.service.dao.DocumentServiceDao;
 import gov.nsf.research.document.service.dao.FileStoreDao;
-import gov.nsf.research.document.service.dao.impl.DocumentServiceDaoCBImpl;
+import gov.nsf.research.document.service.dao.MetaDataServiceDao;
+import gov.nsf.research.document.service.dao.impl.DocumentServiceDaoImpl;
 import gov.nsf.research.document.service.dao.impl.FileStoreDaoAmazonS3Impl;
+import gov.nsf.research.document.service.dao.impl.MetaDataServiceDaoImpl;
 
 @Configuration
-//@ImportResource("classpath:aws-config.xml")
 public class AppConfig {
 	
 	@Autowired
@@ -56,10 +55,10 @@ public class AppConfig {
 		return new DocumentServiceImpl();
 	}
 	
-//	@Bean
-//	public DocumentServiceDao documentServiceDao(){
-//		return new DocumentServiceDaoCBImpl(couchBaseTemplate);
-//	}
+	@Bean
+	public DocumentServiceDao documentServiceDao(){
+		return new DocumentServiceDaoImpl();
+	}
 	
 	@EnableCouchbaseRepositories
 	@Configuration
@@ -99,4 +98,8 @@ public class AppConfig {
 		return new FileStoreDaoAmazonS3Impl();
 	}
 	
+	@Bean
+	public MetaDataServiceDao docMetaDataDao(){
+		return new MetaDataServiceDaoImpl(couchBaseTemplate); 
+	}
 }

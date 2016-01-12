@@ -14,14 +14,14 @@ import gov.nsf.research.document.service.pdf.PDFUtility;
 
 public class DocumentServiceImpl implements DocumentService {
 
-	@Autowired
-	DocumentServiceDao docServiceDao;
+//	@Autowired
+//	DocumentServiceDao docServiceDao;
 	
 	
 	@Override
 	public DocumentMetaData uploadPropSection(ByteArrayInputStream inputStream, String tempPropId, SectionType sectionType) {
 		System.out.println("saving doc on service layer.");
-		return docServiceDao.saveDocument(inputStream, tempPropId, sectionType);
+		return null;//docServiceDao.saveDocument(inputStream, tempPropId, sectionType);
 	}
 
 	@Override

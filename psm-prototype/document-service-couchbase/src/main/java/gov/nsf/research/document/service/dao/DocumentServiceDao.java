@@ -1,14 +1,11 @@
 package gov.nsf.research.document.service.dao;
 
 
-import gov.nsf.research.document.service.model.Document;
-import gov.nsf.research.document.service.model.DocumentMetaData;
-import gov.nsf.research.document.service.model.SectionType;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
+
+import gov.nsf.research.document.service.model.DocumentMetaData;
+import gov.nsf.research.document.service.model.SectionType;
 
 
 public interface DocumentServiceDao{
@@ -35,11 +32,18 @@ public interface DocumentServiceDao{
 	 * 
 	 * @param tempPropId
 	 * @param sectionType
+	 * @param seqNum
+	 * @return
+	 */
+	public DocumentMetaData getDocumentMetaData(String tempPropId, SectionType sectionType, int seqNum);
+	
+	/**
+	 * 
+	 * @param tempPropId
+	 * @param sectionType
 	 * @return
 	 */
 	public boolean isDocumentExists (String tempPropId, SectionType sectionType, int seqNum) ;
-	
-	
 		
 	/**
 	 * 
@@ -47,8 +51,6 @@ public interface DocumentServiceDao{
 	 * @param sectionType
 	 * @return
 	 */
-	public void deleteDocument(String tempPropId, SectionType sectionType, int seqNum);
-	
-	
+	public boolean deleteDocument(String tempPropId, SectionType sectionType, int seqNum);
 	
 }
