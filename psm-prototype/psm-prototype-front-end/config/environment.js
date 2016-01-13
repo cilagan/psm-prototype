@@ -3,6 +3,9 @@
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'psm-prototype-front-end',
+    contentSecurityPolicy: {
+      'style-src': "'self' 'unsafe-inline'"
+    },
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
