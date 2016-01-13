@@ -33,8 +33,8 @@ public class AppConfig {
 	@Autowired
 	CouchbaseTemplate couchBaseTemplate;
 	
-	private final String AWS_ACCESS_KEY = "AKIAIZHYCZXIA3DFNAYA";
-	private final String AWS_SECRET_KEY = "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";		
+	private final String AWS_ACCESS_KEY = "AKIAIAJS4NVL7GHNNLCQ";
+	private final String AWS_SECRET_KEY = "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";		
 	
 	/**
 	 * CORS support
