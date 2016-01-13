@@ -30,6 +30,7 @@ import com.amazonaws.util.StringUtils;
 
 import gov.nsf.research.document.service.DocumentServiceApplication;
 import gov.nsf.research.document.service.dao.FileStoreDao;
+import gov.nsf.research.document.service.model.DocumentMetaData;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DocumentServiceApplication.class)
@@ -60,7 +61,10 @@ public class FileStoreDaoAmazonS3ImplTest {
 			e.printStackTrace();
 		}
 		
-		fileStoreDao.uploadFile(inputStream, tempPropId);
+		DocumentMetaData dmd = new DocumentMetaData();
+		dmd.setFileName("DSC_0175.JPG");
+		
+		fileStoreDao.uploadFile(inputStream, dmd);
 
 	}
 	

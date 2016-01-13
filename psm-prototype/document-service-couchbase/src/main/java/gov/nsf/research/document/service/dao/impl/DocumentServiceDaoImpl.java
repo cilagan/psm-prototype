@@ -32,10 +32,14 @@ public class DocumentServiceDaoImpl implements DocumentServiceDao {
 		 */
 		DocumentMetaData docMetaData = null;
 		
+		if(isDocumentExists(tempPropId, sectionType, 0)){
+			deleteDocument(tempPropId, sectionType, 0);
+		}
+		
 		try {
 			docMetaData = DocServiceUtility.assembleMetaData(inputStream, tempPropId, sectionType);
 			metadataServiceDao.saveDocumentMetaData(docMetaData);
-			fileStoreDao.uploadFile(inputStream, docMetaData.getFileName());
+			fileStoreDao.uploadFile(inputStream, docMetaData);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,8 +62,10 @@ public class DocumentServiceDaoImpl implements DocumentServiceDao {
 	
 	@Override
 	public boolean isDocumentExists(String tempPropId, SectionType sectionType, int seqNum) {
-		//TODO: Where is the check on metaDataServiceDao?
-		return fileStoreDao.checkFileExist(DocServiceUtility.getFileName(tempPropId, sectionType));
+		boolean metaExist = metadataServiceDao.isDocExist(DocServiceUtility.getKey(tempPropId, sectionType));
+		boolean fileExist = fileStoreDao.checkFileExist(DocServiceUtility.getFileName(tempPropId, sectionType));
+		
+		return (metaExist && fileExist);
 	}
 
 	@Override

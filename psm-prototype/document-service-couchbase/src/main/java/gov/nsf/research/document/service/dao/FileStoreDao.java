@@ -3,6 +3,8 @@ package gov.nsf.research.document.service.dao;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import gov.nsf.research.document.service.model.DocumentMetaData;
+
 public interface FileStoreDao {
 	
 	/**
@@ -20,7 +22,7 @@ public interface FileStoreDao {
 	 * @param fileName
 	 * @return
 	 */
-	public boolean uploadFile(InputStream inputStream, String fileName);
+	public boolean uploadFile(InputStream inputStream, DocumentMetaData docMetaData);
 	
 	/**
 	 * Deletes file from specified bucket
