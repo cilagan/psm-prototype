@@ -29,16 +29,16 @@ import gov.nsf.research.document.service.dao.impl.MetaDataServiceDaoImpl;
 
 @Configuration
 public class AppConfig {
-	
+
 	@Autowired
 	CouchbaseTemplate couchBaseTemplate;
-	
+
 	private final String AWS_ACCESS_KEY = "AKIAIZHYCZXIA3DFNAYA";
-	private final String AWS_SECRET_KEY = "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";		
-	
+	private final String AWS_SECRET_KEY = "Wke1xghSPTmSRxVFRPRS9XqKNpEMd3hiF3swVH4k";
+
 	/**
 	 * CORS support
-	 * 
+	 *
 	 */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -54,25 +54,26 @@ public class AppConfig {
 	public DocumentService documentService(){
 		return new DocumentServiceImpl();
 	}
-	
+
 	@Bean
 	public DocumentServiceDao documentServiceDao(){
 		return new DocumentServiceDaoImpl();
 	}
-	
+
 	@EnableCouchbaseRepositories
 	@Configuration
 	static class CouchbaseConfiguration extends AbstractCouchbaseConfiguration {
-		
+
 		//TODO: Move to property files later
 		private String bucketName = "default";
 		private String ip = "localhost";
+		// private String ip = "nsf-pcv-01";
 		private String password = "";
-		
+
 		public CouchbaseConfiguration(){
 			System.out.println("Testing CouchBase");
 		}
-		
+
 		@Override
 		protected List<String> bootstrapHosts(){
 			return Arrays.asList(this.ip);
@@ -81,25 +82,25 @@ public class AppConfig {
 		protected String getBucketName(){
 			return this.bucketName;
 		}
-		@Override		
+		@Override
 		protected String getBucketPassword(){
 			return this.password;
 		}
 	}
-	
+
 	@Bean
 	public AmazonS3 amazonS3(){
 		AWSCredentials credentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY);
 		return new AmazonS3Client(credentials);
 	}
-	
+
 	@Bean
 	public FileStoreDao fileStoreDao(){
 		return new FileStoreDaoAmazonS3Impl();
 	}
-	
+
 	@Bean
 	public MetaDataServiceDao docMetaDataDao(){
-		return new MetaDataServiceDaoImpl(couchBaseTemplate); 
+		return new MetaDataServiceDaoImpl(couchBaseTemplate);
 	}
 }
