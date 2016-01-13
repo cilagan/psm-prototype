@@ -24,7 +24,6 @@ import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.util.StringUtils;
@@ -68,7 +67,7 @@ public class FileStoreDaoAmazonS3ImplTest {
 	@Test
 	public void testDownloadFile(){
 		System.out.println("DocumentServiceApplicationTests.testDownloadFile() Downloading File Content :");
-		ByteArrayOutputStream out = (ByteArrayOutputStream)fileStoreDao.downloadFile("hello.txt");
+		ByteArrayOutputStream out = (ByteArrayOutputStream)fileStoreDao.downloadFile("test.txt");
 
 		System.out.println("=======Print the content======== ");
 
@@ -100,7 +99,7 @@ public class FileStoreDaoAmazonS3ImplTest {
 	@Test
 	public void testAWSS3(){
 		AmazonS3 conn = amazonS3;
-		String bucketName = "psm-data-store-01";
+		String bucketName = "psm-data-store";
 		String key = "test.txt";
 		
 		List<Bucket> buckets = conn.listBuckets();
@@ -121,22 +120,10 @@ public class FileStoreDaoAmazonS3ImplTest {
             System.out.println("Uploading a new object to S3 from a file\n");
 //            amazonS3.putObject(new PutObjectRequest(bucketName, key, createSampleFile()));
 
-            /*
-             * Download an object - When you download an object, you get all of
-             * the object's metadata and a stream from which to read the contents.
-             * It's important to read the contents of the stream as quickly as
-             * possibly since the data is streamed directly from Amazon S3 and your
-             * network connection will remain open until you read all the data or
-             * close the input stream.
-             *
-             * GetObjectRequest also supports several other options, including
-             * conditional downloading of objects based on modification times,
-             * ETags, and selectively downloading a range of an object.
-             */
             System.out.println("Downloading an object");
-            S3Object object = amazonS3.getObject(new GetObjectRequest(bucketName, key));
-            System.out.println("Content-Type: "  + object.getObjectMetadata().getContentType());
-            displayTextInputStream(object.getObjectContent());
+//            S3Object object = amazonS3.getObject(new GetObjectRequest(bucketName, key));
+//            System.out.println("Content-Type: "  + object.getObjectMetadata().getContentType());
+//            displayTextInputStream(object.getObjectContent());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
