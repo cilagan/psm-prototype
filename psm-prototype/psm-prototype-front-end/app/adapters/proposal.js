@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-export default DS.RESTAdapter.extend( {
+export default DS.RESTAdapter.extend({
   namespace: 'docService',
 
   buildURL: function (modelName, id, snapshot, requestType, query) {
@@ -8,10 +8,13 @@ export default DS.RESTAdapter.extend( {
     switch (requestType) {
       case 'deleteRecord':
         url += '/delete';
-      case 'createRecord':
-      case 'findRecord':
-      case 'updateRecord':
-        url += '/proposal/'+id+'/cover-sheet';
+      // case 'createRecord':
+      // case 'findRecord':
+      // case 'updateRecord':
+        url += '/proposal/'+id;
+        return url;
+      case 'findAll':
+        url += '/proposals';
         return url;
     }
   }

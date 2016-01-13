@@ -3,6 +3,7 @@
 <div class="row">
   <div class="col-xs-2">
     <ul class="nav nav-pills nav-stacked">
+      <li role="presentation">{{#link-to "proposals"}}All Proposals{{/link-to}}</li>
       <!-- <li role="presentation">{{#link-to "cover-sheet"}}Cover Sheet{{/link-to}}</li> -->
       <li role="presentation">{{#link-to "proposal.cover-sheet"}}Cover Sheet{{/link-to}}</li>
       <li role="presentation">{{#link-to "proposal.project-description"}}Project Description{{/link-to}}</li>
@@ -24,3 +25,5 @@
 <h2>I AM THE PROPOSAL INDEX</h2>
 
 This is {{model.proposalTitle}}, ID: {{model.proposalId}}
+
+<a href="#" {{action "delete" model}}>Delete</a>

@@ -17,16 +17,18 @@ export default function() {
 
   this.get('/proposals/:proposal_id', function(db, request) {
   // this.get('/proposal/:proposal_id', function(db, request) {
-    var proposalId = +request.params.proposal_id;
+    let proposalId = +request.params.proposal_id;
     return {
       proposal: db.proposals.find(proposalId)
     };
   });
 
+  this.del('delete/proposal/:proposal_id');
+
   /*Cover Sheet*/
 
   this.get('/proposal/:proposal_id/cover-sheet', function(db, request) {
-    var proposal_Id = +request.params.proposal_id;
+    let proposal_Id = +request.params.proposal_id;
     return {
       'proposal/cover-sheet': db.coversheets.where({proposalId: proposal_Id})
     };

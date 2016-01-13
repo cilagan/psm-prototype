@@ -4,7 +4,7 @@ export default DS.RESTAdapter.extend( {
   namespace: 'docService',
 
   buildURL: function (modelName, id, snapshot, requestType, query) {
-    var url = this._super();
+    let url = this._super();
     switch (requestType) {
       case 'deleteRecord':
         url += '/delete';
