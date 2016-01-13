@@ -10,7 +10,7 @@ export default Ember.Controller.extend({
       proposal.rollbackAttributes();
     },
     confirmDelete(proposal) {
-      var self = this;
+      let self = this;
       proposal.save();
     },
     //temporary
