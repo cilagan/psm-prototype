@@ -66,8 +66,8 @@ public class AppConfig {
 
 		//TODO: Move to property files later
 		private String bucketName = "default";
-		private String ip = "localhost";
-		// private String ip = "nsf-pcv-01";
+		//private String ip = "localhost";
+		private String ip = "nsf-pcv-01";
 		private String password = "";
 
 		public CouchbaseConfiguration(){
