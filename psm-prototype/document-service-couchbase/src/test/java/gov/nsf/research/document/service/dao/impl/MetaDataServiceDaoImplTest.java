@@ -1,5 +1,6 @@
-package gov.nsf.research.document.service;
+package gov.nsf.research.document.service.dao.impl;
 
+import gov.nsf.research.document.service.DocumentServiceApplication;
 import gov.nsf.research.document.service.dao.MetaDataServiceDao;
 import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
@@ -66,6 +67,20 @@ public class MetaDataServiceDaoImplTest {
 		metaDataServiceDao.deleteDocumentMetaData(key);
 		
 	}
-	
+
+    @Test
+    public void testIsDocExist() {
+        String tempPropID = "1111115";
+        SectionType sectionType = SectionType.DATA_MANAGEMENT_PLAN;
+        String key = tempPropID + "_" + sectionType;
+
+        boolean test =  metaDataServiceDao.isDocExist(key);
+        System.out.println("testIsDocExist: "+test);
+    }
+    
+    //@Test
+    public void testgetAllDocs() {
+        metaDataServiceDao.getAllDocs();
+    }
 
 }

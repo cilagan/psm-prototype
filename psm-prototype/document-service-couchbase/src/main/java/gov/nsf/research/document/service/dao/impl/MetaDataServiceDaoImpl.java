@@ -1,5 +1,7 @@
 package gov.nsf.research.document.service.dao.impl;
 
+import java.util.List;
+
 import org.springframework.data.couchbase.core.CouchbaseTemplate;
 
 import gov.nsf.research.document.service.dao.MetaDataServiceDao;
@@ -40,5 +42,20 @@ public class MetaDataServiceDaoImpl implements MetaDataServiceDao {
 		couchBaseTemplate.remove(key);
 		return true;
 	}
+
+
+    @Override
+    public List<DocumentMetaData> getAllDocs() {
+        // TODO Auto-generated method stub
+        
+                return null;
+    }
+
+
+    @Override
+    public boolean isDocExist(String key) {
+        return couchBaseTemplate.exists(key);
+    }
+
 
 }

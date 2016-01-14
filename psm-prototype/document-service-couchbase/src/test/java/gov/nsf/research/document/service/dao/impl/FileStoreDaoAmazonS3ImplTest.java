@@ -2,7 +2,13 @@ package gov.nsf.research.document.service.dao.impl;
 
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import org.junit.Test;
@@ -57,7 +63,27 @@ public class FileStoreDaoAmazonS3ImplTest {
 	@Test
 	public void testDownloadFile(){
 		System.out.println("DocumentServiceApplicationTests.testDownloadFile() Downloading File Content :");
-		fileStoreDao.downloadFile("C:\\TestUploads\\Upload.txt");
+        ByteArrayOutputStream out = (ByteArrayOutputStream)fileStoreDao.downloadFile("mongo-sample.pdf");
+        
+        File file = new File("C://Apps//test.pdf");
+        
+        try {
+			OutputStream fileOut = new FileOutputStream(file);
+			out.writeTo(fileOut);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        System.out.println("=======Print the content======== ");
+
+        byte b [] = out.toByteArray();
+        for(int x= 0 ; x < b.length; x++) {
+            //printing the characters
+            System.out.print((char)b[x]); 
+        }
+        System.out.println(" \n=========content END================== ");
+
 		
 	}
 	

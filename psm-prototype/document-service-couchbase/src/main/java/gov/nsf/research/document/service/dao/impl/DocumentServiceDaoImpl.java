@@ -22,15 +22,12 @@ public class DocumentServiceDaoImpl implements DocumentServiceDao {
 	
 	@Override
 	public DocumentMetaData saveDocument(InputStream inputStream, String tempPropId, SectionType sectionType) {
-		
-		/**
-		 * Pseudo-code:
-		 * - create metadata object	
-		 * - call docmetadao - save
-		 * - call S3 uploadfile
-		 * - send back document metadata
-		 */
+
 		DocumentMetaData docMetaData = null;
+		
+        if(isDocumentExists(tempPropId, sectionType, 0)){
+            deleteDocument(tempPropId, sectionType, 0);
+        }
 		
 		try {
 			docMetaData = DocServiceUtility.assembleMetaData(inputStream, tempPropId, sectionType);
@@ -46,9 +43,8 @@ public class DocumentServiceDaoImpl implements DocumentServiceDao {
 
 	@Override
 	public ByteArrayOutputStream viewDocument(String tempPropId, SectionType sectionType, int seqNum) {
-		//TODO: fileStoreDao need to return ByteArrayOutputStream
-		//fileStoreDao.downloadFile(DocServiceUtility.getFileName(tempPropId, sectionType));
-		return null;
+		ByteArrayOutputStream file = (ByteArrayOutputStream)fileStoreDao.downloadFile(DocServiceUtility.getFileName(tempPropId, sectionType));
+		return file;
 	}
 
 	@Override
@@ -58,8 +54,11 @@ public class DocumentServiceDaoImpl implements DocumentServiceDao {
 	
 	@Override
 	public boolean isDocumentExists(String tempPropId, SectionType sectionType, int seqNum) {
-		//TODO: Where is the check on metaDataServiceDao?
-		return fileStoreDao.checkFileExist(DocServiceUtility.getFileName(tempPropId, sectionType));
+        boolean metaExist = metadataServiceDao.isDocExist(DocServiceUtility.getKey(tempPropId, sectionType));
+        boolean fileExist = fileStoreDao.checkFileExist(DocServiceUtility.getFileName(tempPropId, sectionType));
+        
+        return (metaExist && fileExist);
+
 	}
 
 	@Override
