@@ -15,8 +15,8 @@ export default function() {
     };
   });
 
-  this.get('/proposals/:proposal_id', function(db, request) {
-  // this.get('/proposal/:proposal_id', function(db, request) {
+  // this.get('/proposals/:proposal_id', function(db, request) {
+  this.get('/proposal/:proposal_id/metadata', function(db, request) {
     let proposalId = +request.params.proposal_id;
     return {
       proposal: db.proposals.find(proposalId)
@@ -25,18 +25,27 @@ export default function() {
 
   this.del('delete/proposal/:proposal_id');
 
+  /*Project Description*/
+  this.get('/proposal/:proposal_id/projdesc/metadata', function(db, request) {
+    let proposal_Id = +request.params.proposal_id;
+    return {
+      'project-description': db.projectdescriptions.where({tempPropId: proposal_Id})
+    };
+  });
+
+
   /*Cover Sheet*/
 
   this.get('/proposal/:proposal_id/cover-sheet', function(db, request) {
     let proposal_Id = +request.params.proposal_id;
     return {
-      'proposal/cover-sheet': db.coversheets.where({proposalId: proposal_Id})
+      'cover-sheet': db.coversheets.where({tempPropId: proposal_Id})
     };
   });
 
-  this.post('/proposal/:proposal_id/cover-sheet', 'proposal/cover-sheet');
+  this.post('/proposal/:proposal_id/cover-sheet', 'cover-sheet');
 
-  this.del('/proposal/:proposal_id/cover-sheet', 'proposal/cover-sheet');
+  this.del('/proposal/:proposal_id/cover-sheet', 'cover-sheet');
 
   /*
     Route shorthand cheatsheet

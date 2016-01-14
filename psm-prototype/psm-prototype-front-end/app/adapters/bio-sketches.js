@@ -1,6 +1,7 @@
-// import DS from 'ember-data';
+// import ApplicationAdapter from './application';
 //
-// export default DS.RESTAdapter.extend( {
+// export default ApplicationAdapter.extend({
+// 
 //   namespace: 'docService',
 //
 //   buildURL: function (modelName, id, snapshot, requestType, query) {

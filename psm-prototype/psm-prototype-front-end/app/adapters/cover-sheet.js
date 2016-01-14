@@ -1,8 +1,8 @@
-import DS from 'ember-data';
+import ApplicationAdapter from './application';
 
-export default DS.RESTAdapter.extend( {
-  namespace: 'docService',
+export default ApplicationAdapter.extend({
 
+  //every object for themselves!
   buildURL: function (modelName, id, snapshot, requestType, query) {
     let url = this._super();
     switch (requestType) {
@@ -11,7 +11,7 @@ export default DS.RESTAdapter.extend( {
       case 'createRecord':
       case 'findRecord':
       case 'updateRecord':
-        url += '/proposal/'+id+'/dmp';
+        url += '/proposal/'+id+'/cover-sheet/metadata';
         return url;
     }
   }

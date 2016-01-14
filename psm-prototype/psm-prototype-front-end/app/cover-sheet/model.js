@@ -3,10 +3,10 @@
 */
 import DS from 'ember-data';
 
-export default DS.Model.extend({
+import DocumentMetaData from '../document-meta-data/model';
 
-  proposalId: DS.attr('string'),
-  temporaryProposalId: DS.attr('string'),
+export default DocumentMetaData.extend({
+  
   proposalTitle: DS.attr('string'),
   proposalStatus: DS.attr('string'),
   submissionDate: DS.attr('date'), //submitTimeStamp: DS.attr(''),
