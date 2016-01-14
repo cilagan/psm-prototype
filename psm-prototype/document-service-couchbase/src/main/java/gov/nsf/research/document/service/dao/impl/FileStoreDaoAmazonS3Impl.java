@@ -112,7 +112,7 @@ public class FileStoreDaoAmazonS3Impl implements FileStoreDao {
 		OutputStream output = null;
 
 		try {
-            System.out.println("Downloading an object fileName : "+fileName);
+            System.out.println("Downloading an object fileName : "+ fileName);
             S3Object object = amazonS3.getObject(new GetObjectRequest(BUCKET_NAME,fileName));
 			System.out.println("Content-Type: " + object.getObjectMetadata().getContentType());
             
