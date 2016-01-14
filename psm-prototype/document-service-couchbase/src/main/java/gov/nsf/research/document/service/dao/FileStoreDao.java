@@ -2,6 +2,7 @@ package gov.nsf.research.document.service.dao;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 public interface FileStoreDao {
 	
@@ -37,4 +38,7 @@ public interface FileStoreDao {
 	 * @return
 	 */
 	public OutputStream downloadFile(String fileName);
+	
+	
+	public List<String> getAllFileNames();
 }

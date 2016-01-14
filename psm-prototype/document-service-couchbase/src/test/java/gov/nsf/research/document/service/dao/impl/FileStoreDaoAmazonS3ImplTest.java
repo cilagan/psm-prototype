@@ -125,4 +125,11 @@ public class FileStoreDaoAmazonS3ImplTest {
 //		conn.putObject("psm-data-store", "hello.txt", input, new ObjectMetadata());
 	}
 	
+	@Test
+	public void testGetAllFileNames(){
+		List<String> fileNameList = fileStoreDao.getAllFileNames();
+		for(String fileName : fileNameList){
+			System.out.println("FileName: "+ fileName);
+		}
+	}
 }

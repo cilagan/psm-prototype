@@ -3,6 +3,8 @@ package gov.nsf.research.document.service.dao.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.pdfbox.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +75,6 @@ public class FileStoreDaoAmazonS3Impl implements FileStoreDao {
 		
 		amazonS3.putObject(new PutObjectRequest(BUCKET_NAME, fileName,
 				inputStream, new ObjectMetadata()));
-
 		return true;
 	}
 
@@ -141,5 +142,30 @@ public class FileStoreDaoAmazonS3Impl implements FileStoreDao {
 			e.printStackTrace();
 		}
 		return output;
+	}
+
+	@Override
+	public List<String> getAllFileNames() {
+		List<String> fileNameList = new ArrayList<String>();
+		ListObjectsRequest listObjectsRequest = new ListObjectsRequest().withBucketName(BUCKET_NAME);
+		ObjectListing objectListing;
+		
+		do {
+			objectListing = amazonS3.listObjects(listObjectsRequest);
+			
+			for (S3ObjectSummary objectSummary : 
+				
+				objectListing.getObjectSummaries()) {
+				
+				System.out.println( " - " + objectSummary.getKey() + "  " +
+		                "(size = " + objectSummary.getSize() + 
+						")");
+				fileNameList.add(objectSummary.getKey());
+			
+			}
+			listObjectsRequest.setMarker(objectListing.getNextMarker());
+		} while (objectListing.isTruncated());
+		
+		return fileNameList;
 	}
 }
