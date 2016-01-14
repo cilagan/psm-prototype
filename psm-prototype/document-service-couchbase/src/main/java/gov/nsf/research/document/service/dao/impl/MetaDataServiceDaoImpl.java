@@ -4,6 +4,11 @@ import java.util.List;
 
 import org.springframework.data.couchbase.core.CouchbaseTemplate;
 
+import com.couchbase.client.CouchbaseClient;
+import com.couchbase.client.java.query.SimpleN1qlQuery;
+import com.couchbase.client.protocol.views.Query;
+import com.couchbase.client.protocol.views.View;
+
 import gov.nsf.research.document.service.dao.MetaDataServiceDao;
 import gov.nsf.research.document.service.model.DocumentMetaData;
 
@@ -47,8 +52,17 @@ public class MetaDataServiceDaoImpl implements MetaDataServiceDao {
     @Override
     public List<DocumentMetaData> getAllDocs() {
         // TODO Auto-generated method stub
-        
-                return null;
+    	CouchbaseClient client =  couchBaseTemplate.getCouchbaseClient();
+    	SimpleN1qlQuery query = SimpleN1qlQuery.simple("SELECT * FROM default");  	
+//    	View view = client.getView("_design/view_all", "view_all");
+    	Query query1 = new Query();
+    	List<DocumentMetaData> docMetaList = couchBaseTemplate.findByView("_design/view_all", "view_all", new Query(), DocumentMetaData.class);
+    	
+    	for(DocumentMetaData dmd : docMetaList){
+    		System.out.println(dmd.toString());
+    	}
+    	
+        return null;
     }
 
 

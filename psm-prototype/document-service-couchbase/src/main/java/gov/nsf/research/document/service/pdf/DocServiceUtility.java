@@ -1,6 +1,9 @@
 package gov.nsf.research.document.service.pdf;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 import org.joda.time.LocalDate;
 
@@ -32,4 +35,23 @@ public class DocServiceUtility {
 		return tempPropId + "-" + sectionType + ".pdf";
 	}
 	
+	public static List<DocumentMetaData>extractDocMetaDataFromFileName(List<String> fileList){
+		List<DocumentMetaData> docMetaDataList = new ArrayList<DocumentMetaData>();
+		
+		for(String fileName : fileList){
+			DocumentMetaData docMetaData = new DocumentMetaData();
+			StringTokenizer st = new StringTokenizer(fileName, "-");
+			String tempPropId = (String)st.nextElement();
+			String restOfFileName = (String)st.nextElement();
+			docMetaData.setTempPropId(tempPropId);
+			StringTokenizer st2 = new StringTokenizer(restOfFileName, ".");
+			String sectionType = (String)st2.nextElement();
+			System.out.println(sectionType);
+			docMetaData.setSectionType(SectionType.getSectionType(sectionType));
+			System.out.println(docMetaData.toString());
+			docMetaDataList.add(docMetaData);
+		}
+		
+		return docMetaDataList;
+	}
 }

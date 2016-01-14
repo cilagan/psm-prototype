@@ -78,7 +78,7 @@ public class MetaDataServiceDaoImplTest {
         System.out.println("testIsDocExist: "+test);
     }
     
-    //@Test
+    @Test
     public void testgetAllDocs() {
         metaDataServiceDao.getAllDocs();
     }

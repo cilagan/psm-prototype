@@ -26,6 +26,7 @@ import com.amazonaws.util.StringUtils;
 
 import gov.nsf.research.document.service.DocumentServiceApplication;
 import gov.nsf.research.document.service.dao.FileStoreDao;
+import gov.nsf.research.document.service.pdf.DocServiceUtility;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DocumentServiceApplication.class)
@@ -131,5 +132,7 @@ public class FileStoreDaoAmazonS3ImplTest {
 		for(String fileName : fileNameList){
 			System.out.println("FileName: "+ fileName);
 		}
+		
+		DocServiceUtility.extractDocMetaDataFromFileName(fileNameList);
 	}
 }

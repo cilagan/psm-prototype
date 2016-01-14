@@ -11,28 +11,31 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import gov.nsf.research.document.service.dao.DocumentServiceDao;
+import gov.nsf.research.document.service.dao.FileStoreDao;
 import gov.nsf.research.document.service.model.Document;
+import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
+import gov.nsf.research.document.service.pdf.DocServiceUtility;
 
 @Controller
 public class FormController {
 
 	@Autowired
-	DocumentServiceDao docServiceDao;
+	FileStoreDao fileStoreDao;
 	
 	public final String PD_KEY = "-pd";
 	public final String DMP_KEY = "-dmp";
 	
 	@RequestMapping(path="/upload" )
 	public String displayUploadForm(Model model){
-		List<Document> pdList = new ArrayList<Document>();
-		List<Document> dmpList = new ArrayList<Document>();
+		List<DocumentMetaData> pdList = new ArrayList<DocumentMetaData>();
+		List<DocumentMetaData> dmpList = new ArrayList<DocumentMetaData>();
 		List<String> propList = new ArrayList<String>();
-		Map<String, Document> propMap = new HashMap<String, Document>();
+		Map<String, DocumentMetaData> propMap = new HashMap<String, DocumentMetaData>();
 		
-		List<Document> tempList = new ArrayList<Document>();//docServiceDao.viewAllFilesFromDB();
+		List<DocumentMetaData> tempList = DocServiceUtility.extractDocMetaDataFromFileName(fileStoreDao.getAllFileNames());
 		
-		for(Document doc : tempList){
+		for(DocumentMetaData doc : tempList){
 			if(SectionType.PROJECT_DESCRIPTION.equals(doc.getSectionType())){
 				pdList.add(doc);
 				propMap.put(doc.getTempPropId() + PD_KEY, doc);
