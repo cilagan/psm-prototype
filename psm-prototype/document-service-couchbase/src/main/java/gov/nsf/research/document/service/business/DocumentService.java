@@ -12,5 +12,6 @@ public interface DocumentService {
 	public ByteArrayOutputStream getPropSection(String tempPropId, SectionType sectionType);
 	public ByteArrayOutputStream getEntirePropSection(String tempPropId);
 	public void deletePropSection(String tempPropId, SectionType sectionType);
+	public DocumentMetaData getSectionMetaData(String tempPropId, SectionType sectionType);
 	
 }

@@ -8,14 +8,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import gov.nsf.research.document.service.dao.DocumentServiceDao;
+import gov.nsf.research.document.service.dao.MetaDataServiceDao;
 import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
+import gov.nsf.research.document.service.pdf.DocServiceUtility;
 import gov.nsf.research.document.service.pdf.PDFUtility;
 
 public class DocumentServiceImpl implements DocumentService {
 
 	@Autowired
 	DocumentServiceDao docServiceDao;
+	
+	@Autowired
+	MetaDataServiceDao metadataServiceDao;
 	
 	
 	@Override
@@ -44,4 +49,11 @@ public class DocumentServiceImpl implements DocumentService {
 	public void deletePropSection(String tempPropId, SectionType sectionType) {
 		docServiceDao.deleteDocument(tempPropId, sectionType, 0);
 	}
+
+	@Override
+	public DocumentMetaData getSectionMetaData(String tempPropId, SectionType sectionType) {
+		return metadataServiceDao.viewDocumentMetaData(DocServiceUtility.getKey(tempPropId, sectionType));
+	}
+	
+	
 }

@@ -10,9 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import gov.nsf.research.document.service.dao.DocumentServiceDao;
 import gov.nsf.research.document.service.dao.FileStoreDao;
-import gov.nsf.research.document.service.model.Document;
 import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
 import gov.nsf.research.document.service.pdf.DocServiceUtility;

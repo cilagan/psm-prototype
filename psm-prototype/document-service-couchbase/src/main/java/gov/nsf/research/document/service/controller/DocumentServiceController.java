@@ -163,18 +163,18 @@ public class DocumentServiceController {
 	
 	@RequestMapping(path="/proposal/{tempPropId}/projdesc/metadata", method = RequestMethod.GET)
 	public DocumentMetaData getProjDescMetaData(@PathVariable String tempPropId){
-		DocumentMetaData dmd = getMockDMD();
-		dmd.setId("1234567-PROJECT_DESCRIPTION");
-		dmd.setFileName("1234567-PROJECT_DESCRIPTION.pdf");
-		dmd.setSectionType(SectionType.PROJECT_DESCRIPTION);
-		return dmd;
+		return docService.getSectionMetaData(tempPropId, SectionType.PROJECT_DESCRIPTION);
 	}
 	
 	@RequestMapping(path="/proposal/{tempPropId}/dmp/metadata", method = RequestMethod.GET)
 	public DocumentMetaData getDMPMetaData(@PathVariable String tempPropId){
-		return getMockDMD();	
+		return docService.getSectionMetaData(tempPropId, SectionType.DATA_MANAGEMENT_PLAN);	
 	}
-	
+	@RequestMapping(path="/proposal/{tempPropId}/metadata", method = RequestMethod.GET)
+	public Proposal getProposalMetaData(){
+		Proposal proposal = new Proposal();
+		return null;
+	}
 	private DocumentMetaData getMockDMD(){
 		DocumentMetaData dmd = new DocumentMetaData();
 		dmd.setContent("This is a test content");
