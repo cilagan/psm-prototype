@@ -5,15 +5,33 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     // Add options here
+    sassOptions: {
+      includePaths: [
+          'bower_components/bootstrap-sass/assets/stylesheets'
+        ],
+      extension: 'sass'
+    }
   });
 
-  //Script
+  /*Scripts*/
   app.import('bower_components/jquery/dist/jquery.min.js');
-  app.import('bower_components/bootstrap/dist/js/bootstrap.min.js');
-  app.import('bower_components/bootstrap-fileinput/js/fileinput.min.js');
+  app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js');
+
+  /*Styles*/
+
+  //Need bower packages bootstrap-fileinput
+
+  //Script
+  // app.import('bower_components/bootstrap/dist/js/bootstrap.min.js');
+  // app.import('bower_components/bootstrap-fileinput/js/fileinput.min.js');
 
   //Style
-  app.import('bower_components/bootstrap-fileinput/css/fileinput.min.css');
+  // app.import('bower_components/bootstrap-fileinput/css/fileinput.min.css');
+
+
+
+
+
 
   // Use `app.import` to add additional libraries to the generated
   // output files.

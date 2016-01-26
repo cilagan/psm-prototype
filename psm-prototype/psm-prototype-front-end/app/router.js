@@ -12,10 +12,9 @@ Router.map(function() {
   this.route('proposal', {path: '/proposal/:proposal_id'});
 
   // this.route('proposal', {path: '/proposal/:proposal_id'}, function() {
-    // this.route('new');
-
-    // this.route('bio-sketch');
-    // this.route('bio-sketch', {resetNamespace: true});
+  //
+  //   this.route('bio-sketch');
+  //   this.route('bio-sketch', {resetNamespace: true});
   // });
 
   this.route('cover-sheet', {path: '/proposal/:proposal_id/cover-sheet'});
