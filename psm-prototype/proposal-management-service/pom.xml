@@ -83,6 +83,12 @@
 			<artifactId>spring-restdocs-mockmvc</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- PSM Specific  -->		
+		<dependency>
+			<groupId>gov.nsf.research.psm</groupId>
+			<artifactId>psm-foundation</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>	
 	</dependencies>
 	
 	<build>

@@ -1,7 +1,8 @@
 package gov.nsf.research.psm.model;
 
-public class Organization {
+public class Organization extends AbstractTransferObject {
 
+	private static final long serialVersionUID = -2436269935921344387L;
 	
 	private String orgName;
 	private String strAddress;

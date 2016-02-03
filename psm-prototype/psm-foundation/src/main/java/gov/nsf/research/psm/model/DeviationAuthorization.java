@@ -2,6 +2,8 @@ package gov.nsf.research.psm.model;
 
 public class DeviationAuthorization extends Section  {
 	
+	private static final long serialVersionUID = -6235771760907505158L;
+	
 	private String devAuthTxt;
 
 	/**

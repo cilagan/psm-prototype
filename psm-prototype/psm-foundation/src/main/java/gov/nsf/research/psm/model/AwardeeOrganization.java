@@ -1,6 +1,9 @@
 package gov.nsf.research.psm.model;
 
 public class AwardeeOrganization extends Organization {
+
+	private static final long serialVersionUID = 3091754513867569340L;
+	
 	private String orgId;
 	private String dunsNumber;
 	private String tinEinNumber;

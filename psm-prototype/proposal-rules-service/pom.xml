@@ -69,6 +69,13 @@
 			<artifactId>spring-boot-starter-ws</artifactId>
 		</dependency>
 		
+		<!-- PSM Specific  -->		
+		<dependency>
+			<groupId>gov.nsf.research.psm</groupId>
+			<artifactId>psm-foundation</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>			
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

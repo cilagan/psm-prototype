@@ -2,8 +2,10 @@ package gov.nsf.research.psm.model;
 
 import java.util.Date;
 
-public  class Section {
+public  class Section extends AbstractTransferObject {
 
+	private static final long serialVersionUID = 1978126548723067249L;
+	
 	protected Date lastUpdateTimeStamp;
 
 	public Date getLastUpdateTimeStamp() {
