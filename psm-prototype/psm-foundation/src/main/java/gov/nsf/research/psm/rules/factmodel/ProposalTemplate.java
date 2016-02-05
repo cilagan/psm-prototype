@@ -4,7 +4,7 @@ import java.util.List;
 
 import gov.nsf.research.psm.model.AbstractTransferObject;
 
-public class ProposalSetup extends AbstractTransferObject {
+public class ProposalTemplate extends AbstractTransferObject {
 
 	private static final long serialVersionUID = 2380267759396429644L;
 	
