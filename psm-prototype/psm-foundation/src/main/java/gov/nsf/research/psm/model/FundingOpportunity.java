@@ -1,6 +1,7 @@
 package gov.nsf.research.psm.model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Proposal Funding Opportunity
@@ -13,6 +14,45 @@ public class FundingOpportunity {
 	private String fundingOpportunityId;
 	private String fundingOpportunityType;
 	private Date fundingOpportunityDeadline;
+	private String fundingOpportunityTitle;
+	private List<Directorate> directorateList;
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getFundingOpportunityTitle() {
+		return fundingOpportunityTitle;
+	}
+	/**
+	 * 
+	 * @param fundingOpportunityTitle
+	 */
+	
+	/**
+	 * 
+	 * @param fundingOpportunityTitle
+	 */
+	public void setFundingOpportunityTitle(String fundingOpportunityTitle) {
+		this.fundingOpportunityTitle = fundingOpportunityTitle;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Directorate> getDirectorateList() {
+		return directorateList;
+	}
+	/**
+	 * 
+	 * @param directorateList
+	 */
+	public void setDirectorateList(List<Directorate> directorateList) {
+		this.directorateList = directorateList;
+	}
+
+	
 	
 	/**
 	 * @return the fundingOpportunityId
@@ -62,6 +102,8 @@ public class FundingOpportunity {
 				+ fundingOpportunityDeadline + "]";
 	}
 	
+	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
