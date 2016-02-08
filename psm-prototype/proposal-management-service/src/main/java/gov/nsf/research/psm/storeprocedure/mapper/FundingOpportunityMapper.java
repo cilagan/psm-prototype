@@ -1,9 +1,12 @@
 package gov.nsf.research.psm.storeprocedure.mapper;
 
+import gov.nsf.research.psm.model.FundingOpportunity;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import gov.nsf.research.psm.model.FundingOpportunity;
+
+
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -22,8 +25,8 @@ public class FundingOpportunityMapper implements RowMapper<FundingOpportunity>{
 		if (rs.getString("pgmAnncID") != null) {
 			fundingOpportunity = new FundingOpportunity();
 
-			fundingOpportunity.setPgmAnncID((rs.getString("pgmAnncID")));// pgmAnncID
-			fundingOpportunity.setPgmAnncTitle((rs.getString("pgmAnncTitle")));// pgmAnncTitle
+			fundingOpportunity.setFundingOpportunityId((rs.getString("pgmAnncID")));// pgmAnncID
+			fundingOpportunity.setFundingOpportunityTitle((rs.getString("pgmAnncTitle")));// pgmAnncTitle
 
 		} else {
 			fundingOpportunity = null;
