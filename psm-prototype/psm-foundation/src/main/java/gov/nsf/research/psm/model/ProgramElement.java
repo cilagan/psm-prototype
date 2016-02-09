@@ -39,6 +39,11 @@ public class ProgramElement {
 		this.programElementDesc = programElementDesc;
 	}
 
+	public String toString() {
+		return "ProgramElement [programElementCode="
+				+ programElementCode + ", programElementDesc="
+				+ programElementDesc  + "]";
+	}
 	
 
 }

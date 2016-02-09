@@ -1,5 +1,7 @@
 package gov.nsf.research.psm.model;
 
+import java.util.List;
+
 /**
  * Division
  * 
@@ -9,11 +11,18 @@ package gov.nsf.research.psm.model;
 
 public class Division {
 
-	private String pgmAnncID;
-	
 	private String divisionCode;
-	
 	private String divisionDesc;
+
+	private List<ProgramElement> ProgramElementList;
+
+	public List<ProgramElement> getProgramElementList() {
+		return ProgramElementList;
+	}
+
+	public void setProgramElementList(List<ProgramElement> programElementList) {
+		ProgramElementList = programElementList;
+	}
 
 	public String getDivisionDesc() {
 		return divisionDesc;
@@ -23,14 +32,6 @@ public class Division {
 		this.divisionDesc = divisionDesc;
 	}
 
-	public String getPgmAnncID() {
-		return pgmAnncID;
-	}
-
-	public void setPgmAnncID(String pgmAnncID) {
-		this.pgmAnncID = pgmAnncID;
-	}
-
 	public String getDivisionCode() {
 		return divisionCode;
 	}
@@ -38,6 +39,12 @@ public class Division {
 	public void setDivisionCode(String divisionCode) {
 		this.divisionCode = divisionCode;
 	}
-
+	
+	public String toString() {
+		return "Division [divisionCode="
+				+ divisionCode + ", divisionDesc="
+				+ divisionDesc + ", ProgramElementList="
+				+ ProgramElementList.toString() + "]";
+	}
 
 }

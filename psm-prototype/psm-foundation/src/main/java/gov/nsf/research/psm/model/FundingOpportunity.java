@@ -97,9 +97,9 @@ public class FundingOpportunity {
 	@Override
 	public String toString() {
 		return "FundingOpportunity [fundingOpportunityId="
-				+ fundingOpportunityId + ", fundingOpportunityType="
-				+ fundingOpportunityType + ", fundingOpportunityDeadline="
-				+ fundingOpportunityDeadline + "]";
+				+ fundingOpportunityId + ", fundingOpportunityTitle="
+				+ fundingOpportunityTitle + ", directorateList="
+				+ directorateList.toString() + "]";
 	}
 	
 	
