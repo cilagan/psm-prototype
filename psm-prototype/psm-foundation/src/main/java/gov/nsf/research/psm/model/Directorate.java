@@ -47,7 +47,7 @@ public class Directorate {
 	 */
 	public String toString() {
 		return "Directorate [directorateID="
-				+ directorateID + ", directorateID="
+				+ directorateID + ", directorateDesc="
 				+ directorateDesc + "]";
 	}
 	
