@@ -1,7 +1,4 @@
-/**
- * 
- */
-package gov.nsf.research.psm.dao;
+package gov.nsf.research.psm.service;
 
 import java.util.List;
 
@@ -10,11 +7,8 @@ import gov.nsf.research.psm.model.Division;
 import gov.nsf.research.psm.model.FundingOpportunity;
 import gov.nsf.research.psm.model.ProgramElement;
 
-/**
- * @author spendyal
- *
- */
-public interface ProposalDao {
+
+public interface ProposalManagementService {
 
 	/**
 	 * 
@@ -43,5 +37,5 @@ public interface ProposalDao {
 	 */
 	public List<ProgramElement> getProgramElements(String pgmAnncID,
 			String divisionCode);
-
+	
 }
