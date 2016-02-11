@@ -37,7 +37,7 @@ public class ProposalRulesServiceImplTest {
 		PropWizAnswers pwa = new PropWizAnswers();
 		
 		FundingOpportunity fundingOpp = new FundingOpportunity();
-		fundingOpp.setFundingOpportunityId("NSF-12345");
+		fundingOpp.setFundingOpportunityId("BIO99");
 		fundingOpp.setFundingOpportunityType("Biology");
 		pwa.setFundingOpp(fundingOpp);
 		
@@ -66,5 +66,4 @@ public class ProposalRulesServiceImplTest {
 		}
 		
 	}
-	
 }
