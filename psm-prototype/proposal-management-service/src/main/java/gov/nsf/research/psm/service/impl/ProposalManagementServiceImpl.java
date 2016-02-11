@@ -29,6 +29,8 @@ public class ProposalManagementServiceImpl implements ProposalManagementService 
 
 	@Override
 	public List<Directorate> getAllDirectorates() {
+		System.out
+				.println("ProposalManagementServiceImpl.getAllDirectorates()");
 		return proposalDao.getAllDirectorates();
 	}
 

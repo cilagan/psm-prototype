@@ -78,6 +78,7 @@ public class ProposalDaoImpl implements ProposalDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Directorate> getAllDirectorates() {
+		System.out.println("ProposalDaoImpl.getAllDirectorates()");
 		SPGetAllDirectorates sPGetAllDirectorates = new SPGetAllDirectorates(
 				psmFLJdbcTemplate.getDataSource(),
 				SPGetAllDirectorates.STORED_PROC_GET_ALL_DIRECTORATES);
