@@ -6,6 +6,8 @@ import gov.nsf.research.psm.model.Directorate;
 import gov.nsf.research.psm.model.Division;
 import gov.nsf.research.psm.model.FundingOpportunity;
 import gov.nsf.research.psm.model.ProgramElement;
+import gov.nsf.research.psm.model.Proposal;
+import gov.nsf.research.psm.rules.factmodel.PropWizAnswers;
 
 
 public interface ProposalManagementService {
@@ -38,4 +40,7 @@ public interface ProposalManagementService {
 	public List<ProgramElement> getProgramElements(String pgmAnncID,
 			String divisionCode);
 	
+	
+	public Proposal createProposal(PropWizAnswers propWizAnswers);
+
 }

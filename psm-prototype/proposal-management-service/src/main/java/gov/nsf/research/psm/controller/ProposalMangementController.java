@@ -6,8 +6,7 @@ import gov.nsf.research.psm.model.Directorate;
 import gov.nsf.research.psm.model.Division;
 import gov.nsf.research.psm.model.FundingOpportunity;
 import gov.nsf.research.psm.model.ProgramElement;
-
-
+import gov.nsf.research.psm.model.Proposal;
 import gov.nsf.research.psm.service.ProposalManagementService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +49,11 @@ public class ProposalMangementController {
 			@PathVariable String divisions_id) {
 		return proposalManagementService.getProgramElements(funding_op_id,
 				divisions_id);
+	}
+	
+	
+	public Proposal createProposal(){
+		return null;
 	}
 
 }

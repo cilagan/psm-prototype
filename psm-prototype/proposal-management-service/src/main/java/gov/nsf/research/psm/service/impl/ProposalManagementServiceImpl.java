@@ -9,13 +9,25 @@ import gov.nsf.research.psm.model.Directorate;
 import gov.nsf.research.psm.model.Division;
 import gov.nsf.research.psm.model.FundingOpportunity;
 import gov.nsf.research.psm.model.ProgramElement;
+import gov.nsf.research.psm.model.Proposal;
+import gov.nsf.research.psm.model.wrapper.PropTemplateResponse;
+import gov.nsf.research.psm.rules.factmodel.PropWizAnswers;
+import gov.nsf.research.psm.rules.factmodel.ProposalTemplate;
+import gov.nsf.research.psm.service.ProposalBuilder;
 import gov.nsf.research.psm.service.ProposalManagementService;
+import gov.nsf.research.psm.service.ProposalRulesClient;
 
 public class ProposalManagementServiceImpl implements ProposalManagementService {
 	
-	@Autowired
+//	@Autowired
 	ProposalDao proposalDao;
 
+	@Autowired
+	ProposalRulesClient propRulesClient;
+	
+	@Autowired
+	ProposalBuilder propBuilder;
+	
 	@Override
 	public List<FundingOpportunity> getAllFundingOpportunities() {
 		
@@ -38,6 +50,15 @@ public class ProposalManagementServiceImpl implements ProposalManagementService 
 	public List<ProgramElement> getProgramElements(String pgmAnncID,
 			String divisionCode) {
 		return proposalDao.getProgramElements(pgmAnncID, divisionCode);
+	}
+
+	@Override
+	public Proposal createProposal(PropWizAnswers propWizAnswers) {
+		PropTemplateResponse propTempResp = propRulesClient.getTemplate(propWizAnswers.getFundingOpp().getFundingOpportunityId());
+		ProposalTemplate propTemplate = propTempResp.getPropTemplate();
+		
+		Proposal proposal = propBuilder.buildProposal(propTemplate);
+		return proposal;
 	}
 
 }
