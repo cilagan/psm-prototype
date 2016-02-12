@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping(path = "/docService")
 public class ProposalMangementController {
 
+	@Autowired
 	ProposalManagementService proposalManagementService;
 
 
