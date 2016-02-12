@@ -33,8 +33,7 @@ public class ProposalRulesController {
 		
 		request.setPropWizAnswers(pwa);
 		System.out.println(request.toString());
-		
-		
+
 		return new ResponseEntity<PropTemplateResponse>(propRulesService.getProposalTemplate(request), HttpStatus.OK);
 	}
 }

@@ -3,6 +3,7 @@ package gov.nsf.research.psm.dao.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import gov.nsf.research.psm.dao.ProposalDao;
@@ -18,16 +19,16 @@ import gov.nsf.research.psm.storeprocedure.SPGetProgramElement;
 
 public class ProposalDaoImpl implements ProposalDao {
 
-	/** The PSM Jdbc Template */
+	@Autowired
 	private JdbcTemplate psmFLJdbcTemplate;
 
-	public JdbcTemplate getPsmFLJdbcTemplate() {
-		return psmFLJdbcTemplate;
-	}
-
-	public void setPsmFLJdbcTemplate(JdbcTemplate psmFLJdbcTemplate) {
-		this.psmFLJdbcTemplate = psmFLJdbcTemplate;
-	}
+//	public JdbcTemplate getPsmFLJdbcTemplate() {
+//		return psmFLJdbcTemplate;
+//	}
+//
+//	public void setPsmFLJdbcTemplate(JdbcTemplate psmFLJdbcTemplate) {
+//		this.psmFLJdbcTemplate = psmFLJdbcTemplate;
+//	}
 
 	@SuppressWarnings("unchecked")
 	@Override

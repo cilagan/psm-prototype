@@ -19,7 +19,7 @@ import gov.nsf.research.psm.service.ProposalRulesClient;
 
 public class ProposalManagementServiceImpl implements ProposalManagementService {
 	
-//	@Autowired
+	@Autowired
 	ProposalDao proposalDao;
 
 	@Autowired

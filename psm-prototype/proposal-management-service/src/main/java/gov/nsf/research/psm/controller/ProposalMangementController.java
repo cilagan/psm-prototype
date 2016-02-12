@@ -7,6 +7,7 @@ import gov.nsf.research.psm.model.Division;
 import gov.nsf.research.psm.model.FundingOpportunity;
 import gov.nsf.research.psm.model.ProgramElement;
 import gov.nsf.research.psm.model.Proposal;
+import gov.nsf.research.psm.rules.factmodel.PropWizAnswers;
 import gov.nsf.research.psm.service.ProposalManagementService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping(path = "/docService")
+@RequestMapping(path = "/propmgt")
 public class ProposalMangementController {
 
 	@Autowired
@@ -51,9 +52,17 @@ public class ProposalMangementController {
 				divisions_id);
 	}
 	
-	
-	public Proposal createProposal(){
-		return null;
+	@RequestMapping(value = "/new/proposal/{fundingOppId}", method = RequestMethod.GET)
+	public Proposal createProposal(@PathVariable String fundingOppId){
+		PropWizAnswers propWizAnswers = new PropWizAnswers();
+		FundingOpportunity fundOpp = new FundingOpportunity();
+		fundOpp.setFundingOpportunityId(fundingOppId);
+		
+		propWizAnswers.setFundingOpp(fundOpp);
+		
+		Proposal proposal = proposalManagementService.createProposal(propWizAnswers);
+		
+		return proposal;
 	}
 
 }

@@ -50,9 +50,9 @@ public class ProposalRulesServiceImpl implements ProposalRulesService {
 		
 		/**
 		 * Rules:
-		 * 1. GPG99 - add standard
-		 * 2. BIO99 - add standard + proposal classification
-		 * 3. DUE99 - add standard + proposal data form
+		 * 1. GPG99 - add standard = pgm_ele =>
+		 * 2. BIO99 - add standard + proposal classification => div_id = 08
+		 * 3. DUE99 - add standard + proposal data form = prog_ele => 1746;7429;7428;7427;1536;7412;7444;7348;1668;7426;7431;1796;1795;7494;7493;7492;7695;7511;7512;7513;7514;1133;19
 		 * 4. 
 		 * 5. 
 		 */
@@ -67,6 +67,7 @@ public class ProposalRulesServiceImpl implements ProposalRulesService {
 			propTemplate.setSectionList(addStandardSections());
 			propTemplate.getSectionList().add(ProposalSection.PROPOSAL_DATA_FORM);
 		} else {
+			//GPG
 			propTemplate.setSectionList(addStandardSections());
 		}
 		
