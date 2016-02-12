@@ -30,6 +30,7 @@ public class ProposalRulesServiceImpl implements ProposalRulesService {
 		 */
 		
 		ProposalFactModel pfc = new ProposalFactModel(request.getPropWizAnswers(), new ProposalTemplate());
+		System.out.println("Proposal Fact Moddel: " + pfc.toString());
 		List<ServiceNotification> snList = new ArrayList<ServiceNotification>();
 		
 		ProposalTemplate propTemplate = fireAllRules(pfc, snList);
@@ -46,6 +47,7 @@ public class ProposalRulesServiceImpl implements ProposalRulesService {
 		PropWizAnswers propWizAnswers = propFactModel.getPropWizAnswers();
 		ProposalTemplate propTemplate = new ProposalTemplate();
 		System.out.println(propWizAnswers);
+		
 		/**
 		 * Rules:
 		 * 1. GPG99 - add standard
