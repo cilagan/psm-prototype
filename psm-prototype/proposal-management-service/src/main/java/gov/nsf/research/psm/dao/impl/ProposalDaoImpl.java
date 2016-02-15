@@ -12,10 +12,12 @@ import gov.nsf.research.psm.model.Division;
 import gov.nsf.research.psm.model.FundingOpportunity;
 import gov.nsf.research.psm.model.ProgramElement;
 import gov.nsf.research.psm.storeprocedure.SPGetAllDirectorates;
+import gov.nsf.research.psm.storeprocedure.SPGetAllDivisions;
 import gov.nsf.research.psm.storeprocedure.SPGetAllFundingOpportunities;
-import gov.nsf.research.psm.storeprocedure.SPGetDirectorates;
-import gov.nsf.research.psm.storeprocedure.SPGetDivisions;
-import gov.nsf.research.psm.storeprocedure.SPGetProgramElement;
+import gov.nsf.research.psm.storeprocedure.SPGetAllProgramElement;
+import gov.nsf.research.psm.storeprocedure.SPGetDirectoratesByFundID;
+import gov.nsf.research.psm.storeprocedure.SPGetDivisionsByFundID;
+import gov.nsf.research.psm.storeprocedure.SPGetProgramElementByDivID;
 
 public class ProposalDaoImpl implements ProposalDao {
 
@@ -44,38 +46,52 @@ public class ProposalDaoImpl implements ProposalDao {
 
 		for (FundingOpportunity fundingOpportunity : fundingOpportunityList) {
 
-			fundingOpportunity
-					.setDirectorateList(getDirectorates(fundingOpportunity
-							.getFundingOpportunityId()));
+			fundingOpportunity.setDirectorateList(getDirectorateByFundID(fundingOpportunity.getFundingOpportunityId()));
+			fundingOpportunity.setDivisionList(getDivisionsByFundingOpportunity(fundingOpportunity.getFundingOpportunityId()));
 
 		}
 
 		return fundingOpportunityList;
 	}
 
+	//DONE
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Division> getDivisions(String pgmAnncID) {
-		SPGetDivisions sPGetDivisions = new SPGetDivisions(
+	public List<Division> getAllDivisions() {
+		SPGetAllDivisions sPGetAllDivisions = new SPGetAllDivisions(
 				psmFLJdbcTemplate.getDataSource(),
-				SPGetDivisions.STORED_PROC_GET_DIVISIONS_LIST);
+				SPGetAllDivisions.STORED_PROC_GET_ALL_DIVISIONS_LIST);
 
-		Map<String, Object> result = sPGetDivisions.execute(pgmAnncID);
+		Map<String, Object> result = sPGetAllDivisions.execute();
 
 		List<Division> divisionsList = (List<Division>) result
-				.get(SPGetDivisions.RESULT_SET);
+				.get(SPGetAllDivisions.RESULT_SET);
 
 		//setting program element code list for each division
 		for (Division division : divisionsList) {
 
-			division.setProgramElementList(getProgramElements(pgmAnncID,
-					division.getDivisionCode()));
+			division.setProgramElementList(getProgramElementCode(division.getDivisionCode()));
 
 		}
 
 		return divisionsList;
 	}
 
+	
+
+	private List<Division> getDivisionsByFundingOpportunity(String pgmAnncID) {
+		SPGetDivisionsByFundID sPGetDivisions = new SPGetDivisionsByFundID(
+				psmFLJdbcTemplate.getDataSource(),
+				SPGetDivisionsByFundID.STORED_PROC_GET_DIVISIONS_LIST);
+
+		Map<String, Object> result = sPGetDivisions.execute(pgmAnncID);
+			
+		return (List<Division>) result
+				.get(SPGetDivisionsByFundID.RESULT_SET);
+	}
+
+	
+	//Done
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Directorate> getAllDirectorates() {
@@ -92,37 +108,49 @@ public class ProposalDaoImpl implements ProposalDao {
 		return directorateList;
 	}
 
+	//done
 	@SuppressWarnings("unchecked")
-	@Override
-	public List<ProgramElement> getProgramElements(String pgmAnncID,
-			String divisionCode) {
-		SPGetProgramElement sPGetProgramElement = new SPGetProgramElement(
+	private List<ProgramElement> getProgramElementCode(String divisionCode) {
+		SPGetProgramElementByDivID sPGetProgramElementByDivID = new SPGetProgramElementByDivID(
 				psmFLJdbcTemplate.getDataSource(),
-				SPGetProgramElement.STORED_PROC_GET_PROGRAMELEMENT_LIST);
+				SPGetProgramElementByDivID.STORED_PROC_GET_PROGRAMELEMENT_LIST_BY_DIV_CODE);
 
-		Map<String, Object> result = sPGetProgramElement.execute(pgmAnncID,
-				divisionCode);
+		Map<String, Object> result = sPGetProgramElementByDivID.execute(divisionCode);
 
 		List<ProgramElement> sPGetProgramElementList = (List<ProgramElement>) result
-				.get(SPGetProgramElement.RESULT_SET);
+				.get(SPGetProgramElementByDivID.RESULT_SET);
 
 		return sPGetProgramElementList;
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Directorate> getDirectorates(String pgmAnncID) {
+	private List<Directorate> getDirectorateByFundID(String pgmAnncID) {
 
-		SPGetDirectorates sPGetDirectorates = new SPGetDirectorates(
+		SPGetDirectoratesByFundID sPGetDirectorates = new SPGetDirectoratesByFundID(
 				psmFLJdbcTemplate.getDataSource(),
-				SPGetDirectorates.STORED_PROC_GET_DIRECTORATE_LIST);
+				SPGetDirectoratesByFundID.STORED_PROC_GET_DIRECTORATE_LIST_BY_FUND_ID);
 
 		Map<String, Object> result = sPGetDirectorates.execute(pgmAnncID);
 
 		List<Directorate> directorateList = (List<Directorate>) result
-				.get(SPGetDirectorates.RESULT_SET);
+				.get(SPGetDirectoratesByFundID.RESULT_SET);
 
 		return directorateList;
 
+	}
+
+	@Override
+	public List<ProgramElement> getAllProgramElements() {
+		SPGetAllProgramElement sPGetAllProgramElement = new SPGetAllProgramElement(
+				psmFLJdbcTemplate.getDataSource(),
+				SPGetAllProgramElement.STORED_PROC_GET_ALL_PROGRAMELEMENT_LIST);
+
+		Map<String, Object> result = sPGetAllProgramElement.execute();
+
+		List<ProgramElement> sPGetAllProgramElementList = (List<ProgramElement>) result
+				.get(SPGetAllProgramElement.RESULT_SET);
+
+		return sPGetAllProgramElementList;
 	}
 
 }

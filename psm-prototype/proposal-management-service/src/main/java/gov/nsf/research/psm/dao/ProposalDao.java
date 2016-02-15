@@ -27,7 +27,7 @@ public interface ProposalDao {
 	 * @param pgmAnncID
 	 * @return
 	 */
-	public List<Division> getDivisions(String pgmAnncID);
+	public List<Division> getAllDivisions();
 
 	/**
 	 * 
@@ -41,7 +41,6 @@ public interface ProposalDao {
 	 * @param divisionCode
 	 * @return
 	 */
-	public List<ProgramElement> getProgramElements(String pgmAnncID,
-			String divisionCode);
+	public List<ProgramElement> getAllProgramElements();
 
 }
