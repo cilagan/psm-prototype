@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -66,11 +65,10 @@ public class ProposalDaoImplTest {
 	}
 
 	@Test
-	public void testgetDivisions() {
+	public void testgetAllDivisions() {
 
-		String pgmAnncID = "PD 12-8084";
-
-		List<Division> divisionList = proposalDao.getDivisions(pgmAnncID);
+		
+		List<Division> divisionList = proposalDao.getAllDivisions();
 
 		for (Division Division : divisionList) {
 			System.out.println("********************************"
@@ -92,14 +90,11 @@ public class ProposalDaoImplTest {
 
 	}
 	
-	
 	@Test
-	public void testgetProgramElements() {
+	public void testgetAllProgramElements() {
 
-		String pgmAnncID = "PD 12-8084";
-		String divisionCode  = "03010000";
-
-		List<ProgramElement> programElementList = proposalDao.getProgramElements(pgmAnncID, divisionCode);
+		
+		List<ProgramElement> programElementList = proposalDao.getAllProgramElements();
 
 		for (ProgramElement programElement : programElementList) {
 			System.out.println("********************************"
@@ -107,6 +102,9 @@ public class ProposalDaoImplTest {
 		}
 
 	}
+	
+	
+	
 	
 
 }
