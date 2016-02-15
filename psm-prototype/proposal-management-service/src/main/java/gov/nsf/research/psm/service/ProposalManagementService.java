@@ -18,29 +18,31 @@ public interface ProposalManagementService {
 	 */
 	public List<FundingOpportunity> getAllFundingOpportunities();
 
+	
 	/**
-	 * List of divisions within the funding opportunity
-	 * @param pgmAnncID
+	 * 
 	 * @return
 	 */
-	public List<Division> getDivisions(String pgmAnncID);
+	public List<Division> getAllDivisions();
 
 	/**
 	 * 
-	 * @return list of directorates
+	 * @return
 	 */
 	public List<Directorate> getAllDirectorates();
 
 	/**
 	 * 
-	 * @param pgmAnncID
-	 * @param divisionCode
 	 * @return
 	 */
-	public List<ProgramElement> getProgramElements(String pgmAnncID,
-			String divisionCode);
+	public List<ProgramElement> getAllProgramElements();
 	
 	
+	/**
+	 * 
+	 * @param propWizAnswers
+	 * @return
+	 */
 	public Proposal createProposal(PropWizAnswers propWizAnswers);
 
 }

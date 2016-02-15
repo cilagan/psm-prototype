@@ -30,13 +30,16 @@ public class ProposalManagementServiceImpl implements ProposalManagementService 
 	
 	@Override
 	public List<FundingOpportunity> getAllFundingOpportunities() {
+		System.out
+				.println("ProposalManagementServiceImpl.getAllFundingOpportunities()");
 		
 		return proposalDao.getAllFundingOpportunities();
 	}
 
 	@Override
-	public List<Division> getDivisions(String pgmAnncID) {
-		return proposalDao.getDivisions(pgmAnncID);
+	public List<Division> getAllDivisions() {
+		System.out.println("ProposalManagementServiceImpl.getAllDivisions()");
+		return proposalDao.getAllDivisions();
 	}
 
 	@Override
@@ -47,9 +50,10 @@ public class ProposalManagementServiceImpl implements ProposalManagementService 
 	}
 
 	@Override
-	public List<ProgramElement> getProgramElements(String pgmAnncID,
-			String divisionCode) {
-		return proposalDao.getProgramElements(pgmAnncID, divisionCode);
+	public List<ProgramElement> getAllProgramElements() {
+		System.out
+				.println("ProposalManagementServiceImpl.getAllProgramElements()");
+		return proposalDao.getAllProgramElements();
 	}
 
 	@Override
