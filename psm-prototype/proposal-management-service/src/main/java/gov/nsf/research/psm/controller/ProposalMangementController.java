@@ -36,20 +36,21 @@ public class ProposalMangementController {
 
 	@RequestMapping(path = "/directorates")
 	public List<Directorate> getAllDirectorates() {
+		System.out.println("ProposalMangementController.getAllDirectorates()");
 		return proposalManagementService.getAllDirectorates();
 	}
 
-	@RequestMapping(value = "/fundingops/{funding_op_id}/divisions", method = RequestMethod.GET)
-	public List<Division> getDivisions(@PathVariable String funding_op_id) {
-		return proposalManagementService.getDivisions(funding_op_id);
+	@RequestMapping(value = "/divisions")
+	public List<Division> getAllDivisions() {
+		System.out.println("ProposalMangementController.getAllDivisions()");
+		return proposalManagementService.getAllDivisions();
 	}
 
-	@RequestMapping(value = "/fundingops/{funding_op_id}/divisions/{divisions_id}", method = RequestMethod.GET)
-	public List<ProgramElement> getProgramElements(
-			@PathVariable String funding_op_id,
-			@PathVariable String divisions_id) {
-		return proposalManagementService.getProgramElements(funding_op_id,
-				divisions_id);
+	@RequestMapping(value = "/programs")
+	public List<ProgramElement> getAllProgramElements() {
+		System.out
+				.println("ProposalMangementController.getAllProgramElements()");
+		return proposalManagementService.getAllProgramElements();
 	}
 	
 	@RequestMapping(value = "/new/proposal/{fundingOppId}", method = RequestMethod.GET)
