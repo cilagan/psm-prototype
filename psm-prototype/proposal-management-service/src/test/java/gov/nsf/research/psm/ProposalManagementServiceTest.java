@@ -64,11 +64,10 @@ public class ProposalManagementServiceTest {
 	}
 
 	@Test
-	public void testgetDivisions() {
+	public void testgetAllDivisions() {
 
-		String pgmAnncID = "PD 12-8084";
-
-		List<Division> divisionList = proposalManagementService.getDivisions(pgmAnncID);
+	
+		List<Division> divisionList = proposalManagementService.getAllDivisions();
 
 		for (Division Division : divisionList) {
 			System.out.println("********************************"
@@ -92,12 +91,10 @@ public class ProposalManagementServiceTest {
 	
 	
 	@Test
-	public void testgetProgramElements() {
+	public void testgetAllProgramElements() {
 
-		String pgmAnncID = "PD 12-8084";
-		String divisionCode  = "03010000";
 
-		List<ProgramElement> programElementList = proposalManagementService.getProgramElements(pgmAnncID, divisionCode);
+		List<ProgramElement> programElementList = proposalManagementService.getAllProgramElements();
 
 		for (ProgramElement programElement : programElementList) {
 			System.out.println("********************************"
