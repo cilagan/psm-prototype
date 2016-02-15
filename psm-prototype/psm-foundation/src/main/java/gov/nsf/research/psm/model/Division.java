@@ -40,11 +40,6 @@ public class Division {
 		this.divisionCode = divisionCode;
 	}
 	
-	public String toString() {
-		return "Division [divisionCode="
-				+ divisionCode + ", divisionDesc="
-				+ divisionDesc + ", ProgramElementList="
-				+ ProgramElementList.toString() + "]";
-	}
+	
 
 }

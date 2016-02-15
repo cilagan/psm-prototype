@@ -9,19 +9,12 @@ package gov.nsf.research.psm.model;
 
 public class ProgramElement {
 	
-	private String divisionID;
-	
+		
 	private String programElementCode;
 	
 	private String programElementDesc;
 
-	public String getDivisionID() {
-		return divisionID;
-	}
-
-	public void setDivisionID(String divisionID) {
-		this.divisionID = divisionID;
-	}
+	
 
 	public String getProgramElementCode() {
 		return programElementCode;
@@ -39,11 +32,6 @@ public class ProgramElement {
 		this.programElementDesc = programElementDesc;
 	}
 
-	public String toString() {
-		return "ProgramElement [programElementCode="
-				+ programElementCode + ", programElementDesc="
-				+ programElementDesc  + "]";
-	}
-	
+		
 
 }

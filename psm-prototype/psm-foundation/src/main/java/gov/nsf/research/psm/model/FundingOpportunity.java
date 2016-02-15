@@ -16,7 +16,24 @@ public class FundingOpportunity extends AbstractTransferObject{
 	private Date fundingOpportunityDeadline;
 	private String fundingOpportunityTitle;
 	private List<Directorate> directorateList;
+	private List<Division> divisionList;
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Division> getDivisionList() {
+		return divisionList;
+	}
+
+	/**
+	 * 
+	 * @param divisionList
+	 */
+	public void setDivisionList(List<Division> divisionList) {
+		this.divisionList = divisionList;
+	}
+
 	/**
 	 * 
 	 * @return
