@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-public class ProgramElementMapper implements RowMapper<ProgramElement> {
+public class ProgramElementCodeMapper implements RowMapper<ProgramElement> {
 
 	/*
 	 * (non-Javadoc)
@@ -25,8 +25,8 @@ public class ProgramElementMapper implements RowMapper<ProgramElement> {
 			programElement = new ProgramElement();
 
 			programElement.setProgramElementCode((rs.getString("pgmEleCode")));// pgmEleCode
-			programElement.setProgramElementDesc((rs.getString("pgmEleName")));// pgmEleName
 			
+
 		} else {
 			programElement = null;
 		}
