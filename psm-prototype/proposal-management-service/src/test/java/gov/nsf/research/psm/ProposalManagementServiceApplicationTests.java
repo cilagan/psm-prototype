@@ -35,19 +35,19 @@ public class ProposalManagementServiceApplicationTests {
 	public void contextLoads() {
 	}
 	
-	@Test
-	public void testRestTemplate(){
-		PropTemplateResponse response = proposalRulesClient.getTemplate("GPG99");
-		System.out.println(response.toString());
-	}
-	
-	@Test
-	public void testProposalBuilder(){
-		PropTemplateResponse response = proposalRulesClient.getTemplate("GPG99");
-		ProposalTemplate propTemp = response.getPropTemplate();
-		Proposal proposal = propBuilder.buildProposal(propTemp);
-		System.out.println(proposal.toString());
-	}
+//	@Test
+//	public void testRestTemplate(){
+//		PropTemplateResponse response = proposalRulesClient.getTemplate("GPG99");
+//		System.out.println(response.toString());
+//	}
+//	
+//	@Test
+//	public void testProposalBuilder(){
+//		PropTemplateResponse response = proposalRulesClient.getTemplate("GPG99");
+//		ProposalTemplate propTemp = response.getPropTemplate();
+//		Proposal proposal = propBuilder.buildProposal(propTemp);
+//		System.out.println(proposal.toString());
+//	}
 	
 	@Test
 	public void testCreateProposal(){

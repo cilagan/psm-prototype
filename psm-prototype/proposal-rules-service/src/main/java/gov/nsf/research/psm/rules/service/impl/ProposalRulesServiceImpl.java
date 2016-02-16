@@ -3,7 +3,9 @@ package gov.nsf.research.psm.rules.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.nsf.research.psm.model.Division;
 import gov.nsf.research.psm.model.ServiceNotification;
+import gov.nsf.research.psm.model.UnitOfConsideration;
 import gov.nsf.research.psm.model.wrapper.PropTemplateResponse;
 import gov.nsf.research.psm.model.wrapper.WizardAnswersRequest;
 import gov.nsf.research.psm.rules.factmodel.PropWizAnswers;
@@ -14,6 +16,8 @@ import gov.nsf.research.psm.rules.service.ProposalRulesService;
 
 public class ProposalRulesServiceImpl implements ProposalRulesService {
 
+	private static String BIO_DIV_CODE = "08";
+	
 	@Override
 	public PropTemplateResponse getProposalTemplate(WizardAnswersRequest request) {
 		
@@ -45,6 +49,10 @@ public class ProposalRulesServiceImpl implements ProposalRulesService {
 	private static ProposalTemplate fireAllRules(ProposalFactModel propFactModel, List<ServiceNotification> snList){
 		
 		PropWizAnswers propWizAnswers = propFactModel.getPropWizAnswers();
+		List<Division> divList = propWizAnswers.getFundingOpp().getDivisionList();
+		String fundOppId = propWizAnswers.getFundingOpp().getFundingOpportunityId();
+		List<UnitOfConsideration> uocList = propWizAnswers.getUocList();
+		
 		ProposalTemplate propTemplate = new ProposalTemplate();
 		System.out.println(propWizAnswers);
 		
@@ -58,12 +66,10 @@ public class ProposalRulesServiceImpl implements ProposalRulesService {
 		 */
 		
 		// mock rules
-		if("GPG99".equals(propWizAnswers.getFundingOpp().getFundingOpportunityId())){
-			propTemplate.setSectionList(addStandardSections());
-		} else if("BIO99".equals(propWizAnswers.getFundingOpp().getFundingOpportunityId())){
+		if("BIO99".equals(fundOppId) && isDivBio(divList)){
 			propTemplate.setSectionList(addStandardSections());
 			propTemplate.getSectionList().add(ProposalSection.PROPOSAL_CLASSIFICATION);
-		} else if("DUE99".equals(propWizAnswers.getFundingOpp().getFundingOpportunityId())){
+		} else if("DUE99".equals(fundOppId) && isDUE(uocList)){
 			propTemplate.setSectionList(addStandardSections());
 			propTemplate.getSectionList().add(ProposalSection.PROPOSAL_DATA_FORM);
 		} else {
@@ -89,5 +95,34 @@ public class ProposalRulesServiceImpl implements ProposalRulesService {
 		formList.add(ProposalSection.DATA_MGT_PLAN);
 		formList.add(ProposalSection.MENTORING_PLAN);		
 		return formList;
+	}
+	
+	private static boolean isDivBio(List<Division> divList){
+		
+		for(Division div : divList){
+			String s = div.getDivisionCode();
+			String upToNCharacters = s.substring(0, Math.min(s.length(), 2));
+			
+			if(BIO_DIV_CODE.equals(upToNCharacters)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private static boolean isDUE(List<UnitOfConsideration> uocList){
+		
+		for(UnitOfConsideration uoc : uocList){
+			if("1746".equals(uoc.getProgramElementCode())
+					|| "7429".equals(uoc.getProgramElementCode())
+					|| "7428".equals(uoc.getProgramElementCode())
+					|| "7427".equals(uoc.getProgramElementCode())
+					|| "1536".equals(uoc.getProgramElementCode())){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

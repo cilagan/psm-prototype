@@ -1,5 +1,6 @@
 package gov.nsf.research.psm.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gov.nsf.research.psm.model.Directorate;
@@ -7,6 +8,7 @@ import gov.nsf.research.psm.model.Division;
 import gov.nsf.research.psm.model.FundingOpportunity;
 import gov.nsf.research.psm.model.ProgramElement;
 import gov.nsf.research.psm.model.Proposal;
+import gov.nsf.research.psm.model.UnitOfConsideration;
 import gov.nsf.research.psm.rules.factmodel.PropWizAnswers;
 import gov.nsf.research.psm.service.ProposalManagementService;
 
@@ -53,17 +55,28 @@ public class ProposalMangementController {
 		return proposalManagementService.getAllProgramElements();
 	}
 	
-	@RequestMapping(value = "/new/proposal/{fundingOppId}", method = RequestMethod.GET)
-	public Proposal createProposal(@PathVariable String fundingOppId){
-		PropWizAnswers propWizAnswers = new PropWizAnswers();
-		FundingOpportunity fundOpp = new FundingOpportunity();
-		fundOpp.setFundingOpportunityId(fundingOppId);
+	@RequestMapping(value = "/new/proposal/{fundOppId}/{divId}/{pgmEleCode}", method = RequestMethod.GET)
+	public Proposal createProposal(@PathVariable String fundOppId, @PathVariable String divId, @PathVariable String pgmEleCode){
+		FundingOpportunity fo = new FundingOpportunity();
+		fo.setFundingOpportunityId(fundOppId);
 		
-		propWizAnswers.setFundingOpp(fundOpp);
+		List<Division> divList = new ArrayList<Division>();
+		Division division = new Division();
+		division.setDivisionCode(divId);
+		divList.add(division);
+		fo.setDivisionList(divList);
 		
-		Proposal proposal = proposalManagementService.createProposal(propWizAnswers);
+		List<UnitOfConsideration> uocList = new ArrayList<UnitOfConsideration>();
+		UnitOfConsideration uoc = new UnitOfConsideration();
+		uoc.setProgramElementCode(pgmEleCode);
+		uocList.add(uoc);
+		
+		PropWizAnswers pwa = new PropWizAnswers();
+		pwa.setFundingOpp(fo);
+		pwa.setUocList(uocList);
+		
+		Proposal proposal = proposalManagementService.createProposal(pwa);
 		
 		return proposal;
 	}
-
 }

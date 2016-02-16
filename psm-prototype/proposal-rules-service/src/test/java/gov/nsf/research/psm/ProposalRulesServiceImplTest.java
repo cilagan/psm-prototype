@@ -206,5 +206,8 @@ public class ProposalRulesServiceImplTest {
 		
 	}
 	
-
+	@Test
+	public void testDivOrgCode(){
+		
+	}
 }
