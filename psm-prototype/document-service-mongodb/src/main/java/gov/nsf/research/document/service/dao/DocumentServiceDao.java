@@ -7,7 +7,6 @@ import gov.nsf.research.document.service.model.SectionType;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
 
 
