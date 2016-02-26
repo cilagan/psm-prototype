@@ -95,6 +95,9 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 
 		listOfDocs.add(SectionType.DATA_MANAGEMENT_PLAN);
 		listOfDocs.add(SectionType.PROJECT_DESCRIPTION);
+		//listOfDocs.add(SectionType.CURR_PEND_SUPPORT);
+		//listOfDocs.add(SectionType.BIO_SKETCHES);
+		//listOfDocs.add(SectionType.MENTOR_PLAN);
 
 		Query query = new Query().addCriteria(Criteria.where(
 				META_DATA_SECTION_TYPE).in(listOfDocs));
