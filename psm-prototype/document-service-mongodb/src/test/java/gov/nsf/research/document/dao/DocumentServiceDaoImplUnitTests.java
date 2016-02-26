@@ -3,6 +3,7 @@ package gov.nsf.research.document.dao;
 
 
 import gov.nsf.research.document.service.DocumentServiceApplication;
+import gov.nsf.research.document.service.business.DocumentService;
 import gov.nsf.research.document.service.dao.DocumentServiceDao;
 import gov.nsf.research.document.service.model.Document;
 import gov.nsf.research.document.service.model.DocumentMetaData;
@@ -30,11 +31,19 @@ public class DocumentServiceDaoImplUnitTests {
 	@Autowired
 	DocumentServiceDao documentServiceDao;
 	
+	@Autowired
+	DocumentService documentService;
+	
 	@Test
 	public void contextLoads() {
 	}
 	
-	   
+	@Test
+	public void testgetProjectsummary()
+	{
+		
+		documentService.getProjectSummaryText("1008698");
+	}
 
 	@Test
 	public void testSaveDocument(){
