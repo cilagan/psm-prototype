@@ -58,7 +58,8 @@ public class ProposalManagementServiceImpl implements ProposalManagementService 
 
 	@Override
 	public Proposal createProposal(PropWizAnswers propWizAnswers) {
-		PropTemplateResponse propTempResp = propRulesClient.getTemplate(propWizAnswers.getFundingOpp().getFundingOpportunityId());
+		
+		PropTemplateResponse propTempResp = propRulesClient.getTemplate(propWizAnswers);
 		ProposalTemplate propTemplate = propTempResp.getPropTemplate();
 		
 		Proposal proposal = propBuilder.buildProposal(propTemplate);
