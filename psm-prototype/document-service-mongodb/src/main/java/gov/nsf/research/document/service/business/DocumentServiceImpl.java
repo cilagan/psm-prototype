@@ -2,11 +2,9 @@ package gov.nsf.research.document.service.business;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import gov.nsf.research.document.service.dao.DocumentServiceDao;
@@ -42,15 +40,20 @@ public class DocumentServiceImpl implements DocumentService {
 	public ByteArrayOutputStream getEntirePropSection(String tempPropId) {
 		List<ByteArrayOutputStream> baosList = new ArrayList<ByteArrayOutputStream>();
 				
-		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION));
-		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN));
+//		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION));
+//		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN));
 		//baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.BIO_SKETCHES));
 		//baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.CURR_PEND_SUPPORT));
 		//baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.MENTOR_PLAN));
 		
-		ByteArrayOutputStream baos = (ByteArrayOutputStream)PDFUtility.concatenateDocuments(baosList);
+		ByteArrayOutputStream projDesc = docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION);
+		ByteArrayOutputStream dmpPlan = docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
+		baosList.add(projDesc);
+		baosList.add(dmpPlan);
 		
-		return baos;
+		ByteArrayOutputStream baos = (ByteArrayOutputStream)PDFUtility.concatenateDocuments(baosList);
+		ByteArrayOutputStream ba = PDFUtility.CreateEntireProposal(tempPropId, baos, projDesc, dmpPlan);
+		return ba;
 	}
 
 	@Override

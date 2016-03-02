@@ -2,6 +2,7 @@ package gov.nsf.research.document.service.pdf;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.common.PDStream;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
@@ -20,6 +22,7 @@ import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDDocume
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem;
 import org.apache.pdfbox.util.PDFMergerUtility;
 import org.apache.pdfbox.util.PDFTextStripper;
+import org.aspectj.util.FileUtil;
 
 
 public class PDFUtility {
@@ -52,10 +55,7 @@ public class PDFUtility {
 		return new ByteArrayInputStream(outputStream.toByteArray());
 	}
 	
-	
-	
-	
-	
+
 	private static boolean isDocumentEncrypted(PDDocument document)
 
 	{
@@ -255,6 +255,124 @@ public class PDFUtility {
 		
 		return outputStream;
 	}
+	
+	
+	/**
+	 * This Method will Create Entire  Proposal and Generates LeftSide Navigation.
+	 * @param tempPropId
+	 * @param baos
+	 * @param projDesc
+	 * @param dmpPlan
+	 */
+	public static ByteArrayOutputStream CreateEntireProposal(String tempPropId,ByteArrayOutputStream baos,ByteArrayOutputStream projDesc,ByteArrayOutputStream dmpPlan){
+
+		String fileName = "C:\\GeneratedPdfs\\"+tempPropId+".pdf";
+		ByteArrayOutputStream ba = new ByteArrayOutputStream();
+
+		PDDocument document = null;
+
+		try
+		{
+
+			ByteArrayInputStream in = new ByteArrayInputStream(baos.toByteArray());
+			document = PDDocument.load(in);
+
+
+			//				ByteArrayOutputStream pd = docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION);
+			String pdTitle = "Project Description";
+			String dmpTitle = "Data Management Plan";
+			int pdPageCount = 0;
+			int dmpPageCount = 0;
+
+			//				ByteArrayOutputStream dmp = docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
+
+			if (projDesc.toByteArray().length > 0 ){
+				pdPageCount = getPageCount(projDesc.toByteArray());
+			}
+
+			if (dmpPlan.toByteArray().length > 0 ){
+				dmpPageCount = getPageCount(dmpPlan.toByteArray());
+			}
+
+			generateLeftNavigation(document, pdTitle, pdPageCount,dmpTitle);
+
+			document.save(ba);
+
+		} catch (COSVisitorException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}  
+		finally{
+			if( document != null )
+			{
+				try {
+					document.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
+			}
+		}
+		return ba;
+	}
+	
+	private static int getPageCount(byte[] pd){
+		PDDocument document = null;
+		ByteArrayInputStream inp = new ByteArrayInputStream(pd);
+		int pdPageCount = 0;
+		try {
+			document = PDDocument.load(inp);
+			PDDocumentInformation info = document.getDocumentInformation();
+			pdPageCount = document.getNumberOfPages();
+			System.out.println("PDFUtility.getPageCount() title : "+info.getTitle()+"-- No of Pages : "+pdPageCount);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				document.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return pdPageCount;
+	}
+	
+	private static void generateLeftNavigation(PDDocument document,String pdTitle, int pdPageCount,String dmpTitle){
+		PDDocumentOutline outline =  new PDDocumentOutline();
+		document.getDocumentCatalog().setDocumentOutline( outline );
+		PDOutlineItem pagesOutline = new PDOutlineItem();
+		pagesOutline.setTitle( "Contents of Proposal" );
+		outline.appendChild( pagesOutline );
+		List pages = document.getDocumentCatalog().getAllPages();
+
+		PDPage page = (PDPage)pages.get(0);
+		PDPageFitWidthDestination dest = new PDPageFitWidthDestination();
+		//            dest.setPageNumber(i);
+		dest.setPage( page );
+		PDOutlineItem bookmark = new PDOutlineItem();
+		bookmark.setDestination(dest);
+		bookmark.setTitle(pdTitle);
+		pagesOutline.appendChild(bookmark);
+		
+		page = (PDPage)pages.get(pdPageCount);
+		dest = new PDPageFitWidthDestination();
+//        dest.setPageNumber(i);
+		dest.setPage( page );
+		bookmark = new PDOutlineItem();
+		bookmark.setDestination(dest);
+		bookmark.setTitle(dmpTitle);
+		pagesOutline.appendChild(bookmark);
+		
+		pagesOutline.openNode();
+		outline.openNode();
+
+	}
+	
 	
 }
 	
