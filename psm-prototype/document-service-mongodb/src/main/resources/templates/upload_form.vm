@@ -33,6 +33,9 @@
             <li role="presentation"><a href="">Cover Sheet</a></li>
             <li role="presentation"><a href="">Project Description</a></li>
             <li role="presentation"><a href="">Data Management Plan</a></li>
+            <li role="presentation"><a href="">Mentoring Plan</a></li>
+            <li role="presentation"><a href="">Current & Pending Support</a></li>
+            <li role="presentation"><a href="">BioSketches</a></li>
           </ul>
 
         </div>
@@ -45,21 +48,30 @@
 				Section Type: <select id="sectionType" name="sectionType">
 				  <option id="projdesc" value="projdesc">Project Description</option>
 				  <option id="dmp" value="dmp">Data Management Plan</option>
+				  <option id="caps" value="caps">Current and Pending Support</option>
+				  <option id="bs" value="bs">Biosketches</option>
+				  <option id="ment" value="ment">Mentoring Plan</option>
+				  
 				</select>
 				
 				<br><br>
 				
-				<div class="row" style="height:45%;">
+				<div class="row" style="height:25%;">
 					<div class="col-xs-12">
 						<label class="control-label">File to upload:</label>
 						<input id="fileInput" name="uploadedFile" type="file" class="file-loading" accept=".pdf">
+						<input class="btn btn-primary" type="submit" value="Upload">
 					</div>
 				</div>
 				
-				<input class="btn btn-primary" type="submit" value="Upload">
-			
+				<label class="control-label">Project Summary:(Reading from Sybase Database)</label>
+				<a target="_blank" href="/docService/proposal/0000070/projsumm">0000070</a>
+				<a target="_blank" href="/docService/proposal/0000067/projsumm">0000067</a>
+				<a target="_blank" href="/docService/proposal/0000020/projsumm">0000020</a>
+				
 			</form>
-		
+			
+					
 			<div class="row">
 				<div class="col-xs-4">
 					<table class="table table-bordered table-striped">
@@ -81,6 +93,37 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="col-xs-4">
+					<table class="table table-bordered table-striped">
+						<thead><th colspan="2">Current & Pending Supp</th></thead>
+						<tbody>
+							#foreach($doc in $capsList)
+							<tr><td>$doc.tempPropId</td><td><a target="_blank" href="/docService/proposal/$doc.tempPropId/caps">Open</a> | <a href="/docService/delete/proposal/$doc.tempPropId/caps">Delete</a></td></tr>
+							#end
+						</tbody>
+					</table>
+				</div>
+				<div class="col-xs-4">
+					<table class="table table-bordered table-striped">
+						<thead><th colspan="2">BioSketches</th></thead>
+						<tbody>
+							#foreach($doc in $bsList)
+							<tr><td>$doc.tempPropId</td><td><a target="_blank" href="/docService/proposal/$doc.tempPropId/bs">Open</a> | <a href="/docService/delete/proposal/$doc.tempPropId/bs">Delete</a></td></tr>
+							#end
+						</tbody>
+					</table>
+				</div>
+				<div class="col-xs-4">
+					<table class="table table-bordered table-striped">
+						<thead><th colspan="2">Metoring Plan</th></thead>
+						<tbody>
+							#foreach($doc in $mentList)
+							<tr><td>$doc.tempPropId</td><td><a target="_blank" href="/docService/proposal/$doc.tempPropId/ment">Open</a> | <a href="/docService/delete/proposal/$doc.tempPropId/ment">Delete</a></td></tr>
+							#end
+						</tbody>
+					</table>
+				</div>
+				
 				<div class="col-xs-4">
 					<table class="table table-bordered table-striped">
 						<thead><th colspan="2">Proposals</th></thead>
