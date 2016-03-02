@@ -48,11 +48,18 @@ public class DocumentServiceImpl implements DocumentService {
 		
 		ByteArrayOutputStream projDesc = docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION);
 		ByteArrayOutputStream dmpPlan = docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
+		ByteArrayOutputStream caps = docServiceDao.viewDocument(tempPropId, SectionType.CURR_PEND_SUPPORT);
+		ByteArrayOutputStream  bs= docServiceDao.viewDocument(tempPropId, SectionType.BIO_SKETCHES);
+		ByteArrayOutputStream ment = docServiceDao.viewDocument(tempPropId, SectionType.MENTOR_PLAN);
 		baosList.add(projDesc);
 		baosList.add(dmpPlan);
+		baosList.add(caps);
+		baosList.add(bs);
+		baosList.add(ment);
+		
 		
 		ByteArrayOutputStream baos = (ByteArrayOutputStream)PDFUtility.concatenateDocuments(baosList);
-		ByteArrayOutputStream ba = PDFUtility.CreateEntireProposal(tempPropId, baos, projDesc, dmpPlan);
+		ByteArrayOutputStream ba = PDFUtility.CreateEntireProposal(tempPropId, baos, projDesc, dmpPlan,caps,bs,ment);
 		return ba;
 	}
 
