@@ -76,10 +76,110 @@ public class DocumentServiceController {
 		response.sendRedirect("/upload");
 	}
 	
+	@RequestMapping(path="/proposal/{tempPropId}/ment", method = RequestMethod.POST)
+	public void uploadMent(@PathVariable String tempPropId, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception{
+
+		Map<String, MultipartFile> fileMap = request.getFileMap();
+		MultipartFile file = fileMap.get("uploadedFile");
+		
+		try {
+			byte[] byteArr = file.getBytes();
+			ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArr);
+			System.out.println("inputStream: " + inputStream != null);
+			//send to service layer
+			docService.uploadPropSection(inputStream, tempPropId, SectionType.MENTOR_PLAN);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		response.sendRedirect("/upload");
+	}
+	
+	@RequestMapping(path="/proposal/{tempPropId}/bs", method = RequestMethod.POST)
+	public void uploadBioSketches(@PathVariable String tempPropId, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception{
+
+		Map<String, MultipartFile> fileMap = request.getFileMap();
+		MultipartFile file = fileMap.get("uploadedFile");
+		
+		try {
+			byte[] byteArr = file.getBytes();
+			ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArr);
+			System.out.println("inputStream: " + inputStream != null);
+			//send to service layer
+			docService.uploadPropSection(inputStream, tempPropId, SectionType.BIO_SKETCHES);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		response.sendRedirect("/upload");
+	}
+	
+	@RequestMapping(path="/proposal/{tempPropId}/caps", method = RequestMethod.POST)
+	public void uploadCaps(@PathVariable String tempPropId, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception{
+
+		Map<String, MultipartFile> fileMap = request.getFileMap();
+		MultipartFile file = fileMap.get("uploadedFile");
+		
+		try {
+			byte[] byteArr = file.getBytes();
+			ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArr);
+			System.out.println("inputStream: " + inputStream != null);
+			//send to service layer
+			docService.uploadPropSection(inputStream, tempPropId, SectionType.CURR_PEND_SUPPORT);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		response.sendRedirect("/upload");
+	}
+	
+	
 	@RequestMapping(path="/proposal/{tempPropId}/projdesc", method = RequestMethod.GET)
 	public void getProjectDesc(@PathVariable String tempPropId, HttpServletResponse response){
 		
 		ByteArrayOutputStream outputStream = docService.getPropSection(tempPropId, SectionType.PROJECT_DESCRIPTION);
+		try {
+			 FileCopyUtils.copy(outputStream.toByteArray(), response.getOutputStream());
+			 response.setContentType("application/pdf");      
+			 response.flushBuffer();
+		} catch (IOException  e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	@RequestMapping(path="/proposal/{tempPropId}/ment", method = RequestMethod.GET)
+	public void getMent(@PathVariable String tempPropId, HttpServletResponse response){
+		
+		ByteArrayOutputStream outputStream = docService.getPropSection(tempPropId, SectionType.MENTOR_PLAN);
+		try {
+			 FileCopyUtils.copy(outputStream.toByteArray(), response.getOutputStream());
+			 response.setContentType("application/pdf");      
+			 response.flushBuffer();
+		} catch (IOException  e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	@RequestMapping(path="/proposal/{tempPropId}/bs", method = RequestMethod.GET)
+	public void getBioSketches(@PathVariable String tempPropId, HttpServletResponse response){
+		
+		ByteArrayOutputStream outputStream = docService.getPropSection(tempPropId, SectionType.BIO_SKETCHES);
+		try {
+			 FileCopyUtils.copy(outputStream.toByteArray(), response.getOutputStream());
+			 response.setContentType("application/pdf");      
+			 response.flushBuffer();
+		} catch (IOException  e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	@RequestMapping(path="/proposal/{tempPropId}/caps", method = RequestMethod.GET)
+	public void getCaps(@PathVariable String tempPropId, HttpServletResponse response){
+		
+		ByteArrayOutputStream outputStream = docService.getPropSection(tempPropId, SectionType.CURR_PEND_SUPPORT);
 		try {
 			 FileCopyUtils.copy(outputStream.toByteArray(), response.getOutputStream());
 			 response.setContentType("application/pdf");      
@@ -155,4 +255,39 @@ public class DocumentServiceController {
 		System.out.println("delete dmp");
 		response.sendRedirect("/upload");
 	}
+	@RequestMapping(path="/delete/proposal/{tempPropId}/caps", method = RequestMethod.GET)
+	public void deleteCaps(@PathVariable String tempPropId, HttpServletResponse response) throws Exception {
+		docService.deletePropSection(tempPropId, SectionType.CURR_PEND_SUPPORT);
+		System.out.println("delete dmp");
+		response.sendRedirect("/upload");
+	}
+	@RequestMapping(path="/delete/proposal/{tempPropId}/bs", method = RequestMethod.GET)
+	public void deleteBioSketches(@PathVariable String tempPropId, HttpServletResponse response) throws Exception {
+		docService.deletePropSection(tempPropId, SectionType.BIO_SKETCHES);
+		System.out.println("delete dmp");
+		response.sendRedirect("/upload");
+	}
+	@RequestMapping(path="/delete/proposal/{tempPropId}/ment", method = RequestMethod.GET)
+	public void deleteMentoring(@PathVariable String tempPropId, HttpServletResponse response) throws Exception {
+		docService.deletePropSection(tempPropId, SectionType.MENTOR_PLAN);
+		System.out.println("delete dmp");
+		response.sendRedirect("/upload");
+	}
+	
+	
+	@RequestMapping(path="/proposal/{tempPropId}/projsumm", method = RequestMethod.GET)
+	public void getProjectSummary(@PathVariable String tempPropId, HttpServletResponse response){
+		
+		ByteArrayOutputStream outputStream  = docService.getProjectSummaryText(tempPropId);
+		
+		try {
+			 FileCopyUtils.copy(outputStream.toByteArray(), response.getOutputStream());
+			 response.setContentType("application/pdf");      
+			 response.flushBuffer();
+		} catch (IOException  e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	
 }
