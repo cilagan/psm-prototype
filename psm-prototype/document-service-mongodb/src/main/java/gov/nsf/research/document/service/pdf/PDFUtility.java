@@ -2,7 +2,6 @@ package gov.nsf.research.document.service.pdf;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.common.PDStream;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
@@ -22,7 +20,6 @@ import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDDocume
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem;
 import org.apache.pdfbox.util.PDFMergerUtility;
 import org.apache.pdfbox.util.PDFTextStripper;
-import org.aspectj.util.FileUtil;
 
 
 public class PDFUtility {
@@ -47,7 +44,7 @@ public class PDFUtility {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		prepareBookMarksForPDF(convertToInputStream(output));
+		//prepareBookMarksForPDF(convertToInputStream(output));
 		return output;
 	}
 	
@@ -113,53 +110,6 @@ public class PDFUtility {
 
 	}
 	
-	public static void prepareBookMarksForPDF (ByteArrayInputStream inputstream )
-	{
-		
-		PDDocument document = null;
-		try {
-			document = PDDocument.load(inputstream);
-		
-            
-			PDDocumentOutline outline =  new PDDocumentOutline();
-            document.getDocumentCatalog().setDocumentOutline( outline );
-            PDOutlineItem pagesOutline = new PDOutlineItem();
-            pagesOutline.setTitle( "All Pages" );
-            outline.appendChild( pagesOutline );
-            List pages = document.getDocumentCatalog().getAllPages();
-            for( int i=0; i<pages.size(); i++ )
-            {
-                PDPage page = (PDPage)pages.get( i );
-                PDPageFitWidthDestination dest = new PDPageFitWidthDestination();
-                dest.setPage( page );
-                PDOutlineItem bookmark = new PDOutlineItem();
-                bookmark.setDestination( dest );
-                bookmark.setTitle( "Page " + (i+1) );
-                pagesOutline.appendChild( bookmark );
-            }
-            pagesOutline.openNode();
-            outline.openNode();
-
-            document.save( "test678.pdf" );
-			}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-        
-        finally
-        {
-            if( document != null )
-            {
-                try {
-					document.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-            }
-        }
-    }
 
 
 	
@@ -264,7 +214,8 @@ public class PDFUtility {
 	 * @param projDesc
 	 * @param dmpPlan
 	 */
-	public static ByteArrayOutputStream CreateEntireProposal(String tempPropId,ByteArrayOutputStream baos,ByteArrayOutputStream projDesc,ByteArrayOutputStream dmpPlan){
+	public static ByteArrayOutputStream CreateEntireProposal(String tempPropId,ByteArrayOutputStream baos,ByteArrayOutputStream projDesc,ByteArrayOutputStream dmpPlan,
+			ByteArrayOutputStream caps,ByteArrayOutputStream bs,ByteArrayOutputStream ment){
 
 		String fileName = "C:\\GeneratedPdfs\\"+tempPropId+".pdf";
 		ByteArrayOutputStream ba = new ByteArrayOutputStream();
@@ -281,8 +232,16 @@ public class PDFUtility {
 			//				ByteArrayOutputStream pd = docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION);
 			String pdTitle = "Project Description";
 			String dmpTitle = "Data Management Plan";
+			String capsTitle = "Current & Pending Support";
+			String mentTitle = "Mentoring Plan";
+			String bsTitle = "Bio Sketches";
+			
 			int pdPageCount = 0;
 			int dmpPageCount = 0;
+			int capsPageCount = 0;
+			int bsPageCount = 0;
+			int mentPageCount = 0;
+			
 
 			//				ByteArrayOutputStream dmp = docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
 
@@ -293,8 +252,18 @@ public class PDFUtility {
 			if (dmpPlan.toByteArray().length > 0 ){
 				dmpPageCount = getPageCount(dmpPlan.toByteArray());
 			}
+			if (caps.toByteArray().length > 0 ){
+				capsPageCount = getPageCount(caps.toByteArray());
+			}
+			if (bs.toByteArray().length > 0 ){
+				bsPageCount = getPageCount(bs.toByteArray());
+			}
+			if (ment.toByteArray().length > 0 ){
+				mentPageCount = getPageCount(ment.toByteArray());
+			}
+			
 
-			generateLeftNavigation(document, pdTitle, pdPageCount,dmpTitle);
+			generateLeftNavigation(document, pdTitle, pdPageCount,dmpTitle,dmpPageCount ,capsTitle, capsPageCount,bsTitle,bsPageCount, mentTitle,mentPageCount);
 
 			document.save(ba);
 
@@ -342,7 +311,9 @@ public class PDFUtility {
 		return pdPageCount;
 	}
 	
-	private static void generateLeftNavigation(PDDocument document,String pdTitle, int pdPageCount,String dmpTitle){
+	private static void generateLeftNavigation(PDDocument document,String pdTitle, int pdPageCount,String dmpTitle, int dmpPageCount ,String capsTitle, int capsPageCount,
+			String bsTitle,int bsPageCount, String mentTitle,int mentPageCount){
+		//generateLeftNavigation(document, pdTitle, pdPageCount,dmpTitle,dmpPageCount ,capsTitle, capsPageCount,bsTitle,bsPageCount, mentTitle,mentPageCount);
 		PDDocumentOutline outline =  new PDDocumentOutline();
 		document.getDocumentCatalog().setDocumentOutline( outline );
 		PDOutlineItem pagesOutline = new PDOutlineItem();
@@ -352,22 +323,48 @@ public class PDFUtility {
 
 		PDPage page = (PDPage)pages.get(0);
 		PDPageFitWidthDestination dest = new PDPageFitWidthDestination();
-		//            dest.setPageNumber(i);
+
 		dest.setPage( page );
 		PDOutlineItem bookmark = new PDOutlineItem();
 		bookmark.setDestination(dest);
-		bookmark.setTitle(pdTitle);
+		bookmark.setTitle("Project Description");
 		pagesOutline.appendChild(bookmark);
 		
 		page = (PDPage)pages.get(pdPageCount);
 		dest = new PDPageFitWidthDestination();
-//        dest.setPageNumber(i);
 		dest.setPage( page );
 		bookmark = new PDOutlineItem();
 		bookmark.setDestination(dest);
-		bookmark.setTitle(dmpTitle);
+		bookmark.setTitle("Data Management Plan");
 		pagesOutline.appendChild(bookmark);
 		
+		
+		// cp
+		page = (PDPage)pages.get(pdPageCount+dmpPageCount);
+		dest = new PDPageFitWidthDestination();
+		dest.setPage( page );
+		bookmark = new PDOutlineItem();
+		bookmark.setDestination(dest);
+		bookmark.setTitle("Current and Pending");
+		pagesOutline.appendChild(bookmark);
+		
+		//bio
+		page = (PDPage)pages.get(pdPageCount+dmpPageCount+capsPageCount);
+		dest = new PDPageFitWidthDestination();
+		dest.setPage( page );
+		bookmark = new PDOutlineItem();
+		bookmark.setDestination(dest);
+		bookmark.setTitle("Bio Sketches");
+		pagesOutline.appendChild(bookmark);
+		
+		//mentoring	
+		page = (PDPage)pages.get(pdPageCount+dmpPageCount+capsPageCount+bsPageCount);
+		dest = new PDPageFitWidthDestination();
+		dest.setPage( page );
+		bookmark = new PDOutlineItem();
+		bookmark.setDestination(dest);
+		bookmark.setTitle("Mentoring Plan");
+		pagesOutline.appendChild(bookmark);
 		pagesOutline.openNode();
 		outline.openNode();
 
