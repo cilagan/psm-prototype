@@ -10,6 +10,8 @@ public enum SectionType {
 	
 	BIO_SKETCHES,
 	
-	MENTOR_PLAN;
+	MENTOR_PLAN,
+	
+	PROJ_SUMM;
 
 }
