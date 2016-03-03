@@ -45,6 +45,12 @@ public class Document extends AbstractTransferObject {
 			return "projdesc";
 		} else if(SectionType.DATA_MANAGEMENT_PLAN.equals(this.sectionType)){
 			return "dmp";
+		} else if(SectionType.CURR_PEND_SUPPORT.equals(this.sectionType)){
+			return "caps";
+		} else if(SectionType.BIO_SKETCHES.equals(this.sectionType)){
+			return "bs";
+		} else if(SectionType.MENTOR_PLAN.equals(this.sectionType)){
+			return "ment";
 		} else {
 			return null;
 		}
