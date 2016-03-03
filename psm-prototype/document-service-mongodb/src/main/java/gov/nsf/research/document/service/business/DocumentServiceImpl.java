@@ -41,23 +41,18 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	public ByteArrayOutputStream getEntirePropSection(String tempPropId) {
 		List<ByteArrayOutputStream> baosList = new ArrayList<ByteArrayOutputStream>();
-				
-//		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION));
-//		baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN));
-		//baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.BIO_SKETCHES));
-		//baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.CURR_PEND_SUPPORT));
-		//baosList.add(docServiceDao.viewDocument(tempPropId, SectionType.MENTOR_PLAN));
 		
 		ByteArrayOutputStream projDesc = docServiceDao.viewDocument(tempPropId, SectionType.PROJECT_DESCRIPTION);
 		ByteArrayOutputStream dmpPlan = docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
 		ByteArrayOutputStream caps = docServiceDao.viewDocument(tempPropId, SectionType.CURR_PEND_SUPPORT);
 		ByteArrayOutputStream  bs= docServiceDao.viewDocument(tempPropId, SectionType.BIO_SKETCHES);
 		ByteArrayOutputStream ment = docServiceDao.viewDocument(tempPropId, SectionType.MENTOR_PLAN);
+		ByteArrayOutputStream projsumm = getProjectSummaryText(tempPropId);
 		
 		//Create TOC
 		ByteArrayOutputStream toc =  new ByteArrayOutputStream();
 		try {
-			toc = PDFUtility.createTOC(tempPropId, projDesc, dmpPlan, caps, bs, ment);
+			toc = PDFUtility.createTOC(tempPropId, projDesc, dmpPlan, caps, bs, ment, projsumm);
 		} catch (COSVisitorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,10 +67,11 @@ public class DocumentServiceImpl implements DocumentService {
 		baosList.add(caps);
 		baosList.add(bs);
 		baosList.add(ment);
+		baosList.add(projsumm);
 		
 		
 		ByteArrayOutputStream baos = (ByteArrayOutputStream)PDFUtility.concatenateDocuments(baosList);
-		ByteArrayOutputStream ba = PDFUtility.CreateEntireProposal(tempPropId, toc, baos, projDesc, dmpPlan, caps, bs, ment);
+		ByteArrayOutputStream ba = PDFUtility.CreateEntireProposal(tempPropId, toc, baos, projDesc, dmpPlan, caps, bs, ment,projsumm);
 //		System.out.println("DocumentServiceImpl.getEntirePropSection() Size of the out file : "+ba.toByteArray().length);
 		return ba;
 	}
