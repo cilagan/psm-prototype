@@ -215,7 +215,7 @@ public class PDFUtility {
 	 * @param dmpPlan
 	 */
 	public static ByteArrayOutputStream CreateEntireProposal(String tempPropId, ByteArrayOutputStream toc, ByteArrayOutputStream baos,ByteArrayOutputStream projDesc,ByteArrayOutputStream dmpPlan,
-			ByteArrayOutputStream caps,ByteArrayOutputStream bs,ByteArrayOutputStream ment){
+			ByteArrayOutputStream caps,ByteArrayOutputStream bs,ByteArrayOutputStream ment, ByteArrayOutputStream projsumm){
 
 		ByteArrayOutputStream ba = new ByteArrayOutputStream();
 
@@ -241,6 +241,7 @@ public class PDFUtility {
 			int capsPageCount = 0;
 			int bsPageCount = 0;
 			int mentPageCount = 0;
+			int projsummPageCount = 0;
 
 
 			//				ByteArrayOutputStream dmp = docServiceDao.viewDocument(tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
@@ -265,10 +266,13 @@ public class PDFUtility {
 			if (ment.toByteArray().length > 0 ){
 				mentPageCount = getPageCount(ment.toByteArray());
 			}
+			if (projsumm.toByteArray().length > 0 ){
+				projsummPageCount = getPageCount(projsumm.toByteArray());
+			}
 
-			System.out.println("PDFUtility.CreateEntireProposal() tc ["+tc+"] &&  pdPageCount ["+pdPageCount+"] &&  dmpPageCount ["+dmpPageCount+"] &&  capsPageCount ["+capsPageCount+"] &&  bsPageCount ["+bsPageCount+"] &&  bsPageCount ["+bsPageCount+"]");
+			//System.out.println("PDFUtility.CreateEntireProposal() tc ["+tc+"] &&  pdPageCount ["+pdPageCount+"] &&  dmpPageCount ["+dmpPageCount+"] &&  capsPageCount ["+capsPageCount+"] &&  bsPageCount ["+bsPageCount+"] &&  bsPageCount ["+bsPageCount+"]");
 
-			generateLeftNavigation(document, tc, pdTitle, pdPageCount,dmpTitle,dmpPageCount ,capsTitle, capsPageCount,bsTitle,bsPageCount, mentTitle,mentPageCount);
+			generateLeftNavigation(document, tc, pdTitle, pdPageCount,dmpTitle,dmpPageCount ,capsTitle, capsPageCount,bsTitle,bsPageCount, mentTitle,mentPageCount, projsummPageCount);
 
 			document.save(ba);
 			document.close();
@@ -340,7 +344,7 @@ public class PDFUtility {
 	 * @param mentPageCount
 	 */
 	private static void generateLeftNavigation(PDDocument document,int tc,String pdTitle, int pdPageCount,String dmpTitle, int dmpPageCount ,String capsTitle, int capsPageCount,
-			String bsTitle,int bsPageCount, String mentTitle,int mentPageCount){
+			String bsTitle,int bsPageCount, String mentTitle,int mentPageCount, int projsummPageCount){
 		//generateLeftNavigation(document, pdTitle, pdPageCount,dmpTitle,dmpPageCount ,capsTitle, capsPageCount,bsTitle,bsPageCount, mentTitle,mentPageCount);
 		PDDocumentOutline outline =  new PDDocumentOutline();
 		document.getDocumentCatalog().setDocumentOutline( outline );
@@ -405,6 +409,19 @@ public class PDFUtility {
 		pagesOutline.appendChild( bookmark );
 		pagesOutline.openNode();
 		outline.openNode();
+		
+		
+		// proj summ
+		page = (PDPage) pages.get(tc + pdPageCount + dmpPageCount+ capsPageCount + bsPageCount+ mentPageCount);
+		dest = new PDPageFitWidthDestination();
+		dest.setPage(page);
+		bookmark = new PDOutlineItem();
+		bookmark.setDestination(dest);
+		bookmark.setTitle("Project Summary");
+		pagesOutline.appendChild(bookmark);
+		pagesOutline.openNode();
+		outline.openNode();
+				
 	}
 
 
@@ -420,7 +437,7 @@ public class PDFUtility {
 		 * @throws IOException
 		 * @throws COSVisitorException
 		 */
-	public static ByteArrayOutputStream createTOC(String tempPropId, ByteArrayOutputStream projDesc,ByteArrayOutputStream dmpPlan,ByteArrayOutputStream caps,ByteArrayOutputStream bs,ByteArrayOutputStream ment) throws IOException, COSVisitorException
+	public static ByteArrayOutputStream createTOC(String tempPropId, ByteArrayOutputStream projDesc,ByteArrayOutputStream dmpPlan,ByteArrayOutputStream caps,ByteArrayOutputStream bs,ByteArrayOutputStream ment,ByteArrayOutputStream projsumm) throws IOException, COSVisitorException
 	{
 		// the document
 		ByteArrayOutputStream toc = new ByteArrayOutputStream();
@@ -433,19 +450,12 @@ public class PDFUtility {
 		int cpPageCount = getPageCount(caps.toByteArray());
 		int bsPageCount = getPageCount(bs.toByteArray());
 		int mentPageCount = getPageCount(ment.toByteArray());
+		int projsummPageCount = getPageCount(projsumm.toByteArray());
 
 		try
 		{
 			doc = new PDDocument();
-			System.out.println("CreateBookmarks.main() Project Description - Total No of Pages : "+pdPageCount);
-
-			System.out.println("CreateBookmarks.main() DMP -- Total No of Pages : "+dmpPageCount);
-
-			System.out.println("CreateBookmarks.main() Current & Pending -- Total No of Pages : "+cpPageCount);
-
-			System.out.println("CreateBookmarks.main() Bio Sketches -- Total No of Pages : "+bsPageCount);
-
-			System.out.println("CreateBookmarks.main() Mentoring Plan -- Total No of Pages : "+mentPageCount);
+			
 
 
 			PDPage page = new PDPage();
@@ -531,7 +541,7 @@ public class PDFUtility {
 			contentStream.beginText();
 			contentStream.setFont( PDType1Font.HELVETICA, 10 );
 			contentStream.moveTextPositionByAmount( 450, 620 );
-			contentStream.drawString("");
+			contentStream.drawString(String.valueOf(projsummPageCount));
 			contentStream.endText();
 
 			contentStream.beginText();
