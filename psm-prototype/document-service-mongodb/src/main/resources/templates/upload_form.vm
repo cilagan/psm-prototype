@@ -98,7 +98,7 @@
 						<thead><th colspan="2">Current & Pending Supp</th></thead>
 						<tbody>
 							#foreach($doc in $capsList)
-							<tr><td>$doc.tempPropId</td><td><a target="_blank" href="/docService/proposal/$doc.tempPropId/caps">Open</a> | <a href="/docService/delete/proposal/$doc.tempPropId/caps">Delete</a></td></tr>
+							<tr><td>$doc.tempPropId</td><td><a target="_blank" href="/docService/proposal/$doc.tempPropId/$doc.getURLEnd()">Open</a> | <a href="/docService/delete/proposal/$doc.tempPropId/caps">Delete</a></td></tr>
 							#end
 						</tbody>
 					</table>
@@ -108,7 +108,7 @@
 						<thead><th colspan="2">BioSketches</th></thead>
 						<tbody>
 							#foreach($doc in $bsList)
-							<tr><td>$doc.tempPropId</td><td><a target="_blank" href="/docService/proposal/$doc.tempPropId/bs">Open</a> | <a href="/docService/delete/proposal/$doc.tempPropId/bs">Delete</a></td></tr>
+							<tr><td>$doc.tempPropId</td><td><a target="_blank" href="/docService/proposal/$doc.tempPropId/$doc.getURLEnd()">Open</a> | <a href="/docService/delete/proposal/$doc.tempPropId/bs">Delete</a></td></tr>
 							#end
 						</tbody>
 					</table>
@@ -118,7 +118,7 @@
 						<thead><th colspan="2">Metoring Plan</th></thead>
 						<tbody>
 							#foreach($doc in $mentList)
-							<tr><td>$doc.tempPropId</td><td><a target="_blank" href="/docService/proposal/$doc.tempPropId/ment">Open</a> | <a href="/docService/delete/proposal/$doc.tempPropId/ment">Delete</a></td></tr>
+							<tr><td>$doc.tempPropId</td><td><a target="_blank" href="/docService/proposal/$doc.tempPropId/$doc.getURLEnd()">Open</a> | <a href="/docService/delete/proposal/$doc.tempPropId/ment">Delete</a></td></tr>
 							#end
 						</tbody>
 					</table>
