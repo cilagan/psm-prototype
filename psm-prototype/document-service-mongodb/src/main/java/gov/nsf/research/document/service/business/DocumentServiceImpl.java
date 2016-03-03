@@ -2,9 +2,11 @@ package gov.nsf.research.document.service.business;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import gov.nsf.research.document.service.dao.DocumentServiceDao;
@@ -51,6 +53,20 @@ public class DocumentServiceImpl implements DocumentService {
 		ByteArrayOutputStream caps = docServiceDao.viewDocument(tempPropId, SectionType.CURR_PEND_SUPPORT);
 		ByteArrayOutputStream  bs= docServiceDao.viewDocument(tempPropId, SectionType.BIO_SKETCHES);
 		ByteArrayOutputStream ment = docServiceDao.viewDocument(tempPropId, SectionType.MENTOR_PLAN);
+		
+		//Create TOC
+		ByteArrayOutputStream toc =  new ByteArrayOutputStream();
+		try {
+			toc = PDFUtility.createTOC(tempPropId, projDesc, dmpPlan, caps, bs, ment);
+		} catch (COSVisitorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		baosList.add(toc);
 		baosList.add(projDesc);
 		baosList.add(dmpPlan);
 		baosList.add(caps);
@@ -59,7 +75,8 @@ public class DocumentServiceImpl implements DocumentService {
 		
 		
 		ByteArrayOutputStream baos = (ByteArrayOutputStream)PDFUtility.concatenateDocuments(baosList);
-		ByteArrayOutputStream ba = PDFUtility.CreateEntireProposal(tempPropId, baos, projDesc, dmpPlan,caps,bs,ment);
+		ByteArrayOutputStream ba = PDFUtility.CreateEntireProposal(tempPropId, toc, baos, projDesc, dmpPlan, caps, bs, ment);
+//		System.out.println("DocumentServiceImpl.getEntirePropSection() Size of the out file : "+ba.toByteArray().length);
 		return ba;
 	}
 
