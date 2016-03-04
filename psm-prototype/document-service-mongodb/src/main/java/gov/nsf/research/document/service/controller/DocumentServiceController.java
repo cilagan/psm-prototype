@@ -18,10 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import gov.nsf.research.document.service.business.DocumentService;
+import gov.nsf.research.document.service.model.DocumentCheckModel;
+import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
 import gov.nsf.research.document.service.model.proposal.DataMgtPlan;
 import gov.nsf.research.document.service.model.proposal.ProjectDesc;
 import gov.nsf.research.document.service.model.proposal.Proposal;
+import gov.nsf.research.document.service.pdf.PDFUtility;
 
 @RestController
 @RequestMapping(path="/docService")
@@ -61,13 +64,32 @@ public class DocumentServiceController {
 
 		Map<String, MultipartFile> fileMap = request.getFileMap();
 		MultipartFile file = fileMap.get("uploadedFile");
+		MultipartFile filepdf = fileMap.get("uploadedFile");
+		DocumentMetaData metaData = null;
 		
 		try {
 			byte[] byteArr = file.getBytes();
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArr);
-			System.out.println("inputStream: " + inputStream != null);
+			
+			byte[] byteArrpdf = filepdf.getBytes();
+			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
+			
+			
+			boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
+			
+			if(pdfDocCheck)
+			{
+				docService.uploadPropSection(inputStream, tempPropId, SectionType.PROJECT_DESCRIPTION);
+			}
+			
+			{
+				metaData = new DocumentMetaData();
+				metaData.setFileName("Test");
+			}
+			
+			//System.out.println("inputStream: **************************" + inputStream != null);
 			//send to service layer
-			docService.uploadPropSection(inputStream, tempPropId, SectionType.PROJECT_DESCRIPTION);
+			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -82,12 +104,31 @@ public class DocumentServiceController {
 		Map<String, MultipartFile> fileMap = request.getFileMap();
 		MultipartFile file = fileMap.get("uploadedFile");
 		
+		MultipartFile filepdf = fileMap.get("uploadedFile");
+		DocumentMetaData metaData = null;
+		
+		
 		try {
 			byte[] byteArr = file.getBytes();
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArr);
-			System.out.println("inputStream: " + inputStream != null);
+			
+			byte[] byteArrpdf = filepdf.getBytes();
+			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
+			
+			
+			boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
+			if(pdfDocCheck)
+			{
+				docService.uploadPropSection( inputStream, tempPropId, SectionType.MENTOR_PLAN);
+			}
+			
+			{
+				metaData = new DocumentMetaData();
+				metaData.setFileName("Test");
+			}
 			//send to service layer
-			docService.uploadPropSection(inputStream, tempPropId, SectionType.MENTOR_PLAN);
+			
+			//System.out.println("**Mentoring PDF Validation***:"+PDFUtility.validatePDFDocument(inputStreampdf));
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -101,13 +142,32 @@ public class DocumentServiceController {
 
 		Map<String, MultipartFile> fileMap = request.getFileMap();
 		MultipartFile file = fileMap.get("uploadedFile");
+		MultipartFile filepdf = fileMap.get("uploadedFile");
+		DocumentMetaData metaData = null;
 		
 		try {
 			byte[] byteArr = file.getBytes();
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArr);
-			System.out.println("inputStream: " + inputStream != null);
+			
+			byte[] byteArrpdf = filepdf.getBytes();
+			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
+			
+			boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
+			
+			if(pdfDocCheck)
+			{
+				docService.uploadPropSection(inputStream,tempPropId, SectionType.BIO_SKETCHES);
+			}
+			
+			{
+				metaData = new DocumentMetaData();
+				metaData.setFileName("Test");
+			}
+			
+			
+			//System.out.println("inputStream: " + inputStream != null);
 			//send to service layer
-			docService.uploadPropSection(inputStream, tempPropId, SectionType.BIO_SKETCHES);
+			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -121,13 +181,32 @@ public class DocumentServiceController {
 
 		Map<String, MultipartFile> fileMap = request.getFileMap();
 		MultipartFile file = fileMap.get("uploadedFile");
+		MultipartFile filepdf = fileMap.get("uploadedFile");
+		DocumentMetaData metaData = null;
 		
 		try {
 			byte[] byteArr = file.getBytes();
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArr);
-			System.out.println("inputStream: " + inputStream != null);
+			
+
+			byte[] byteArrpdf = filepdf.getBytes();
+			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
+			
+			boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
+			
+			if(pdfDocCheck)
+			{
+				docService.uploadPropSection(inputStream, tempPropId, SectionType.CURR_PEND_SUPPORT);
+			}
+			
+			{
+				metaData = new DocumentMetaData();
+				metaData.setFileName("Test");
+			}
+			
+			//System.out.println("inputStream: " + inputStream != null);
 			//send to service layer
-			docService.uploadPropSection(inputStream, tempPropId, SectionType.CURR_PEND_SUPPORT);
+			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -141,6 +220,8 @@ public class DocumentServiceController {
 	public void getProjectDesc(@PathVariable String tempPropId, HttpServletResponse response){
 		
 		ByteArrayOutputStream outputStream = docService.getPropSection(tempPropId, SectionType.PROJECT_DESCRIPTION);
+		
+		//System.out.println(" ** controller get project "+outputStream.toByteArray().length);
 		try {
 			 FileCopyUtils.copy(outputStream.toByteArray(), response.getOutputStream());
 			 response.setContentType("application/pdf");      
@@ -195,13 +276,31 @@ public class DocumentServiceController {
 		
 		Map<String, MultipartFile> fileMap = request.getFileMap();
 		MultipartFile file = fileMap.get("uploadedFile");
+		MultipartFile filepdf = fileMap.get("uploadedFile");
+		DocumentMetaData metaData = null;
 		
+				
 		try {
 			byte[] byteArr = file.getBytes();
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArr);
-			System.out.println("inputStream: " + inputStream != null);
-			//send to service layer
-			docService.uploadPropSection(inputStream, tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
+			
+			byte[] byteArrpdf = filepdf.getBytes();
+			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
+			
+			
+			boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
+			//System.out.println("uploadDMP:pdfDocCheck "+pdfDocCheck);
+			
+					
+			if(pdfDocCheck)
+			{
+				docService.uploadPropSection(inputStream, tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
+			}
+			
+			{
+				metaData = new DocumentMetaData();
+				metaData.setFileName("Test");
+			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -244,7 +343,7 @@ public class DocumentServiceController {
 	@RequestMapping(path="/delete/proposal/{tempPropId}/projdesc", method = RequestMethod.GET)
 	public void deleteProjDesc(@PathVariable String tempPropId, HttpServletResponse response) throws Exception {
 		docService.deletePropSection(tempPropId, SectionType.PROJECT_DESCRIPTION);
-		System.out.println("delete proj desc");
+		//System.out.println("delete proj desc");
 		response.sendRedirect("/upload");
 	}
 	
@@ -252,25 +351,25 @@ public class DocumentServiceController {
 	@RequestMapping(path="/delete/proposal/{tempPropId}/dmp", method = RequestMethod.GET)
 	public void deleteDMP(@PathVariable String tempPropId, HttpServletResponse response) throws Exception {
 		docService.deletePropSection(tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
-		System.out.println("delete dmp");
+		//System.out.println("delete dmp");
 		response.sendRedirect("/upload");
 	}
 	@RequestMapping(path="/delete/proposal/{tempPropId}/caps", method = RequestMethod.GET)
 	public void deleteCaps(@PathVariable String tempPropId, HttpServletResponse response) throws Exception {
 		docService.deletePropSection(tempPropId, SectionType.CURR_PEND_SUPPORT);
-		System.out.println("delete dmp");
+		//System.out.println("delete dmp");
 		response.sendRedirect("/upload");
 	}
 	@RequestMapping(path="/delete/proposal/{tempPropId}/bs", method = RequestMethod.GET)
 	public void deleteBioSketches(@PathVariable String tempPropId, HttpServletResponse response) throws Exception {
 		docService.deletePropSection(tempPropId, SectionType.BIO_SKETCHES);
-		System.out.println("delete dmp");
+		//System.out.println("delete dmp");
 		response.sendRedirect("/upload");
 	}
 	@RequestMapping(path="/delete/proposal/{tempPropId}/ment", method = RequestMethod.GET)
 	public void deleteMentoring(@PathVariable String tempPropId, HttpServletResponse response) throws Exception {
 		docService.deletePropSection(tempPropId, SectionType.MENTOR_PLAN);
-		System.out.println("delete dmp");
+		//System.out.println("delete dmp");
 		response.sendRedirect("/upload");
 	}
 	
