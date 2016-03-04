@@ -20,6 +20,7 @@ import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDDocume
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem;
 import org.apache.pdfbox.util.PDFMergerUtility;
 import org.apache.pdfbox.util.PDFTextStripper;
+import org.apache.pdfbox.pdmodel.common.PDMetadata;
 
 
 public class PDFUtility {
@@ -53,67 +54,124 @@ public class PDFUtility {
 	}
 
 
-	private static boolean isDocumentEncrypted(PDDocument document)
+
+	public static String printPDFMetaData(ByteArrayInputStream stream)
 
 	{
-		boolean returnValue = false;
 
-		if (document.isEncrypted())
-			returnValue = true;
-		else
-			returnValue = false;
+		PDDocument document = null;
 
-		return returnValue;
+
+		try {
+			document = PDDocument.load(stream);
+
+			PDMetadata metadata = new PDMetadata(document);
+
+			//System.out.println("**"+metadata.toString());
+
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				document.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		finally
+		{
+			try {
+				document.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return null;
 
 	}
 
 
 
-
-	public static String extractTextFromPDF(ByteArrayInputStream stream)
+	public  static boolean validatePDFDocument(ByteArrayInputStream stream, String tempPropId)
 
 	{
 
 		PDFTextStripper stripper;
 		String text = null;
+		PDDocument document = null;
+
+		boolean isValidPDF = true;
+
 		try {
-			PDDocument document = PDDocument.load(stream);
+			document = PDDocument.load(stream);
 
-			PDDocumentInformation info = document.getDocumentInformation();
-			System.out.println( "Page Count=" + document.getNumberOfPages() );
-			System.out.println( "Title=" + info.getTitle() );
-			System.out.println( "Author=" + info.getAuthor() );
-			System.out.println( "Subject=" + info.getSubject() );
-			System.out.println( "Keywords=" + info.getKeywords() );
-			System.out.println( "Creator=" + info.getCreator() );
-			System.out.println( "Producer=" + info.getProducer() );
-			System.out.println( "Creation Date=" + info.getCreationDate() );
-			System.out.println( "Modification Date=" + info.getModificationDate());
-			System.out.println( "Trapped=" + info.getTrapped() );   
-
-			stripper = new PDFTextStripper();
-
-			text = stripper.getText(document);
-			System.out.println("PDF ** text length" + text.length());
-			if (text.length() <= 3) {
-				System.out
-				.println("**^^^^^^^^^^^^^^ PDD documentText is empty ^^^^^^^^^^^^^ *****:"
-						+ text);
+			if(document.isEncrypted())
+			{
+			isValidPDF = false;
+			System.out.println("Error Message: ( Temp Prop Id:"+tempPropId+ " PDF Document is password Protected or encrypted"	);
 			}
-			System.out.println("** PDD document *****:" + text);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			//Check if document has an image or empty text
+			stripper = new PDFTextStripper();
+			text = stripper.getText(document);
+			//System.out.println("PDF ** text length" + text.length());
+			
+			if(!document.isEncrypted())
+			{
+				if (text.length() <= 3) {
+					isValidPDF = false;
+					System.out.println("Error Message: ( Temp Prop Id:"+tempPropId+ " PDF Document has an image only"	);
+				}
+			}
+			
+			
+			
 
-		return text;
+			/*
+			 * PDDocumentInformation info = document.getDocumentInformation();
+			 * System.out.println( "Page Count=" + document.getNumberOfPages()
+			 * ); System.out.println( "Title=" + info.getTitle() );
+			 * System.out.println( "Author=" + info.getAuthor() );
+			 * System.out.println( "Subject=" + info.getSubject() );
+			 * System.out.println( "Keywords=" + info.getKeywords() );
+			 * System.out.println( "Creator=" + info.getCreator() );
+			 * System.out.println( "Producer=" + info.getProducer() );
+			 * System.out.println( "Creation Date=" + info.getCreationDate() );
+			 * System.out.println( "Modification Date=" +
+			 * info.getModificationDate()); System.out.println( "Trapped=" +
+			 * info.getTrapped() );
+			 */
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			try {
+				document.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+
+			if (document != null) {
+				try {
+					document.close();
+					// stream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return isValidPDF;
 
 	}
 
 
 
-
-	public static ByteArrayOutputStream createPDFDocumentFromText( String text) 
+	public static ByteArrayOutputStream createPDFDocumentFromText( String text)
 	{
 		//file.writeTo(outputStream);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -172,13 +230,13 @@ public class PDFUtility {
 
 			contentStream.beginText();
 			contentStream.setFont(pdfFont, fontSize);
-			contentStream.moveTextPositionByAmount(startX, startY);            
+			contentStream.moveTextPositionByAmount(startX, startY);
 			for (String line: lines)
 			{
 				contentStream.drawString(line);
 				contentStream.moveTextPositionByAmount(0, -leading);
 			}
-			contentStream.endText(); 
+			contentStream.endText();
 			contentStream.close();
 
 			doc.save(outputStream);
@@ -282,7 +340,7 @@ public class PDFUtility {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
-		}  
+		}
 		finally{
 			if( document != null )
 			{
@@ -297,7 +355,7 @@ public class PDFUtility {
 		return ba;
 	}
 
-	
+
 	/**
 	 * This method returns page count.
 	 * @param pd
@@ -311,7 +369,7 @@ public class PDFUtility {
 			document = PDDocument.load(inp);
 			PDDocumentInformation info = document.getDocumentInformation();
 			pdPageCount = document.getNumberOfPages();
-			System.out.println("PDFUtility.getPageCount() title : "+info.getTitle()+"-- No of Pages : "+pdPageCount);
+			//System.out.println("PDFUtility.getPageCount() title : "+info.getTitle()+"-- No of Pages : "+pdPageCount);
 			document.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -327,7 +385,7 @@ public class PDFUtility {
 		return pdPageCount;
 	}
 
-	
+
 	/**
 	 * This Method creates Left Navigation/BookMarks.
 	 * @param document
@@ -352,7 +410,7 @@ public class PDFUtility {
 		pagesOutline.setTitle( "Contents of Proposal" );
 		outline.appendChild( pagesOutline );
 		List pages = document.getDocumentCatalog().getAllPages();
-		System.out.println("PDFUtility.generateLeftNavigation() Total No of Pages : "+pages.size());
+		//System.out.println("PDFUtility.generateLeftNavigation() Total No of Pages : "+pages.size());
 
 		PDPage page = (PDPage)pages.get( 0 );
 		PDPageFitWidthDestination dest = new PDPageFitWidthDestination();
@@ -390,7 +448,7 @@ public class PDFUtility {
 		bookmark.setTitle(capsTitle);
 		pagesOutline.appendChild( bookmark );
 
-		//bs			
+		//bs
 		page = (PDPage)pages.get(tc+pdPageCount+dmpPageCount+capsPageCount);
 		dest = new PDPageFitWidthDestination();
 		dest.setPage( page );
@@ -409,8 +467,8 @@ public class PDFUtility {
 		pagesOutline.appendChild( bookmark );
 		pagesOutline.openNode();
 		outline.openNode();
-		
-		
+
+
 		// proj summ
 		page = (PDPage) pages.get(tc + pdPageCount + dmpPageCount+ capsPageCount + bsPageCount+ mentPageCount);
 		dest = new PDPageFitWidthDestination();
@@ -421,7 +479,7 @@ public class PDFUtility {
 		pagesOutline.appendChild(bookmark);
 		pagesOutline.openNode();
 		outline.openNode();
-				
+
 	}
 
 
@@ -443,7 +501,7 @@ public class PDFUtility {
 		ByteArrayOutputStream toc = new ByteArrayOutputStream();
 		PDDocument doc = null;
 		float leading = 1.5f * 10;
-		System.out.println(" PDFUtility.createTOC()-- Generating TOC -----");
+		//System.out.println(" PDFUtility.createTOC()-- Generating TOC -----");
 
 		int pdPageCount = getPageCount(projDesc.toByteArray());
 		int dmpPageCount = getPageCount(dmpPlan.toByteArray());
@@ -455,7 +513,7 @@ public class PDFUtility {
 		try
 		{
 			doc = new PDDocument();
-			
+
 
 
 			PDPage page = new PDPage();
@@ -563,7 +621,7 @@ public class PDFUtility {
 
 			contentStream.beginText();
 			contentStream.setFont( PDType1Font.HELVETICA, 10 );
-			contentStream.moveTextPositionByAmount( 70, 590 );            
+			contentStream.moveTextPositionByAmount( 70, 590 );
 			for (String line: lines)
 			{
 //				System.out.printf("'%s'\n", line);
@@ -719,7 +777,7 @@ public class PDFUtility {
 			contentStream.beginText();
 			contentStream.setFont( PDType1Font.HELVETICA, 10 );
 			float yy = 450f;
-			contentStream.moveTextPositionByAmount( 70, 370 );            
+			contentStream.moveTextPositionByAmount( 70, 370 );
 			for (String line3: lines3)
 			{
 //				System.out.printf("'%s'\n", line3);
@@ -752,13 +810,13 @@ public class PDFUtility {
 			lines4.add("Appendix (List below. )");
 			lines4.add("(Include only if allowed by a specific program announcement/");
 			lines4.add("solicitation or if approved in advance by the appropriate NSF");
-			lines4.add("Assistant Director or designee)");           
+			lines4.add("Assistant Director or designee)");
 			contentStream.beginText();
 			contentStream.setFont( PDType1Font.HELVETICA, 10 );
-			contentStream.moveTextPositionByAmount( 70, 300 );            
+			contentStream.moveTextPositionByAmount( 70, 300 );
 			for (String line4: lines4)
 			{
-				System.out.printf("'%s'\n", line4);
+				//System.out.printf("'%s'\n", line4);
 				contentStream.drawString(line4);
 				contentStream.moveTextPositionByAmount(0, -leading);
 			}
@@ -797,7 +855,7 @@ public class PDFUtility {
 			contentStream.beginText();
 			contentStream.setFont( PDType1Font.HELVETICA, 10 );
 			//            float y4 = 420;
-			contentStream.moveTextPositionByAmount( 40, 100 );            
+			contentStream.moveTextPositionByAmount( 40, 100 );
 			for (String line4: lines5)
 			{
 //				System.out.printf("'%s'\n", line4);
@@ -822,7 +880,7 @@ public class PDFUtility {
 			}
 		}
 		return toc;
-	}	
+	}
 
 }
 
