@@ -52,7 +52,7 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 		metaData.put(SECTION_TYPE, sectionType.toString());
 		GridFSFile gridFSfile = gridFsTemplate.store(inputStream, tempPropId,
 				CONTENT_TYPE_PDF, metaData);
-		System.out.println("Document saved in mongoDB.");
+		//System.out.println("Document saved in mongoDB.");
 		return setDocmentMetaData(gridFSfile);
 
 	}
@@ -66,7 +66,7 @@ public class DocumentServiceDaoImpl implements  DocumentServiceDao {
 		for(GridFSDBFile file : fileList){
 			try {			
 					file.writeTo(outputStream);
-					System.out.println("Output Stream: " + outputStream != null);
+					//System.out.println("Output Stream: " + outputStream != null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
