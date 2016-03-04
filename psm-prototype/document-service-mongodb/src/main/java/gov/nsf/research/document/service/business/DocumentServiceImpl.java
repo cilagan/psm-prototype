@@ -29,7 +29,12 @@ public class DocumentServiceImpl implements DocumentService {
 	
 	@Override
 	public DocumentMetaData uploadPropSection(ByteArrayInputStream inputStream, String tempPropId, SectionType sectionType) {
-		System.out.println("saving doc on service layer.");
+		//System.out.println("saving doc on service layer.");
+		//System.out.println("saving doc on service layer*******************.");
+		//System.out.println(" service....inputStream1111:*************** " + inputStream != null);
+		//System.out.println("**in DOCService IMPl...Mentoring PDF Validation***:"+PDFUtility.validatePDFDocument(inputStream));
+		//System.out.println("  service....inputStream222222:*************** " + inputStream != null);
+		
 		return docServiceDao.saveDocument(inputStream, tempPropId, sectionType);
 	}
 
@@ -78,7 +83,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	public void deletePropSection(String tempPropId, SectionType sectionType) {
-		System.out.println("deleting - " + tempPropId +" | " + sectionType);
+		//System.out.println("deleting - " + tempPropId +" | " + sectionType);
 		docServiceDao.deleteDocument(tempPropId, sectionType);
 	}
 
