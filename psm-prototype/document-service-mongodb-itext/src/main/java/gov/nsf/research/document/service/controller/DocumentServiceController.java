@@ -24,7 +24,7 @@ import gov.nsf.research.document.service.model.SectionType;
 import gov.nsf.research.document.service.model.proposal.DataMgtPlan;
 import gov.nsf.research.document.service.model.proposal.ProjectDesc;
 import gov.nsf.research.document.service.model.proposal.Proposal;
-import gov.nsf.research.document.service.pdf.PDFUtility;
+
 
 @RestController
 @RequestMapping(path="/docService")
@@ -75,19 +75,10 @@ public class DocumentServiceController {
 			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
 			
 			
-			boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
+			//boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
 			
-			if(pdfDocCheck)
-			{
-				docService.uploadPropSection(inputStream, tempPropId, SectionType.PROJECT_DESCRIPTION);
-			}
 			
-			{
-				metaData = new DocumentMetaData();
-				metaData.setFileName("Test");
-			}
 			
-			//System.out.println("inputStream: **************************" + inputStream != null);
 			//send to service layer
 			
 			
@@ -116,16 +107,9 @@ public class DocumentServiceController {
 			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
 			
 			
-			boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
-			if(pdfDocCheck)
-			{
-				docService.uploadPropSection( inputStream, tempPropId, SectionType.MENTOR_PLAN);
-			}
 			
-			{
-				metaData = new DocumentMetaData();
-				metaData.setFileName("Test");
-			}
+				docService.uploadPropSection( inputStream, tempPropId, SectionType.MENTOR_PLAN);
+			
 			//send to service layer
 			
 			//System.out.println("**Mentoring PDF Validation***:"+PDFUtility.validatePDFDocument(inputStreampdf));
@@ -152,17 +136,8 @@ public class DocumentServiceController {
 			byte[] byteArrpdf = filepdf.getBytes();
 			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
 			
-			boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
 			
-			if(pdfDocCheck)
-			{
 				docService.uploadPropSection(inputStream,tempPropId, SectionType.BIO_SKETCHES);
-			}
-			
-			{
-				metaData = new DocumentMetaData();
-				metaData.setFileName("Test");
-			}
 			
 			
 			//System.out.println("inputStream: " + inputStream != null);
@@ -192,19 +167,9 @@ public class DocumentServiceController {
 			byte[] byteArrpdf = filepdf.getBytes();
 			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
 			
-			boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
 			
-			if(pdfDocCheck)
-			{
 				docService.uploadPropSection(inputStream, tempPropId, SectionType.CURR_PEND_SUPPORT);
-			}
 			
-			{
-				metaData = new DocumentMetaData();
-				metaData.setFileName("Test");
-			}
-			
-			//System.out.println("inputStream: " + inputStream != null);
 			//send to service layer
 			
 			
@@ -288,19 +253,9 @@ public class DocumentServiceController {
 			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
 			
 			
-			boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
-			//System.out.println("uploadDMP:pdfDocCheck "+pdfDocCheck);
 			
-					
-			if(pdfDocCheck)
-			{
 				docService.uploadPropSection(inputStream, tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
-			}
 			
-			{
-				metaData = new DocumentMetaData();
-				metaData.setFileName("Test");
-			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
