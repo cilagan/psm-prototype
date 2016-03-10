@@ -1,5 +1,13 @@
 package gov.nsf.research.document.service.controller;
 
+import gov.nsf.research.document.service.business.DocumentService;
+import gov.nsf.research.document.service.model.DocumentMetaData;
+import gov.nsf.research.document.service.model.SectionType;
+import gov.nsf.research.document.service.model.proposal.DataMgtPlan;
+import gov.nsf.research.document.service.model.proposal.ProjectDesc;
+import gov.nsf.research.document.service.model.proposal.Proposal;
+import gov.nsf.research.document.service.pdf.PDFService;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,16 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import gov.nsf.research.document.service.business.DocumentService;
-import gov.nsf.research.document.service.model.DocumentCheckModel;
-import gov.nsf.research.document.service.model.DocumentMetaData;
-import gov.nsf.research.document.service.model.SectionType;
-import gov.nsf.research.document.service.model.proposal.DataMgtPlan;
-import gov.nsf.research.document.service.model.proposal.ProjectDesc;
-import gov.nsf.research.document.service.model.proposal.Proposal;
-import gov.nsf.research.document.service.pdf.PDFService;
-import gov.nsf.research.document.service.pdf.PDFUtility;
 
 
 @RestController
