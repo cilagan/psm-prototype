@@ -10,6 +10,7 @@ import com.itextpdf.awt.geom.Rectangle;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.exceptions.BadPasswordException;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.parser.FilteredTextRenderListener;
@@ -114,8 +115,10 @@ public class PDFUtility {
 			}
 			System.out.println("iText PDF Extractor: "
 					+ PdfTextExtractor.getTextFromPage(reader, 1).length());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		}
+						
+				catch (Exception e) {
+			
 			e.printStackTrace();
 		}
 
