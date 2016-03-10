@@ -4,6 +4,7 @@ import gov.nsf.research.document.service.dao.DocumentServiceDao;
 import gov.nsf.research.document.service.dao.ProposalDao;
 import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
+import gov.nsf.research.document.service.pdf.PDFService;
 import gov.nsf.research.document.service.pdf.PDFUtility;
 import gov.nsf.research.document.service.repository.ProjectDescRepository;
 
@@ -27,6 +28,9 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Autowired
 	DocumentServiceDao docServiceDao;
+	
+	@Autowired
+	PDFService pDFService;
 	
 	@Autowired
 	ProjectDescRepository pdr;
@@ -64,34 +68,8 @@ public class DocumentServiceImpl implements DocumentService {
            baosList.add(ment);
           baosList.add(projsumm);
            
-           Document document = new Document();
-           //savetoLocal(baosList);
-
-           PdfWriter writer = null;
-           PdfReader reader = null; 
-           try {
-                  writer = PdfWriter.getInstance(document, baos);
-
-                  document.open();
-                  PdfContentByte cb = writer.getDirectContent();
-                  for (ByteArrayOutputStream ba : baosList) {
-
-                        reader = new PdfReader(ba.toByteArray());
-                 
-                  for (int i = 1; i <= reader.getNumberOfPages(); i++) {
-                        document.newPage();
-                        PdfImportedPage page = writer.getImportedPage(reader, i);
-                        cb.addTemplate(page, 0, 0);
-                  }
-                  }
-           }      catch (DocumentException e) {
-                  e.printStackTrace();
-           }catch (IOException e) {
-                  e.printStackTrace();
-           }
-           //outputStream.flush();
-           document.close();
-           //outputStream.close();
+          baos =  pDFService.CreateEntireProposal(tempPropId, baosList);
+           
            return baos;
     }
 
@@ -146,7 +124,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 		ByteArrayOutputStream outputstream = new ByteArrayOutputStream();
 
-		outputstream = PDFUtility.createPDFDocumentFromText(projSummText);
+		outputstream = pDFService.createPDF(projSummText);
 
 		return outputstream;
 
