@@ -6,6 +6,8 @@ import gov.nsf.research.document.service.dao.DocumentServiceDao;
 import gov.nsf.research.document.service.dao.ProposalDao;
 import gov.nsf.research.document.service.dao.impl.DocumentServiceDaoImpl;
 import gov.nsf.research.document.service.dao.impl.ProposalDaoImpl;
+import gov.nsf.research.document.service.pdf.PDFService;
+import gov.nsf.research.document.service.pdf.PDFServiceiTextImpl;
 import gov.nsf.research.document.service.repository.ProjectDescRepository;
 import gov.nsf.research.document.service.repository.impl.ProjectDescRepositoryImpl;
 
@@ -71,6 +73,18 @@ public class AppConfig {
 	public ProjectDescRepository projectDescRepository(){
 		return new ProjectDescRepositoryImpl(mongoTemplate, gridFsTemplate);
 	}
+	
+	@Bean
+	public PDFService pDFService(){
+		return new PDFServiceiTextImpl();
+	}
+	
+	/*
+	@Bean
+	public PDFService pDFService(){
+		return new PDFServicePdfBoxImpl();
+	}
+	*/
 	
 	@Bean
 	public DocumentServiceDao documentServiceDao(){
