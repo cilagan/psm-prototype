@@ -24,6 +24,7 @@ import gov.nsf.research.document.service.model.SectionType;
 import gov.nsf.research.document.service.model.proposal.DataMgtPlan;
 import gov.nsf.research.document.service.model.proposal.ProjectDesc;
 import gov.nsf.research.document.service.model.proposal.Proposal;
+import gov.nsf.research.document.service.pdf.PDFService;
 import gov.nsf.research.document.service.pdf.PDFUtility;
 
 
@@ -33,6 +34,9 @@ public class DocumentServiceController {
 	
 	@Autowired
 	DocumentService docService;
+	
+	@Autowired
+	PDFService pDFService;
 	
 	@RequestMapping(path="/proposal" )
 	public Proposal getProposal(){
@@ -77,7 +81,7 @@ public class DocumentServiceController {
 			
 			docService.uploadPropSection(inputStream, tempPropId, SectionType.PROJECT_DESCRIPTION);
 			
-			//boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
+			boolean pdfDocCheck = pDFService.validatePDFDocument(inputStreampdf, tempPropId);
 			
 			
 			
@@ -245,6 +249,7 @@ public class DocumentServiceController {
 		MultipartFile file = fileMap.get("uploadedFile");
 		MultipartFile filepdf = fileMap.get("uploadedFile");
 		DocumentMetaData metaData = null;
+		boolean isValidPDF = false;
 		
 				
 		try {
@@ -254,9 +259,10 @@ public class DocumentServiceController {
 			byte[] byteArrpdf = filepdf.getBytes();
 			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
 			
-			PDFUtility.validatePDFDocument(inputStreampdf,tempPropId);
+			isValidPDF =  pDFService.validatePDFDocument(inputStreampdf,tempPropId);
+		System.out.println("DocumentServiceController.uploadDMP()..isValidPDF"+isValidPDF);
 			
-				docService.uploadPropSection(inputStream, tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
+			docService.uploadPropSection(inputStream, tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
 			
 			
 		} catch (IOException e) {
