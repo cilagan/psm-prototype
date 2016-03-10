@@ -24,6 +24,7 @@ import gov.nsf.research.document.service.model.SectionType;
 import gov.nsf.research.document.service.model.proposal.DataMgtPlan;
 import gov.nsf.research.document.service.model.proposal.ProjectDesc;
 import gov.nsf.research.document.service.model.proposal.Proposal;
+import gov.nsf.research.document.service.pdf.PDFUtility;
 
 
 @RestController
@@ -74,6 +75,7 @@ public class DocumentServiceController {
 			byte[] byteArrpdf = filepdf.getBytes();
 			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
 			
+			docService.uploadPropSection(inputStream, tempPropId, SectionType.PROJECT_DESCRIPTION);
 			
 			//boolean pdfDocCheck = PDFUtility.validatePDFDocument(inputStreampdf, tempPropId);
 			
@@ -252,7 +254,7 @@ public class DocumentServiceController {
 			byte[] byteArrpdf = filepdf.getBytes();
 			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
 			
-			
+			PDFUtility.validatePDFDocument(inputStreampdf,tempPropId);
 			
 				docService.uploadPropSection(inputStream, tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
 			
@@ -333,6 +335,7 @@ public class DocumentServiceController {
 	public void getProjectSummary(@PathVariable String tempPropId, HttpServletResponse response){
 		
 		ByteArrayOutputStream outputStream  = docService.getProjectSummaryText(tempPropId);
+		System.out.println("DocumentServiceController.getProjectSummary()...."+tempPropId);
 		
 		try {
 			 FileCopyUtils.copy(outputStream.toByteArray(), response.getOutputStream());
