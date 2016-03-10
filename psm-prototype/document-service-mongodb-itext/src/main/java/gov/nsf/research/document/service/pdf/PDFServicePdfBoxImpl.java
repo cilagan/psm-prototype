@@ -3,6 +3,9 @@ package gov.nsf.research.document.service.pdf;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import java.util.Map;
+
+import com.itextpdf.text.pdf.PdfReader;
 
 public class PDFServicePdfBoxImpl implements PDFService {
 
@@ -22,6 +25,12 @@ public class PDFServicePdfBoxImpl implements PDFService {
 	@Override
 	public ByteArrayOutputStream CreateEntireProposal(String tempPropId,
 			List<ByteArrayOutputStream> outputStreamList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ByteArrayOutputStream CreateEntireProposal(Map<String, PdfReader> filesToMerge) {
 		// TODO Auto-generated method stub
 		return null;
 	}

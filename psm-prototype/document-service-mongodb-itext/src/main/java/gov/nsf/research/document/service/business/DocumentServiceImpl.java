@@ -10,8 +10,11 @@ import gov.nsf.research.document.service.repository.ProjectDescRepository;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -64,8 +67,23 @@ public class DocumentServiceImpl implements DocumentService {
            baosList.add(bs);
            baosList.add(ment);
           baosList.add(projsumm);
+          
+          Map<String, PdfReader> filesToMerge = new TreeMap<String, PdfReader>();
+          
+          try {
+			filesToMerge.put("01.Project Description", new PdfReader(projDesc.toByteArray()));
+			filesToMerge.put("02.Data Management Plan", new PdfReader(dmpPlan.toByteArray()));
+			filesToMerge.put("03.Current and Pending", new PdfReader(caps.toByteArray()));
+			filesToMerge.put("04.Bio Sketches", new PdfReader(bs.toByteArray()));
+			filesToMerge.put("05.Mentoring Plan", new PdfReader(ment.toByteArray()));
+			filesToMerge.put("06.Project Summary", new PdfReader(projsumm.toByteArray()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
            
-          baos =  pDFService.CreateEntireProposal(tempPropId, baosList);
+//          baos =  pDFService.CreateEntireProposal(tempPropId, baosList);
+          
+          baos =  pDFService.CreateEntireProposal(filesToMerge);
            
            return baos;
     }
