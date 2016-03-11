@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -26,6 +28,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.PdfCopy.PageStamp;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
+
+import gov.nsf.research.document.service.model.SectionType;
 
 public class PDFServiceiTextImpl implements PDFService {
 
@@ -119,7 +123,6 @@ public class PDFServiceiTextImpl implements PDFService {
 	}
 	
 	public ByteArrayOutputStream CreateEntireProposal(Map<String, PdfReader> filesToMerge) {
-		System.out.println("MergeWithToc2.createPdf()");
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		
 		Map<Integer, String> toc = new TreeMap<Integer, String>();
@@ -211,6 +214,128 @@ public class PDFServiceiTextImpl implements PDFService {
     		e.printStackTrace();
     	}
     	return toc;
+    }
+    
+    public ByteArrayOutputStream CreateEntireProposalWithBookMarks(Map<SectionType, ByteArrayOutputStream> filesToMerge){
+
+    	System.out.println("PDFServiceiTextImpl.CreateEntireProposalWithBookMarks()-- Creating Entire Proposal with BookMarks");
+    	ByteArrayOutputStream baos = null;
+    	try{
+    		Document document = new Document();
+    		 baos = new ByteArrayOutputStream();
+    		PdfCopy copy = new PdfCopy(document, baos);
+    		document.open();
+
+    		ArrayList<HashMap<String, Object>> outlines = new ArrayList<HashMap<String, Object>>();
+
+    		// add the first outline element
+    		HashMap<String, Object> title = new HashMap<String, Object>();
+    		title.put("Title", "Proposal Sections");
+    		outlines.add(title);
+
+
+    		// add the first document
+     
+    		ByteArrayOutputStream pd = filesToMerge.get(SectionType.PROJECT_DESCRIPTION);
+
+    		PdfReader reader1 = new PdfReader(pd.toByteArray());
+    		copy.addDocument(reader1);
+    		int page = 1;
+    		ArrayList<HashMap<String, Object>> kids = new ArrayList<HashMap<String, Object>>();
+    		HashMap<String, Object> rc = new HashMap<String, Object>();
+    		rc.put("Title", "Project Description");
+    		rc.put("Action", "GoTo");
+    		rc.put("Page", String.format("%d Fit",page));
+    		kids.add(rc);
+    		title.put("Kids", kids);
+    		// update page count
+    		page += reader1.getNumberOfPages();
+
+    		// add the second document
+    		ByteArrayOutputStream dmp = filesToMerge.get(SectionType.DATA_MANAGEMENT_PLAN);
+    		PdfReader reader2 = new PdfReader(dmp.toByteArray());
+    		copy.addDocument(reader2);
+    		// add the second outline element as a kid of the first one
+    		//        ArrayList<HashMap<String, Object>> kids = new ArrayList<HashMap<String, Object>>();
+    		HashMap<String, Object> link1 = new HashMap<String, Object>();
+    		link1.put("Title", "Data Managemennt Plan");
+    		link1.put("Action", "GoTo");
+    		link1.put("Page", String.format("%d Fit", page));
+    		kids.add(link1);
+    		title.put("Kids", kids);
+    		// update page count
+    		page += reader2.getNumberOfPages();
+
+
+    		// add the third document
+    		ByteArrayOutputStream cp = filesToMerge.get(SectionType.CURR_PEND_SUPPORT);
+    		PdfReader reader3 = new PdfReader(cp.toByteArray());
+    		copy.addDocument(reader3);
+    		// add the third outline element to the root
+    		HashMap<String, Object> link2 = new HashMap<String, Object>();
+    		link2.put("Title", "Current Pending");
+    		link2.put("Action", "GoTo");
+    		link2.put("Page", String.format("%d Fit", page));
+    		kids.add(link2);
+    		title.put("kids", kids);
+    		// update page count
+    		page += reader3.getNumberOfPages();
+    		
+    		// add the 4th document
+    		ByteArrayOutputStream bio = filesToMerge.get(SectionType.BIO_SKETCHES);
+    		PdfReader reader4 = new PdfReader(bio.toByteArray());
+    		copy.addDocument(reader4);
+    		// add the third outline element to the root
+    		HashMap<String, Object> link4 = new HashMap<String, Object>();
+    		link4.put("Title", "Bio Skeches");
+    		link4.put("Action", "GoTo");
+    		link4.put("Page", String.format("%d Fit", page));
+    		kids.add(link4);
+    		title.put("kids", kids);
+    		// update page count
+    		page += reader4.getNumberOfPages();
+    		
+    		// add the 5th document
+    		ByteArrayOutputStream mp = filesToMerge.get(SectionType.MENTOR_PLAN);
+    		PdfReader reader5 = new PdfReader(mp.toByteArray());
+    		copy.addDocument(reader5);
+    		// add the third outline element to the root
+    		HashMap<String, Object> link5 = new HashMap<String, Object>();
+    		link5.put("Title", "Mentoring Plan");
+    		link5.put("Action", "GoTo");
+    		link5.put("Page", String.format("%d Fit", page));
+    		kids.add(link5);
+    		title.put("kids", kids);    		// update page count
+    		page += reader5.getNumberOfPages();
+    		
+    		// add the 6th document
+    		ByteArrayOutputStream pj = filesToMerge.get(SectionType.PROJ_SUMM);
+    		PdfReader reader6 = new PdfReader(pj.toByteArray());
+    		copy.addDocument(reader6);
+    		// add the third outline element to the root
+    		HashMap<String, Object> link6 = new HashMap<String, Object>();
+    		link6.put("Title", "Project Summary");
+    		link6.put("Action", "GoTo");
+    		link6.put("Page", String.format("%d Fit", page));
+    		kids.add(link6);
+    		title.put("kids", kids);
+
+    		// add the outlines
+    		copy.setOutlines(outlines);
+    		// close the document
+    		document.close();
+    		reader1.close();
+    		reader2.close();
+    		reader3.close();
+    		reader4.close();
+    		reader5.close();
+    		reader6.close();
+    		
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+		return baos;
+
     }
 
 }

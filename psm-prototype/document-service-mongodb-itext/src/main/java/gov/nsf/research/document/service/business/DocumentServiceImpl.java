@@ -66,7 +66,7 @@ public class DocumentServiceImpl implements DocumentService {
            baosList.add(caps);
            baosList.add(bs);
            baosList.add(ment);
-          baosList.add(projsumm);
+           baosList.add(projsumm);
           
           Map<String, PdfReader> filesToMerge = new TreeMap<String, PdfReader>();
           
@@ -81,9 +81,19 @@ public class DocumentServiceImpl implements DocumentService {
 			e.printStackTrace();
 		}
            
+          Map<SectionType, ByteArrayOutputStream> files = new TreeMap<SectionType, ByteArrayOutputStream>();
+         	  files.put(SectionType.PROJECT_DESCRIPTION, projDesc);
+        	  files.put(SectionType.DATA_MANAGEMENT_PLAN, dmpPlan);
+        	  files.put(SectionType.CURR_PEND_SUPPORT, caps);
+        	  files.put(SectionType.BIO_SKETCHES, bs);
+        	  files.put(SectionType.MENTOR_PLAN, ment);
+        	  files.put(SectionType.PROJ_SUMM, projsumm);
+
 //          baos =  pDFService.CreateEntireProposal(tempPropId, baosList);
           
-          baos =  pDFService.CreateEntireProposal(filesToMerge);
+//          baos =  pDFService.CreateEntireProposal(filesToMerge);
+          
+          baos = pDFService.CreateEntireProposalWithBookMarks(files);
            
            return baos;
     }
