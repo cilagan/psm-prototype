@@ -2,7 +2,6 @@ package gov.nsf.research.document.service.pdf;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,11 +20,11 @@ import com.itextpdf.text.pdf.PdfAction;
 import com.itextpdf.text.pdf.PdfAnnotation;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfCopy;
+import com.itextpdf.text.pdf.PdfCopy.PageStamp;
 import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.PdfCopy.PageStamp;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
@@ -216,6 +215,68 @@ public class PDFServiceiTextImpl implements PDFService {
     	return toc;
     }
     
+    private ByteArrayOutputStream createTableOfContentsC(Map<SectionType, ByteArrayOutputStream> filesToMerge){
+    	ByteArrayOutputStream toc = new ByteArrayOutputStream();
+    	try{
+    		Document document1 = new Document();
+     		PdfWriter.getInstance(document1,toc);
+    		document1.open();
+    		Paragraph p = new Paragraph("Table of Contents");
+    		p.setAlignment(Element.ALIGN_CENTER);
+    		p.setSpacingAfter(25);
+    		document1.add(p);
+    		
+    		ByteArrayOutputStream pd = filesToMerge.get(SectionType.PROJECT_DESCRIPTION);
+    		ByteArrayOutputStream dmp = filesToMerge.get(SectionType.DATA_MANAGEMENT_PLAN);//
+    		ByteArrayOutputStream cp = filesToMerge.get(SectionType.CURR_PEND_SUPPORT);
+    		ByteArrayOutputStream bio = filesToMerge.get(SectionType.BIO_SKETCHES);
+    		ByteArrayOutputStream mp = filesToMerge.get(SectionType.MENTOR_PLAN);
+    		ByteArrayOutputStream pj = filesToMerge.get(SectionType.PROJ_SUMM);
+    		
+    		//Pull the rest of Titles
+    		Paragraph p1 = getParagraph(pd,  "1. Project Desccription");
+    		Paragraph p2 = getParagraph(dmp, "2. Data Management");
+    		Paragraph p3 = getParagraph(cp,  "3. Current and Pending");
+    		Paragraph p4 = getParagraph(bio, "4. Bio Sketches");
+    		Paragraph p5 = getParagraph(mp,  "5. Mentoring Plan");
+    		Paragraph p6 = getParagraph(pj,  "6. Project Summary");
+    		document1.add(p1);
+    		document1.add(p2);
+    		document1.add(p3);
+    		document1.add(p4);
+    		document1.add(p5);
+    		document1.add(p6);
+    		
+    		document1.close();
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	return toc;
+    }
+    
+    private Paragraph getParagraph(ByteArrayOutputStream ba, String title){
+		
+    	Paragraph p = null;
+    	int noPages = 0;
+    	
+    	try {
+			PdfReader reader = new PdfReader(ba.toByteArray());
+			noPages = reader.getNumberOfPages();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    	p = new Paragraph(title);
+    	p.add(new Chunk(new DottedLineSeparator()));
+    	p.add(String.valueOf(noPages));
+		p.setAlignment(Element.ALIGN_LEFT);
+		p.setSpacingAfter(10);
+    	return p;
+    	
+    }
+    
     public ByteArrayOutputStream CreateEntireProposalWithBookMarks(Map<SectionType, ByteArrayOutputStream> filesToMerge){
 
     	System.out.println("PDFServiceiTextImpl.CreateEntireProposalWithBookMarks()-- Creating Entire Proposal with BookMarks");
@@ -233,15 +294,28 @@ public class PDFServiceiTextImpl implements PDFService {
     		title.put("Title", "Proposal Sections");
     		outlines.add(title);
 
-
-    		// add the first document
-     
-    		ByteArrayOutputStream pd = filesToMerge.get(SectionType.PROJECT_DESCRIPTION);
+    		
+    		//We can Call TOC and append it.
+    		
+    		ByteArrayOutputStream toc = createTableOfContentsC(filesToMerge);
+    		PdfReader tocReader = new PdfReader(toc.toByteArray());
+    		copy.addDocument(tocReader);
+    		int page = 1;
+    		ArrayList<HashMap<String, Object>> kids = new ArrayList<HashMap<String, Object>>();
+    		HashMap<String, Object> tc = new HashMap<String, Object>();
+    		tc.put("Title", "Table Of Contents");
+    		tc.put("Action", "GoTo");
+    		tc.put("Page", String.format("%d Fit",page));
+    		kids.add(tc);
+    		title.put("Kids", kids);
+    		// update page count
+    		page += tocReader.getNumberOfPages();
+    		
+    		// add the pd pdf
+       		ByteArrayOutputStream pd = filesToMerge.get(SectionType.PROJECT_DESCRIPTION);
 
     		PdfReader reader1 = new PdfReader(pd.toByteArray());
     		copy.addDocument(reader1);
-    		int page = 1;
-    		ArrayList<HashMap<String, Object>> kids = new ArrayList<HashMap<String, Object>>();
     		HashMap<String, Object> rc = new HashMap<String, Object>();
     		rc.put("Title", "Project Description");
     		rc.put("Action", "GoTo");
@@ -251,7 +325,7 @@ public class PDFServiceiTextImpl implements PDFService {
     		// update page count
     		page += reader1.getNumberOfPages();
 
-    		// add the second document
+    		// add the dmp document
     		ByteArrayOutputStream dmp = filesToMerge.get(SectionType.DATA_MANAGEMENT_PLAN);
     		PdfReader reader2 = new PdfReader(dmp.toByteArray());
     		copy.addDocument(reader2);
@@ -287,7 +361,7 @@ public class PDFServiceiTextImpl implements PDFService {
     		copy.addDocument(reader4);
     		// add the third outline element to the root
     		HashMap<String, Object> link4 = new HashMap<String, Object>();
-    		link4.put("Title", "Bio Skeches");
+    		link4.put("Title", "Bio Sketches");
     		link4.put("Action", "GoTo");
     		link4.put("Page", String.format("%d Fit", page));
     		kids.add(link4);

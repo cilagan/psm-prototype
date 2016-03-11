@@ -344,7 +344,8 @@ public class DocumentServiceController {
 		try {
 			 FileCopyUtils.copy(outputStream.toByteArray(), response.getOutputStream());
 			 response.setContentType("application/pdf");      
-			 response.flushBuffer();
+//			 response.flushBuffer();
+			 response.getOutputStream().flush();
 		} catch (IOException  e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
