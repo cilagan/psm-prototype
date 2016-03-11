@@ -24,4 +24,16 @@ public class ProposalDaoImpl implements ProposalDao {
 			
 	}
 
+
+	@Override
+	public String getStampPDFTimeStamp(String tempPropID) {
+		String sql = "select last_updt_tmsp from flp.proj_summ where TEMP_PROP_ID = ?";
+		
+		String timeStamp = psmFLJdbcTemplate.queryForObject(
+				sql, new Object[] { tempPropID }, String.class);
+		
+				
+		return timeStamp;
+	}
+
 }
