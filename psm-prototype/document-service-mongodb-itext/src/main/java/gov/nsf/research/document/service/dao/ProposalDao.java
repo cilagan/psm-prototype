@@ -13,6 +13,8 @@ public interface ProposalDao {
 	 * @return list of fundingopportunity
 	 */
 	public String getProjectSummary(String tempPropID);
+	
+	public String getStampPDFTimeStamp(String tempPropID);
 
 	
 
