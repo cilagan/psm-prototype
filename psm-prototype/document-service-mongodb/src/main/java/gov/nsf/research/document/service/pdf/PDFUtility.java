@@ -929,7 +929,7 @@ public class PDFUtility {
         float margin = 72;
         int fontSize = 12;
         PDFont font = PDType1Font.getStandardFont("Helvetica");
-        Color fontColor = Color.BLACK;
+        Color fontColor = Color.RED;
         
 		ByteArrayInputStream in = new ByteArrayInputStream(srcDocStream.toByteArray());
 		srcDocument = PDDocument.load(in);
