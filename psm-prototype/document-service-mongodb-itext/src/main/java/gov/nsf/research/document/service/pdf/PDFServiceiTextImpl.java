@@ -1,20 +1,27 @@
 package gov.nsf.research.document.service.pdf;
 
+import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfAction;
 import com.itextpdf.text.pdf.PdfAnnotation;
@@ -22,6 +29,7 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfCopy.PageStamp;
 import com.itextpdf.text.pdf.PdfImportedPage;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -411,5 +419,45 @@ public class PDFServiceiTextImpl implements PDFService {
 		return baos;
 
     }
+	
+	
+	/**
+	 * This method will instantiate a PDDocument from a ByteArrayOutputStream 
+	 * and add a timestamp to the first page
+	 * @param  srcDocStream
+	 * @param  stampText
+	 * @throws IOException 
+	 * @throws DocumentException 
+	 * @throws COSVisitorException 
+	 * 
+	 */
+	public ByteArrayOutputStream stampPDF(ByteArrayOutputStream srcDocStream, String stampText) {
+	
+		PdfReader reader = null;
+		PdfStamper stamper = null;
+		try {
+			reader = new PdfReader(srcDocStream.toByteArray());
+			stamper = new PdfStamper(reader, srcDocStream);
+			
+			Rectangle rect = reader.getPageSize(1);
+			PdfContentByte canvas = stamper.getOverContent(1);
+			
+			//TODO: Formatting options should be standardized/read from property file
+			Phrase stampPhrase = new Phrase(stampText, new Font(FontFamily.HELVETICA, 12));
+			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, stampPhrase, rect.getLeft(35), rect.getTop(30), 0);
+			
+			
+			stamper.close();
+			reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return srcDocStream;
+	}
 
 }

@@ -94,8 +94,11 @@ public class DocumentServiceImpl implements DocumentService {
 //          baos =  pDFService.CreateEntireProposal(filesToMerge);
           
           baos = pDFService.CreateEntireProposalWithBookMarks(files);
-           
-           return baos;
+
+          //TODO: Confirm this is correct placement or if we need a new function to specifically stamp PDFs
+          baos = pDFService.stampPDF(baos, proposalDao.getStampPDFTimeStamp(tempPropId));
+
+          return baos;
     }
 
 	private void savetoLocal(List<ByteArrayOutputStream> baosList) {

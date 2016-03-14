@@ -44,5 +44,11 @@ public class PDFServicePdfBoxImpl implements PDFService {
 		return null;
 	}
 
+	@Override
+	public ByteArrayOutputStream stampPDF(ByteArrayOutputStream srcDocStream, String sampText) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

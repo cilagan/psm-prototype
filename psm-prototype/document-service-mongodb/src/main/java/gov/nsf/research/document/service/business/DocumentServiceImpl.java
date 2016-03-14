@@ -78,6 +78,10 @@ public class DocumentServiceImpl implements DocumentService {
 		ByteArrayOutputStream baos = (ByteArrayOutputStream)PDFUtility.concatenateDocuments(baosList);
 		ByteArrayOutputStream ba = PDFUtility.CreateEntireProposal(tempPropId, toc, baos, projDesc, dmpPlan, caps, bs, ment,projsumm);
 //		System.out.println("DocumentServiceImpl.getEntirePropSection() Size of the out file : "+ba.toByteArray().length);
+		
+		//stamp the PDF
+		ba = PDFUtility.stampPDFTimestamp(ba);
+		
 		return ba;
 	}
 

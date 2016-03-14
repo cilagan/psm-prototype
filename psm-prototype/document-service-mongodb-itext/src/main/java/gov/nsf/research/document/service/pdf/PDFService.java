@@ -23,4 +23,5 @@ public interface PDFService {
 	
 	public ByteArrayOutputStream CreateEntireProposalWithBookMarks(Map<SectionType, ByteArrayOutputStream> filesToMerge);
 
+	public ByteArrayOutputStream stampPDF(ByteArrayOutputStream srcDocStream, String sampText);
 }

@@ -1,10 +1,13 @@
 package gov.nsf.research.document.service.pdf;
 
+import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
@@ -18,6 +21,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.destination.PDPageFitWidthDestination;
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDDocumentOutline;
 import org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem;
+import org.apache.pdfbox.util.Overlay;
 import org.apache.pdfbox.util.PDFMergerUtility;
 import org.apache.pdfbox.util.PDFTextStripper;
 import org.apache.pdfbox.pdmodel.common.PDMetadata;
@@ -240,8 +244,6 @@ public class PDFUtility {
 			contentStream.close();
 
 			doc.save(outputStream);
-
-
 
 		}
 		catch(Exception e)
@@ -881,6 +883,92 @@ public class PDFUtility {
 		}
 		return toc;
 	}
+
+	
+	/**
+	 * This method will add an ISO8601 timestamp to the top of a PDF document
+	 * @param  srcDocStream
+	 */
+	public static ByteArrayOutputStream stampPDFTimestamp(ByteArrayOutputStream srcDocStream){
+		
+		ByteArrayOutputStream stampedDocStream = new ByteArrayOutputStream();
+		
+		//TODO: Add this to properties file
+		String isoTimestampFormat = "YYYY/MM/dd HH:mm:ss";
+		
+		try {
+			stampedDocStream = stampPDF(srcDocStream, new SimpleDateFormat(isoTimestampFormat).format(new Date()));
+		} catch (COSVisitorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return stampedDocStream;
+	}
+	
+	
+	/**
+	 * This method will instantiate a PDDocument from a ByteArrayOutputStream 
+	 * and add a timestamp to the first page
+	 * @param  srcDocStream
+	 * @param  stampText
+	 * @throws IOException 
+	 * @throws COSVisitorException 
+	 * 
+	 */
+	private static ByteArrayOutputStream stampPDF(ByteArrayOutputStream srcDocStream, String stampText) throws IOException, COSVisitorException {
+		
+		ByteArrayOutputStream stampedDocStream = new ByteArrayOutputStream();
+
+		PDDocument srcDocument = null;
+
+		//TODO: Move hardcoded config values to a properties file
+        float margin = 72;
+        int fontSize = 12;
+        PDFont font = PDType1Font.getStandardFont("Helvetica");
+        Color fontColor = Color.BLACK;
+        
+		ByteArrayInputStream in = new ByteArrayInputStream(srcDocStream.toByteArray());
+		srcDocument = PDDocument.load(in);
+		
+		 // get list of pages
+        List allPages = srcDocument.getDocumentCatalog().getAllPages();
+        
+        //stamp the first page only
+        //TODO: Need to determine actual logic for PDF stamping for development
+        PDPage page = (PDPage)allPages.get(0);
+        
+        PDRectangle pageSize = page.findMediaBox();
+
+		float startX = pageSize.getLowerLeftX() + margin;
+		float startY = pageSize.getUpperRightY() - 50;
+			
+    	// if we want to set the string width - we don't need to in this case
+        //float stringWidth = font.getStringWidth(stampText) * fontSize / 1000f;
+        
+        PDPageContentStream contentStream = new PDPageContentStream(srcDocument, page, true, true, true);
+        contentStream.beginText();
+
+        //set stampText formatting options
+        contentStream.setFont(font, fontSize);
+        contentStream.setNonStrokingColor(fontColor);
+        contentStream.setTextTranslation(startX, startY);
+        
+        //stamp the document
+        contentStream.drawString(stampText);
+
+        contentStream.endText();
+        contentStream.close();
+        
+        srcDocument.save(stampedDocStream);
+        srcDocument.close();
+        
+        return stampedDocStream;
+	}
+	
 
 }
 
