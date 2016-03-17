@@ -7,11 +7,12 @@ import java.util.Map;
 
 import com.itextpdf.text.pdf.PdfReader;
 
+import gov.nsf.research.document.service.model.PDFDocument;
 import gov.nsf.research.document.service.model.SectionType;
 
 public interface PDFService {
 	
-	public boolean validatePDFDocument(ByteArrayInputStream inputStream,
+	public PDFDocument validatePDFDocument(ByteArrayInputStream inputStream,
 			String tempPropId);
 
 	public ByteArrayOutputStream createPDF(String text);
