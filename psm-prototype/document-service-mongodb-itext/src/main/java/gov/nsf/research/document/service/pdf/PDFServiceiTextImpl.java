@@ -53,7 +53,7 @@ public class PDFServiceiTextImpl implements PDFService {
 			if (reader.isEncrypted()) {
 
 				pDFDocument.setPDFEncrypted(true);
-				pDFDocument.setPdfErrorMessage("TempPropID:"+tempPropId+" Error: Uploaded PDF Document is Encrypted.");
+				pDFDocument.setPdfErrorMessage("Error: Uploaded PDF Document is Encrypted.");
 			} else {
 				length = PdfTextExtractor.getTextFromPage(reader, 1).length();
 				System.out.println("Text length:"+length);
@@ -61,7 +61,7 @@ public class PDFServiceiTextImpl implements PDFService {
 				if (length <= 1) {
 
 					pDFDocument.setImageOnly(true);
-					pDFDocument.setPdfErrorMessage("TempPropID:"+tempPropId+" Error: Uploaded PDF Document has only image or no text in it.");
+					pDFDocument.setPdfErrorMessage("Error: Uploaded PDF Document has only image or no text in it.");
 				}
 			}
 
@@ -69,7 +69,7 @@ public class PDFServiceiTextImpl implements PDFService {
 
 		catch (BadPasswordException e) {
 			pDFDocument.setPDFPasswordProteced(true);
-			pDFDocument.setPdfErrorMessage("TempPropID:"+tempPropId+" Error: Uploaded PDF Document is password protected.");
+			pDFDocument.setPdfErrorMessage("Error: Uploaded PDF Document is password protected.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
