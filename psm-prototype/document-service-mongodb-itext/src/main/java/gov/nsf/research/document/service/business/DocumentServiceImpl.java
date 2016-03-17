@@ -145,11 +145,7 @@ public class DocumentServiceImpl implements DocumentService {
 	public ByteArrayOutputStream getProjectSummaryText(String tempPropId) {
 
 		String projSummText = proposalDao.getProjectSummary(tempPropId);
-		System.out.println("DocumentServiceImpl.getProjectSummaryText()"
-				+ tempPropId);
-
-		System.out.println("**text:" + projSummText);
-
+		
 		ByteArrayOutputStream outputstream = new ByteArrayOutputStream();
 
 		outputstream = pDFService.createPDF(projSummText);
