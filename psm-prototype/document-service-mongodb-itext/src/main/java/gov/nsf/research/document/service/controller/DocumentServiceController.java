@@ -1,22 +1,19 @@
 package gov.nsf.research.document.service.controller;
 
 import gov.nsf.research.document.service.business.DocumentService;
-import gov.nsf.research.document.service.model.DocumentMetaData;
+import gov.nsf.research.document.service.model.PDFDocument;
 import gov.nsf.research.document.service.model.SectionType;
-import gov.nsf.research.document.service.model.proposal.DataMgtPlan;
-import gov.nsf.research.document.service.model.proposal.ProjectDesc;
-import gov.nsf.research.document.service.model.proposal.Proposal;
 import gov.nsf.research.document.service.pdf.PDFService;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @RestController
@@ -36,39 +34,14 @@ public class DocumentServiceController {
 	@Autowired
 	PDFService pDFService;
 	
-	@RequestMapping(path="/proposal" )
-	public Proposal getProposal(){
-		Proposal sampleProposal = getSampleProposal();
-		return sampleProposal;
-	}
-	
-	private Proposal getSampleProposal(){
 		
-		Proposal proposal = new Proposal();
-		
-		ProjectDesc pd = new ProjectDesc();
-		pd.setLastUpdateDate(new Date());
-		pd.setTempPropId("1234567");
-		pd.setUploadDate(new Date());
-		
-		DataMgtPlan dmp = new DataMgtPlan();
-		dmp.setLastUpdateDate(new Date());
-		dmp.setTempPropId("1234567");
-		dmp.setUploadDate(new Date());
-		
-		proposal.setProjDesc(pd);
-		proposal.setDataMgtPlan(dmp);
-		
-		return proposal;
-	}
-	
 	@RequestMapping(path="/proposal/{tempPropId}/projdesc", method = RequestMethod.POST)
 	public void uploadProjDesc(@PathVariable String tempPropId, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception{
 
 		Map<String, MultipartFile> fileMap = request.getFileMap();
 		MultipartFile file = fileMap.get("uploadedFile");
 		MultipartFile filepdf = fileMap.get("uploadedFile");
-		DocumentMetaData metaData = null;
+		PDFDocument pDFDocument = null;
 		
 		try {
 			byte[] byteArr = file.getBytes();
@@ -77,13 +50,13 @@ public class DocumentServiceController {
 			byte[] byteArrpdf = filepdf.getBytes();
 			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
 			
-			docService.uploadPropSection(inputStream, tempPropId, SectionType.PROJECT_DESCRIPTION);
-			
-			boolean pdfDocCheck = pDFService.validatePDFDocument(inputStreampdf, tempPropId);
-			
-			
-			
-			//send to service layer
+			pDFDocument = pDFService.validatePDFDocument(inputStreampdf,tempPropId);
+
+			if (pDFDocument.getPdfErrorMessage() == null) {
+				docService.uploadPropSection(inputStream, tempPropId, SectionType.PROJECT_DESCRIPTION);
+				response.sendRedirect("/upload");
+			}
+			System.out.println("Error Message: " + pDFDocument.getPdfErrorMessage());
 			
 			
 		} catch (IOException e) {
@@ -94,13 +67,13 @@ public class DocumentServiceController {
 	}
 	
 	@RequestMapping(path="/proposal/{tempPropId}/ment", method = RequestMethod.POST)
-	public void uploadMent(@PathVariable String tempPropId, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception{
+	public void uploadMent(@PathVariable String tempPropId, MultipartHttpServletRequest request, HttpServletResponse response, RedirectAttributes rd) throws Exception{
 
 		Map<String, MultipartFile> fileMap = request.getFileMap();
 		MultipartFile file = fileMap.get("uploadedFile");
 		
 		MultipartFile filepdf = fileMap.get("uploadedFile");
-		DocumentMetaData metaData = null;
+		PDFDocument pDFDocument = null;
 		
 		
 		try {
@@ -110,13 +83,14 @@ public class DocumentServiceController {
 			byte[] byteArrpdf = filepdf.getBytes();
 			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
 			
-			
-			
+			pDFDocument = pDFService.validatePDFDocument(inputStreampdf,tempPropId);
+
+			if (pDFDocument.getPdfErrorMessage() == null) {
 				docService.uploadPropSection( inputStream, tempPropId, SectionType.MENTOR_PLAN);
+				response.sendRedirect("/upload");
+			}
+			System.out.println("Error Message: " + pDFDocument.getPdfErrorMessage());
 			
-			//send to service layer
-			
-			//System.out.println("**Mentoring PDF Validation***:"+PDFUtility.validatePDFDocument(inputStreampdf));
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -131,7 +105,7 @@ public class DocumentServiceController {
 		Map<String, MultipartFile> fileMap = request.getFileMap();
 		MultipartFile file = fileMap.get("uploadedFile");
 		MultipartFile filepdf = fileMap.get("uploadedFile");
-		DocumentMetaData metaData = null;
+		PDFDocument pDFDocument = null;
 		
 		try {
 			byte[] byteArr = file.getBytes();
@@ -140,12 +114,13 @@ public class DocumentServiceController {
 			byte[] byteArrpdf = filepdf.getBytes();
 			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
 			
-			
+			pDFDocument = pDFService.validatePDFDocument(inputStreampdf,tempPropId);
+
+			if (pDFDocument.getPdfErrorMessage() == null) {
 				docService.uploadPropSection(inputStream,tempPropId, SectionType.BIO_SKETCHES);
-			
-			
-			//System.out.println("inputStream: " + inputStream != null);
-			//send to service layer
+				response.sendRedirect("/upload");
+			}
+			System.out.println("Error Message: " + pDFDocument.getPdfErrorMessage());
 			
 			
 		} catch (IOException e) {
@@ -161,7 +136,7 @@ public class DocumentServiceController {
 		Map<String, MultipartFile> fileMap = request.getFileMap();
 		MultipartFile file = fileMap.get("uploadedFile");
 		MultipartFile filepdf = fileMap.get("uploadedFile");
-		DocumentMetaData metaData = null;
+		PDFDocument pDFDocument = null;
 		
 		try {
 			byte[] byteArr = file.getBytes();
@@ -171,11 +146,13 @@ public class DocumentServiceController {
 			byte[] byteArrpdf = filepdf.getBytes();
 			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
 			
-			
+			pDFDocument = pDFService.validatePDFDocument(inputStreampdf,tempPropId);
+
+			if (pDFDocument.getPdfErrorMessage() == null) {
 				docService.uploadPropSection(inputStream, tempPropId, SectionType.CURR_PEND_SUPPORT);
-			
-			//send to service layer
-			
+				response.sendRedirect("/upload");
+			}
+			System.out.println("Error Message: " + pDFDocument.getPdfErrorMessage());			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -241,33 +218,38 @@ public class DocumentServiceController {
 	}
 	
 	@RequestMapping(path="/proposal/{tempPropId}/dmp", method = RequestMethod.POST)
-	public void uploadDMP(@PathVariable String tempPropId, MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+	public void uploadDMP(Model model, @PathVariable String tempPropId,
+			MultipartHttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
 		Map<String, MultipartFile> fileMap = request.getFileMap();
 		MultipartFile file = fileMap.get("uploadedFile");
 		MultipartFile filepdf = fileMap.get("uploadedFile");
-		DocumentMetaData metaData = null;
-		boolean isValidPDF = false;
-		
-				
+
+		PDFDocument pDFDocument = null;
+
 		try {
 			byte[] byteArr = file.getBytes();
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArr);
-			
+
 			byte[] byteArrpdf = filepdf.getBytes();
-			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(byteArrpdf);
-			
-			isValidPDF =  pDFService.validatePDFDocument(inputStreampdf,tempPropId);
-		System.out.println("DocumentServiceController.uploadDMP()..isValidPDF"+isValidPDF);
-			
-			docService.uploadPropSection(inputStream, tempPropId, SectionType.DATA_MANAGEMENT_PLAN);
-			
-			
-		} catch (IOException e) {
+			ByteArrayInputStream inputStreampdf = new ByteArrayInputStream(
+					byteArrpdf);
+
+			pDFDocument = pDFService.validatePDFDocument(inputStreampdf,tempPropId);
+
+			if (pDFDocument.getPdfErrorMessage() == null) {
+				docService.uploadPropSection(inputStream, tempPropId,SectionType.DATA_MANAGEMENT_PLAN);
+				response.sendRedirect("/upload");
+			}
+			System.out.println("Error Message: " + pDFDocument.getPdfErrorMessage());
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+
 		}
-		
+
 		response.sendRedirect("/upload");
 	}
 	
@@ -339,7 +321,7 @@ public class DocumentServiceController {
 	public void getProjectSummary(@PathVariable String tempPropId, HttpServletResponse response){
 		
 		ByteArrayOutputStream outputStream  = docService.getProjectSummaryText(tempPropId);
-		System.out.println("DocumentServiceController.getProjectSummary()...."+tempPropId);
+		//System.out.println("DocumentServiceController.getProjectSummary()...."+tempPropId);
 		
 		try {
 			 FileCopyUtils.copy(outputStream.toByteArray(), response.getOutputStream());
