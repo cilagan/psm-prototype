@@ -19,6 +19,7 @@ import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.exceptions.BadPasswordException;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfAction;
 import com.itextpdf.text.pdf.PdfAnnotation;
@@ -32,39 +33,47 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
+import gov.nsf.research.document.service.model.PDFDocument;
 import gov.nsf.research.document.service.model.SectionType;
 
 public class PDFServiceiTextImpl implements PDFService {
 
 	@Override
-	public boolean validatePDFDocument(ByteArrayInputStream inputStream,
+	public PDFDocument validatePDFDocument(ByteArrayInputStream inputStream,
 			String tempPropId) {
-		boolean isValidPDF = true;
+
 		PdfReader reader = null;
+		PDFDocument pDFDocument = null;
 		int length = 0;
-		System.out.println("PDFServiceiTextImpl.validatePDFDocument()");
 
 		try {
+			pDFDocument = new PDFDocument();
 			reader = new PdfReader(inputStream);
-			System.out.println("****reader.isEncrypted()...."	+ reader.isEncrypted());
+
 			if (reader.isEncrypted()) {
-				isValidPDF = false;
-				System.out.println(" PDF Document is password protected:"	+ length);
+
+				pDFDocument.setPDFEncrypted(true);
+				pDFDocument.setPdfErrorMessage("TempPropID:"+tempPropId+" Error: Uploaded PDF Document is Encrypted.");
 			} else {
 				length = PdfTextExtractor.getTextFromPage(reader, 1).length();
 
 				if (length <= 1) {
-					isValidPDF = false;
-					System.out.println(" PDF Document is empty:" + length);
+
+					pDFDocument.setImageOnly(true);
+					pDFDocument.setPdfErrorMessage("TempPropID:"+tempPropId+" Error: Uploaded PDF Document has only image.");
 				}
 			}
 
 		}
-		catch (Exception e) {
+
+		catch (BadPasswordException e) {
+			pDFDocument.setPDFPasswordProteced(true);
+			pDFDocument.setPdfErrorMessage("TempPropID:"+tempPropId+" Error: Uploaded PDF Document is password protected.");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return isValidPDF;
+		return pDFDocument;
 	}
 
 	@Override
