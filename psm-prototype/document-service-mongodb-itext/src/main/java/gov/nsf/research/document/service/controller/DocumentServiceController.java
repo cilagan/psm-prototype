@@ -56,7 +56,12 @@ public class DocumentServiceController {
 				docService.uploadPropSection(inputStream, tempPropId, SectionType.PROJECT_DESCRIPTION);
 				response.sendRedirect("/upload");
 			}
+			else
+			{
+				
 			System.out.println("Error Message: " + pDFDocument.getPdfErrorMessage());
+			response.sendRedirect("/uploadError"+"?"+"message="+pDFDocument.getPdfErrorMessage());
+			}
 			
 			
 		} catch (IOException e) {
@@ -89,7 +94,12 @@ public class DocumentServiceController {
 				docService.uploadPropSection( inputStream, tempPropId, SectionType.MENTOR_PLAN);
 				response.sendRedirect("/upload");
 			}
+			else
+			{
+				
 			System.out.println("Error Message: " + pDFDocument.getPdfErrorMessage());
+			response.sendRedirect("/uploadError"+"?"+"message="+pDFDocument.getPdfErrorMessage());
+			}
 			
 			
 		} catch (IOException e) {
@@ -120,7 +130,12 @@ public class DocumentServiceController {
 				docService.uploadPropSection(inputStream,tempPropId, SectionType.BIO_SKETCHES);
 				response.sendRedirect("/upload");
 			}
+			else
+			{
+				
 			System.out.println("Error Message: " + pDFDocument.getPdfErrorMessage());
+			response.sendRedirect("/uploadError"+"?"+"message="+pDFDocument.getPdfErrorMessage());
+			}
 			
 			
 		} catch (IOException e) {
@@ -152,7 +167,12 @@ public class DocumentServiceController {
 				docService.uploadPropSection(inputStream, tempPropId, SectionType.CURR_PEND_SUPPORT);
 				response.sendRedirect("/upload");
 			}
-			System.out.println("Error Message: " + pDFDocument.getPdfErrorMessage());			
+			else
+			{
+				
+			System.out.println("Error Message: " + pDFDocument.getPdfErrorMessage());
+			response.sendRedirect("/uploadError"+"?"+"message="+pDFDocument.getPdfErrorMessage());
+			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -242,7 +262,12 @@ public class DocumentServiceController {
 				docService.uploadPropSection(inputStream, tempPropId,SectionType.DATA_MANAGEMENT_PLAN);
 				response.sendRedirect("/upload");
 			}
+			else
+			{
+				
 			System.out.println("Error Message: " + pDFDocument.getPdfErrorMessage());
+			response.sendRedirect("/uploadError"+"?"+"message="+pDFDocument.getPdfErrorMessage());
+			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
