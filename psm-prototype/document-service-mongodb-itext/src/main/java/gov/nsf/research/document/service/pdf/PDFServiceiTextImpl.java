@@ -56,11 +56,12 @@ public class PDFServiceiTextImpl implements PDFService {
 				pDFDocument.setPdfErrorMessage("TempPropID:"+tempPropId+" Error: Uploaded PDF Document is Encrypted.");
 			} else {
 				length = PdfTextExtractor.getTextFromPage(reader, 1).length();
+				System.out.println("Text length:"+length);
 
 				if (length <= 1) {
 
 					pDFDocument.setImageOnly(true);
-					pDFDocument.setPdfErrorMessage("TempPropID:"+tempPropId+" Error: Uploaded PDF Document has only image.");
+					pDFDocument.setPdfErrorMessage("TempPropID:"+tempPropId+" Error: Uploaded PDF Document has only image or no text in it.");
 				}
 			}
 
