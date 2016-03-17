@@ -7,15 +7,16 @@ import java.util.Map;
 
 import com.itextpdf.text.pdf.PdfReader;
 
+import gov.nsf.research.document.service.model.PDFDocument;
 import gov.nsf.research.document.service.model.SectionType;
 
 public class PDFServicePdfBoxImpl implements PDFService {
 
 	@Override
-	public boolean validatePDFDocument(ByteArrayInputStream inputStream,
+	public PDFDocument validatePDFDocument(ByteArrayInputStream inputStream,
 			String tempPropId) {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 
 	@Override
