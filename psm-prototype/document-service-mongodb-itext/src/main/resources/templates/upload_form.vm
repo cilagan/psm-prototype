@@ -40,6 +40,14 @@
 
         </div>
         <div class="col-xs-10">
+                
+       <div class="row">
+				<div class="col-xs-12">
+					<table>
+						<thead><th style="color: red" colspan="2">$Error</th></thead>
+						</table>
+		</div>
+		<br><br>
          
           <form id="form" method="POST" enctype="multipart/form-data" action="http://localhost/docService/proposal/1234567/projdesc">
 			
