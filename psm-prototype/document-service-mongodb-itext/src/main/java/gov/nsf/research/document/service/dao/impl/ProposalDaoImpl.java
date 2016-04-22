@@ -1,9 +1,15 @@
 package gov.nsf.research.document.service.dao.impl;
 
+import gov.nsf.research.document.Storedprocedure.SPGetProjectSummary;
+import gov.nsf.research.document.Storedprocedure.SPSaveProjectSummary;
+import gov.nsf.research.document.service.dao.ProposalDao;
+import gov.nsf.research.document.service.model.proposal.ProjectSummary;
+
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import gov.nsf.research.document.service.dao.ProposalDao;
 
 public class ProposalDaoImpl implements ProposalDao {
 
@@ -13,16 +19,35 @@ public class ProposalDaoImpl implements ProposalDao {
 	
 	
 	@Override
-	public String getProjectSummary(String tempPropID) {
-		String sql = "select PROJ_SUMM_TXT from flp.proj_summ where TEMP_PROP_ID = ?";
+	public ProjectSummary getProjectSummary(String tempPropID) {
 		
-		String projSummtext = psmFLJdbcTemplate.queryForObject(
-				sql, new Object[] { tempPropID }, String.class);
-		
-				
-		return projSummtext;
-			
+		ProjectSummary projectSummary;
+
+		SPGetProjectSummary sPGetProjectSummary = new SPGetProjectSummary(
+				psmFLJdbcTemplate.getDataSource(),
+				SPGetProjectSummary.STORED_PROC_GET_PROJ_SUMM_DETAILS);
+
+		Map<String, Object> result = sPGetProjectSummary.execute(tempPropID);
+
+		List<ProjectSummary> awdList = (List<ProjectSummary>) result
+				.get(sPGetProjectSummary.RESULT_SET);
+
+		// expecting only one result
+		if (awdList.size() > 0) {
+			projectSummary = awdList.get(0);
+			if (projectSummary == null) {
+				return projectSummary;
+			}
+
+		} else {
+			projectSummary = null;
+		}
+
+		return projectSummary;
 	}
+	
+	
+	
 
 
 	@Override
@@ -35,5 +60,16 @@ public class ProposalDaoImpl implements ProposalDao {
 				
 		return timeStamp;
 	}
+
+
+	@Override
+	public void saveProjectSummary(String tempPropID, String overView, String intulMerit,
+			String brodrImpt) {
+		SPSaveProjectSummary sPSaveProjectSummary = new SPSaveProjectSummary(
+				psmFLJdbcTemplate.getDataSource(),
+				SPSaveProjectSummary.STORED_PROC_SAVE_PROJ_SUMM);
+		 sPSaveProjectSummary.execute(tempPropID,overView,brodrImpt,intulMerit);
+	}
+
 
 }
