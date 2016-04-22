@@ -3,6 +3,7 @@ package gov.nsf.research.document.dao;
 
 import gov.nsf.research.document.service.DocumentServiceApplication;
 import gov.nsf.research.document.service.dao.ProposalDao;
+import gov.nsf.research.document.service.model.proposal.ProjectSummary;
 
 import java.util.List;
 
@@ -53,9 +54,20 @@ public class ProposalDaoImplTest {
 	@Test
 	public void testgetProjectSummary() {
 
-	String text =	proposalDao.getProjectSummary("1008698");
+	ProjectSummary ps =	proposalDao.getProjectSummary("0000251");
 	
-	System.out.println("Test print:"+text);
+	System.out.println("Test getOverView:"+ps.getOverView());
+	System.out.println("Test getBrodrImpt:"+ps.getBrodrImpt());
+	System.out.println("Test getIntulMerit:"+ps.getIntulMerit());
+
+	}
+	
+	@Test
+	public void testsaveProjectSummary() {
+
+    proposalDao.saveProjectSummary("0000251", "overView", "intulMerit", "brodrImpt");
+	
+	
 
 	}
 
