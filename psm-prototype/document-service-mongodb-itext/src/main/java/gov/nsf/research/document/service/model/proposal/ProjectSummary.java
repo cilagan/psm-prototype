@@ -16,7 +16,30 @@ public class ProjectSummary extends AbstractTransferObject {
 	String id;
 	String tempPropId;
 	Date lastUpdttmsp;
+	String overView;
+	String intulMerit;
+	String brodrImpt;
 	
+
+	
+	public String getOverView() {
+		return overView;
+	}
+	public void setOverView(String overView) {
+		this.overView = overView;
+	}
+	public String getIntulMerit() {
+		return intulMerit;
+	}
+	public void setIntulMerit(String intulMerit) {
+		this.intulMerit = intulMerit;
+	}
+	public String getBrodrImpt() {
+		return brodrImpt;
+	}
+	public void setBrodrImpt(String brodrImpt) {
+		this.brodrImpt = brodrImpt;
+	}
 	/**
 	 * @return the id
 	 */
