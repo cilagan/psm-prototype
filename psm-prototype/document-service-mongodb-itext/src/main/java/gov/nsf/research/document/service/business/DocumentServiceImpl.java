@@ -4,6 +4,7 @@ import gov.nsf.research.document.service.dao.DocumentServiceDao;
 import gov.nsf.research.document.service.dao.ProposalDao;
 import gov.nsf.research.document.service.model.DocumentMetaData;
 import gov.nsf.research.document.service.model.SectionType;
+import gov.nsf.research.document.service.model.proposal.ProjectSummary;
 import gov.nsf.research.document.service.pdf.PDFService;
 import gov.nsf.research.document.service.repository.ProjectDescRepository;
 
@@ -144,11 +145,15 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	public ByteArrayOutputStream getProjectSummaryText(String tempPropId) {
 
-		String projSummText = proposalDao.getProjectSummary(tempPropId);
-		
+		ProjectSummary projSummText = proposalDao.getProjectSummary(tempPropId);
+		System.out.println("DocumentServiceImpl.getProjectSummaryText()"
+				+ tempPropId);
+
+		System.out.println("**text:" + projSummText);
+
 		ByteArrayOutputStream outputstream = new ByteArrayOutputStream();
 
-		outputstream = pDFService.createPDF(projSummText);
+		outputstream = pDFService.createPDF(projSummText.getOverView());
 
 		return outputstream;
 
