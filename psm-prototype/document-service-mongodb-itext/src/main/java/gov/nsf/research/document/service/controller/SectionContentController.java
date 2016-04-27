@@ -19,7 +19,7 @@ public class SectionContentController {
 		return ps;
 	}
 	
-	@RequestMapping(path="/projsumm/save", method = RequestMethod.POST)
+	@RequestMapping(path="/projsumm", method = RequestMethod.POST)
 	public void saveProjectSummary(ProjectSummary projectSummary){
 		System.out.println(projectSummary.toString());
 	}
