@@ -29,15 +29,14 @@ public class ProposalDaoImpl implements ProposalDao {
 
 		Map<String, Object> result = sPGetProjectSummary.execute(tempPropID);
 
-		List<ProjectSummary> awdList = (List<ProjectSummary>) result
+		@SuppressWarnings("unchecked")
+		List<ProjectSummary> projectSummaryList = (List<ProjectSummary>) result
 				.get(sPGetProjectSummary.RESULT_SET);
 
 		// expecting only one result
-		if (awdList.size() > 0) {
-			projectSummary = awdList.get(0);
-			if (projectSummary == null) {
-				return projectSummary;
-			}
+		if (projectSummaryList.size() > 0) {
+			projectSummary = projectSummaryList.get(0);
+			projectSummary.setTempPropId(tempPropID);
 
 		} else {
 			projectSummary = null;
