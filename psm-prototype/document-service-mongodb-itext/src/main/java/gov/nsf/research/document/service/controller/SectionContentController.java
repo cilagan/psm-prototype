@@ -32,12 +32,14 @@ public class SectionContentController {
 	
 	@RequestMapping(path="/projsumm", method = RequestMethod.POST)
 	public void saveProjectSummary(@RequestBody ProjectSummary projectSummary){
-	
+		
+		System.out.println("Project Summary: " + projectSummary.toString());
+		
 		if(projectSummary != null){
-			propDao.saveProjectSummary("1059422", 
-					projectSummary.getOverView(), 
-					projectSummary.getIntulMerit(), 
-					projectSummary.getBrodrImpt());
+//			propDao.saveProjectSummary("1059422", 
+//					projectSummary.getOverView(), 
+//					projectSummary.getIntulMerit(), 
+//					projectSummary.getBrodrImpt());
 		} else {
 			System.out.println("Project summary is null.");
 		}
