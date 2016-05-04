@@ -14,6 +14,7 @@ import gov.nsf.resarch.document.service.util.EditorTextConversionUtil;
 import gov.nsf.research.document.service.dao.ProposalDao;
 import gov.nsf.research.document.service.model.EditorText;
 import gov.nsf.research.document.service.model.proposal.ProjectSummary;
+import gov.nsf.research.document.service.pdf.PDFService;
 
 @CrossOrigin
 @RestController
@@ -22,6 +23,9 @@ public class SectionContentController {
 	
 	@Autowired
 	ProposalDao propDao;
+	
+	@Autowired
+	PDFService pDFService;
 	
 	@RequestMapping(path="/projsumm", method = RequestMethod.GET)
 	public ProjectSummary getProjectSummary(){
@@ -64,9 +68,9 @@ public class SectionContentController {
 		Set<EditorText> broaderImpact = EditorTextConversionUtil.convertEditorString(ps.getBrodrImpt());
 		Set<EditorText> intMerit = EditorTextConversionUtil.convertEditorString(ps.getIntulMerit());
 		
-		//send to PDF Service
+		//send to PDF Service		
 		
-		return null;
+		return pDFService.createProjectSummaryPDF(overview, broaderImpact, intMerit);
 	}
 }
 
