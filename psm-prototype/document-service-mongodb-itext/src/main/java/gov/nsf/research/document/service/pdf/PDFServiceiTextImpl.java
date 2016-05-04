@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import com.itextpdf.text.BaseColor;
@@ -16,10 +17,13 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.Font.FontStyle;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.exceptions.BadPasswordException;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfAction;
 import com.itextpdf.text.pdf.PdfAnnotation;
@@ -33,8 +37,11 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
+import gov.nsf.research.document.service.model.EditorFormat;
+import gov.nsf.research.document.service.model.EditorText;
 import gov.nsf.research.document.service.model.PDFDocument;
 import gov.nsf.research.document.service.model.SectionType;
+import gov.nsf.research.document.service.model.proposal.ProjectSummary;
 
 public class PDFServiceiTextImpl implements PDFService {
 
@@ -78,22 +85,12 @@ public class PDFServiceiTextImpl implements PDFService {
 	}
 
 	@Override
-	public ByteArrayOutputStream createPDF(String text) {
+	public ByteArrayOutputStream createPDF(ProjectSummary ps) {
 		System.out.println("PDFServiceiTextImpl.createPDF()");
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-		Document document = new Document();
-
-		try {
-			PdfWriter.getInstance(document, outputStream);
-			document.open();
-			document.add(new Paragraph(text));
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		} finally {
-			document.close();
-		}
+		
+		
 		return outputStream;
 
 	}
@@ -465,5 +462,141 @@ public class PDFServiceiTextImpl implements PDFService {
 		
 		return srcDocStream;
 	}
+
+	@Override
+	public int pageCount(ByteArrayOutputStream baos) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
+
+	@Override
+	public ByteArrayOutputStream createProjectSummaryPDF(
+			Set<EditorText> overView, Set<EditorText> brodImpt,
+			Set<EditorText> intellectual) {
+		
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		
+		//page size
+		Document document = new Document(PageSize.A4, 50, 50, 50, 0);
+
+		Paragraph overViewParagraph = null;
+		Paragraph brodrImptParagraph = null;
+		Paragraph intulMeritParagraph = null;
+		Paragraph mainHeader = null;
+
+		try {
+			PdfWriter.getInstance(document, outputStream);
+			
+			document.open();
+			
+			//Proposal Sectioin Title format			
+			mainHeader = new Paragraph("Project Summary", getTitleFont());
+			mainHeader.setAlignment(Element.ALIGN_CENTER);
+			document.add(mainHeader);
+			
+			// Overview Paragraph set up					
+			overViewParagraph = new Paragraph("Overview :", getSectioinFont());
+			document.add(overViewParagraph);
+			document = formatText(document, overView);
+			
+							
+			
+			// BrodrImpt Paragraph set up
+			brodrImptParagraph = new Paragraph("Broader Impacts :", getSectioinFont());
+			document.add(brodrImptParagraph);
+			document = formatText(document, brodImpt);
+
+			//IntulMerit Paragraph set up
+			intulMeritParagraph = new Paragraph("Intellectual Merit :", getSectioinFont());
+			document.add(intulMeritParagraph);
+			document = formatText(document, intellectual);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			document.close();
+		}
+		return outputStream;
+		
+		
+	}
+	
+	private Document formatText(Document document, Set<EditorText> text) {
+
+		try {
+
+			for (EditorText et : text) {
+				System.out.println(et.toString());
+				if (EditorFormat.BOLD.equals(et.getFormat())) {
+
+					document.add(new Chunk(et.getText(), getFontBold()));
+
+				} else if (EditorFormat.ITALIC.equals(et.getFormat())) {
+
+					document.add(new Chunk(et.getText(), getFontItalic()));
+				} else if (EditorFormat.UNDERLINED.equals(et.getFormat())) {
+
+					document.add(new Chunk(et.getText(), getFontUnderLine()));
+				} else {
+
+					document.add(new Chunk(et.getText(), getFontPlain()));
+				}
+
+			}
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return document;
+
+	}
+
+	
+	private  Font getTitleFont ()
+	{
+		Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD);
+		return font;
+	}
+	
+	private  Font getSectioinFont ()
+	{
+		Font font = new Font(Font.FontFamily.HELVETICA, 9, Font.BOLD);
+		return font;
+	}
+	
+	private  Font getdefaultFont ()
+	{
+		Font font = new Font(Font.FontFamily.HELVETICA, 8);
+		return font;
+	}
+	
+	
+	
+	private  Font getFontBold ()
+	{
+		Font font = new Font(Font.FontFamily.HELVETICA, 8, Font.BOLD);
+		return font;
+	}
+	
+	private  Font getFontItalic ()
+	{
+		Font font = new Font(Font.FontFamily.HELVETICA, 8, Font.ITALIC);
+		return font;
+	}
+	
+	private  Font getFontUnderLine ()
+	{
+		Font font = new Font(Font.FontFamily.HELVETICA, 8, Font.UNDERLINE);
+		return font;
+	}
+	
+	private  Font getFontPlain()
+	{
+		Font font = new Font(Font.FontFamily.HELVETICA, 8);
+		return font;
+	}
+	
 
 }
