@@ -4,11 +4,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.itextpdf.text.pdf.PdfReader;
 
+import gov.nsf.research.document.service.model.EditorText;
 import gov.nsf.research.document.service.model.PDFDocument;
 import gov.nsf.research.document.service.model.SectionType;
+import gov.nsf.research.document.service.model.proposal.ProjectSummary;
 
 public class PDFServicePdfBoxImpl implements PDFService {
 
@@ -20,7 +23,7 @@ public class PDFServicePdfBoxImpl implements PDFService {
 	}
 
 	@Override
-	public ByteArrayOutputStream createPDF(String text) {
+	public ByteArrayOutputStream createPDF(ProjectSummary ps) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -50,6 +53,23 @@ public class PDFServicePdfBoxImpl implements PDFService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public int pageCount(ByteArrayOutputStream baos) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ByteArrayOutputStream createProjectSummaryPDF(
+			Set<EditorText> overView, Set<EditorText> brodImpt,
+			Set<EditorText> intellectual) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
 
 
 }
