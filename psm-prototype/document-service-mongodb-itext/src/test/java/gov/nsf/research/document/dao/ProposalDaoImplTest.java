@@ -54,18 +54,19 @@ public class ProposalDaoImplTest {
 	@Test
 	public void testgetProjectSummary() {
 
-	ProjectSummary ps =	proposalDao.getProjectSummary("0000251");
+	ProjectSummary ps =	proposalDao.getProjectSummary("1059422");
 	
 	System.out.println("Test getOverView:"+ps.getOverView());
 	System.out.println("Test getBrodrImpt:"+ps.getBrodrImpt());
 	System.out.println("Test getIntulMerit:"+ps.getIntulMerit());
+	System.out.println("Test temp prop id:"+ps.getTempPropId());
 
 	}
 	
 	@Test
 	public void testsaveProjectSummary() {
 
-    proposalDao.saveProjectSummary("0000251", "overView", "intulMerit", "brodrImpt");
+    proposalDao.saveProjectSummary("0000251", "overView55", "intulMerit555", "brodrImpt555");
 	
 	
 
