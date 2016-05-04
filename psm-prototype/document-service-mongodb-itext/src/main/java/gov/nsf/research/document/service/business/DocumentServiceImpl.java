@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -153,7 +154,20 @@ public class DocumentServiceImpl implements DocumentService {
 
 		ByteArrayOutputStream outputstream = new ByteArrayOutputStream();
 
-		outputstream = pDFService.createPDF(projSummText.getOverView());
+		outputstream = pDFService.createPDF(projSummText);
+		
+		OutputStream fos;
+		try {
+		fos = new FileOutputStream("C:/Users/spendyal/Desktop/generated_pdf_from_text.pdf");
+		
+			outputstream.writeTo(fos);
+			outputstream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 
 		return outputstream;
 
