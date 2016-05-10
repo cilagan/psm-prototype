@@ -1,0 +1,116 @@
+/* 
+ * Notifications and Request Specific Style and Layout
+ */
+
+.searchButtonDivPadding {
+	margin: 12px 0;
+}
+
+.form-block {
+	display: block;
+}
+
+.validationError {
+	color: red;
+}
+
+.validationInline {
+	margin: 14px 0 0 10px;
+}
+
+.validationWarning {
+	color: #8e5300;
+}
+
+label.required:before {
+	color: red;
+    content: '*';
+}
+
+dd {
+	font-weight: normal;
+}
+
+
+.dl-horizontal dt {
+	text-align: left;
+	width: 150px;
+}
+
+.pagination {
+	padding-bottom: 12px;
+}
+
+ul.pagination {
+    margin: -8px 0;
+}
+
+.pagebanner {
+	vertical-align: top;
+}
+
+.pageSizeSelect {
+	padding-bottom: 10px;
+}
+
+.labelLeft, .errorCol {
+	margin: 14px 0 0;
+}
+
+.inputInstructionRight {
+	margin: 14px 0 0 8px;
+}
+
+div.indent {
+	padding-left: 20px;
+}
+
+a.backlink {
+    font-weight: bold;
+    margin: 10px 3px 20px 3px;
+    display: block !important;
+}
+
+a.backlink:before {
+	font-family: FontAwesome;
+	content:"\f053";
+	padding-right: 8px;
+	}
+	
+a.policy {
+    font-weight: bold;
+    margin: 10px 3px 20px 3px;
+    display: block !important;
+    text-align: right !important;
+}
+
+a.policy:before {
+ 	font-family: FontAwesome;
+	content:"\f05a";
+	font-weight: normal;
+	padding-right: 8px;
+}
+
+.searchSnippet {
+	padding: 15px;
+}
+
+img.padRight {
+	padding-right: 8px;
+}
+
+i.padRight {
+	padding-right: 8px;
+}
+
+i.padLeft {
+	padding-left: 8px;
+}
+
+.instTitle {
+	margin-top: 30px;
+}
+
+.rowBottomMargin{
+	margin-bottom: 20px;
+}
