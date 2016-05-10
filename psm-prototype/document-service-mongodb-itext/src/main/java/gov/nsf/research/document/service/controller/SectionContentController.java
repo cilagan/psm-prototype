@@ -1,9 +1,13 @@
 package gov.nsf.research.document.service.controller;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,26 +31,27 @@ public class SectionContentController {
 	@Autowired
 	PDFService pDFService;
 	
+	public static final String tempPropId = "1008698";
+	
 	@RequestMapping(path="/projsumm", method = RequestMethod.GET)
 	public ProjectSummary getProjectSummary(){
-		ProjectSummary ps = propDao.getProjectSummary("1008698");
-		System.out.println(ps.toString());
+		ProjectSummary ps = propDao.getProjectSummary(tempPropId);
 		return ps;
 	}
 	
 	@RequestMapping(path="/projsumm", method = RequestMethod.POST)
-	public void saveProjectSummary(@RequestBody ProjectSummary projectSummary){
-		
-		System.out.println("Project Summary: " + projectSummary.toString());
+	public ProjectSummary saveProjectSummary(@RequestBody ProjectSummary projectSummary){
+				
+		ProjectSummary ps = new ProjectSummary();
 		
 		if(projectSummary != null){
-//			propDao.saveProjectSummary("1059422", 
-//					projectSummary.getOverView(), 
-//					projectSummary.getIntulMerit(), 
-//					projectSummary.getBrodrImpt());
-		} else {
-			System.out.println("Project summary is null.");
+			propDao.saveProjectSummary(tempPropId, 
+					projectSummary.getOverView(), 
+					projectSummary.getIntulMerit(), 
+					projectSummary.getBrodrImpt());
+			ps = propDao.getProjectSummary(tempPropId);
 		}
+		return ps;
 	}
 	
 	private ProjectSummary createDummyProjectSummary(){
@@ -61,16 +66,24 @@ public class SectionContentController {
 	}
 	
 	@RequestMapping(path="/projsumm/pdf", method = RequestMethod.GET)
-	public ByteArrayOutputStream getProjectSummaryPdf(){
-		ProjectSummary ps = propDao.getProjectSummary("1008698");
+	public void getProjectSummaryPdf(HttpServletResponse response){
+		ProjectSummary ps = propDao.getProjectSummary(tempPropId);
 		
 		Set<EditorText> overview = EditorTextConversionUtil.convertEditorString(ps.getOverView());
 		Set<EditorText> broaderImpact = EditorTextConversionUtil.convertEditorString(ps.getBrodrImpt());
 		Set<EditorText> intMerit = EditorTextConversionUtil.convertEditorString(ps.getIntulMerit());
 		
 		//send to PDF Service		
-		
-		return pDFService.createProjectSummaryPDF(overview, broaderImpact, intMerit);
+		ByteArrayOutputStream outputStream = pDFService.createProjectSummaryPDF(overview, broaderImpact, intMerit);
+		try {
+			 FileCopyUtils.copy(outputStream.toByteArray(), response.getOutputStream());
+			 response.setContentType("application/pdf");      
+			 response.flushBuffer();
+		} catch (IOException  e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return ;
 	}
 }
 

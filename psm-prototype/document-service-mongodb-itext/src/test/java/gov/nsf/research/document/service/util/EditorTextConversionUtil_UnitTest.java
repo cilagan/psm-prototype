@@ -16,7 +16,7 @@ import gov.nsf.research.document.service.model.EditorText;
 
 public class EditorTextConversionUtil_UnitTest {
 
-	public String editorText = "<p>Here is normal text.&nbsp;<strong>Here is bold text.&nbsp;</strong>Here is another normal text.<em>Here is italicized text.&nbsp;</em><u>Here is underlined text.</u>Here is another normal text.</p>";
+	public String editorText = "<p>Here is normal text.&nbsp;<strong>Here is bold text.&nbsp;</strong><em>Here is italicized text.&nbsp;</em><u>Here is underlined text.</u>Here is normal text.</p>";
 	
 	/**
 	 * 
@@ -32,9 +32,14 @@ public class EditorTextConversionUtil_UnitTest {
 	public void testConvertEditorString(){
 		Set<EditorText> textStore = EditorTextConversionUtil.convertEditorString(editorText);
 		
+		int counter = 0;
+		
 		for(EditorText et : textStore){
 			System.out.println(et.toString());
+			counter++;
 		}
+		
+		assertTrue(counter == 5);
 	}
 
 	@Test

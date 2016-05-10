@@ -13,10 +13,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class ProposalDaoImpl implements ProposalDao {
 
-	
 	@Autowired
 	private JdbcTemplate psmFLJdbcTemplate;
-	
 	
 	@Override
 	public ProjectSummary getProjectSummary(String tempPropID) {
@@ -45,21 +43,15 @@ public class ProposalDaoImpl implements ProposalDao {
 		return projectSummary;
 	}
 	
-	
-	
-
-
 	@Override
 	public String getStampPDFTimeStamp(String tempPropID) {
 		String sql = "select convert(char(40),LAST_UPDT_TMSP,  100) from flp.proj_summ where TEMP_PROP_ID = ?";
 		
 		String timeStamp = psmFLJdbcTemplate.queryForObject(
 				sql, new Object[] { tempPropID }, String.class);
-		
-				
+					
 		return timeStamp;
 	}
-
 
 	@Override
 	public void saveProjectSummary(String tempPropID, String overView, String intulMerit,
@@ -69,6 +61,4 @@ public class ProposalDaoImpl implements ProposalDao {
 				SPSaveProjectSummary.STORED_PROC_SAVE_PROJ_SUMM);
 		 sPSaveProjectSummary.execute(tempPropID,overView,brodrImpt,intulMerit);
 	}
-
-
 }
