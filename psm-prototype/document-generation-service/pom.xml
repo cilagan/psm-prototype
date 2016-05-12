@@ -5,7 +5,7 @@
 
 	<groupId>gov.nsf.research.psm</groupId>
 	<artifactId>document-generation-service</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>document-generation-service</name>
 	<description>Document Generation Service Prototype</description>
