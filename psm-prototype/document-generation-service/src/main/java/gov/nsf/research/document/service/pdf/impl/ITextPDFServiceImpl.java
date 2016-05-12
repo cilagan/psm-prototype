@@ -48,11 +48,12 @@ public class ITextPDFServiceImpl implements PDFService {
 		ByteArrayOutputStream projsumm = createPDF(SectionType.PROJ_SUMM,
 				tempPropId);
 
-		projsumm = stampPDF(projsumm, SectionType.PROJ_SUMM);
+		projsumm = stampPDF(projsumm, SectionType.PROJ_SUMM, "Project Summary");
 
 		ByteArrayOutputStream biosketches = createPDF(SectionType.BIO_SKETCHES,
 				tempPropId);
-
+		biosketches = stampPDF(biosketches, SectionType.BIO_SKETCHES,"Bio Sketches");
+		
 		baosList.add(projsumm);
 		baosList.add(biosketches);
 
@@ -123,10 +124,10 @@ public class ITextPDFServiceImpl implements PDFService {
 
 		if (SectionType.PROJ_SUMM.equals(sectionType)) {
 
-			baos = generateProjectSummaryPDF(tempPropId);
+			baos = generateProjectSummaryPDF1(tempPropId);
 		} else if (SectionType.BIO_SKETCHES.equals(sectionType)) {
 
-			baos = generateBioSketchesPDF(tempPropId);
+			baos = generateBioSketchesPDF1(tempPropId);
 		}
 
 		return baos;
@@ -144,7 +145,7 @@ public class ITextPDFServiceImpl implements PDFService {
 
 			// String filepath =
 			// proposal.getProposal().getProposalSections().getProjectSummary().getFilePath();
-			String filepath = "C:/Users/spendyal/Desktop/ps_mathematical_symbol.pdf";
+			String filepath = "C:/PDFs/Psummary.pdf";
 			try {
 				File file = new File(filepath);
 
@@ -257,24 +258,29 @@ public class ITextPDFServiceImpl implements PDFService {
 	}
 
 	@Override
-	public ByteArrayOutputStream stampPDF(ByteArrayOutputStream srcDocStream,
-			SectionType sectionType) {
+	public ByteArrayOutputStream stampPDF(ByteArrayOutputStream srcDocStream,SectionType sectionType,String stampText) {
 		PdfReader reader = null;
 		PdfStamper stamper = null;
-		String stampText = "Supplement TimeStamp .....";
 		try {
 			reader = new PdfReader(srcDocStream.toByteArray());
+			int n = reader.getNumberOfPages();
+			System.out.println("ITextPDFServiceImpl.stampPDF() No of Pages : "+n);
 			stamper = new PdfStamper(reader, srcDocStream);
 
-			Rectangle rect = reader.getPageSize(1);
-			PdfContentByte canvas = stamper.getOverContent(1);
+			for(int i=1; i <= n;i++){
 
-			// TODO: Formatting options should be standardized/read from
-			// property file
-			Phrase stampPhrase = new Phrase(stampText, new Font(
-					FontFamily.HELVETICA, 12, 0, BaseColor.RED));
-			ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, stampPhrase,
-					rect.getLeft(35), rect.getTop(30), 0);
+				Rectangle rect = reader.getPageSize(i);
+				PdfContentByte canvas = stamper.getOverContent(i);
+
+				// TODO: Formatting options should be standardized/read from
+				// property file
+				Phrase stampPhrase = new Phrase(stampText, new Font(FontFamily.HELVETICA, 12, 0, BaseColor.RED));
+				if(SectionType.PROJ_SUMM.equals(sectionType)){
+					ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER, stampPhrase,rect.getRight(305), rect.getTop(30), 0);
+				}else{
+					ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, stampPhrase,rect.getLeft(35), rect.getBottom(30), 0);	
+				}
+			}
 
 			stamper.close();
 			reader.close();
@@ -288,6 +294,70 @@ public class ITextPDFServiceImpl implements PDFService {
 
 		return srcDocStream;
 
+	}
+	
+	private ByteArrayOutputStream generateProjectSummaryPDF1(String tempPropId) {
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//		GetProposalResponse proposal = proposalDataServiceClient
+//				.getProposal(tempPropId);
+		System.out.println("ITextPDFServiceImpl.generateProjectSummaryPDF1()");
+//
+//		if (proposal.getProposal().getProposalSections().getProjectSummary()
+//				.getFilePath() != null) {
+
+			// String filepath =
+			// proposal.getProposal().getProposalSections().getProjectSummary().getFilePath();
+			String filepath = "C:/PDFs/Psummary.pdf";
+			try {
+				File file = new File(filepath);
+
+				byte b[] = FileCopyUtils.copyToByteArray(file);
+
+				outputStream = new ByteArrayOutputStream(b.length);
+
+				outputStream.write(b);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return outputStream;
+		}
+	
+	private ByteArrayOutputStream generateBioSketchesPDF1(String tempPropId) {
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//		GetProposalResponse proposal = proposalDataServiceClient
+//				.getProposal(tempPropId);
+		System.out.println("ITextPDFServiceImpl.generateBioSketchesPDF1()");
+//
+//		if (proposal.getProposal().getProposalSections().getProjectSummary()
+//				.getFilePath() != null) {
+
+			// String filepath =
+			// proposal.getProposal().getProposalSections().getProjectSummary().getFilePath();
+			String filepath = "C:/PDFs/biosk.pdf";
+			try {
+				File file = new File(filepath);
+
+				byte b[] = FileCopyUtils.copyToByteArray(file);
+
+				outputStream = new ByteArrayOutputStream(b.length);
+
+				outputStream.write(b);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return outputStream;
+		}
+
+	@Override
+	public ByteArrayOutputStream stampPDF(ByteArrayOutputStream srcDocStream, SectionType sectionType) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

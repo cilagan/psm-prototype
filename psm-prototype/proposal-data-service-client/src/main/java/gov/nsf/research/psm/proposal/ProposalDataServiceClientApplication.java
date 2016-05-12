@@ -24,7 +24,8 @@ public class ProposalDataServiceClientApplication extends SpringBootServletIniti
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 		ProposalDataServiceClient client = context.getBean(ProposalDataServiceClient.class);
 		GetProposalResponse response = client.getProposal("7664607");
-		System.out.println(response.getProposal().getProposalHeader().getTitle());
+		System.out.println("Proposal Title : "+response.getProposal().getProposalHeader().getTitle());
+		System.out.println("PJ FilePath : "+response.getProposal().getProposalSections().getProjectSummary().getFilePath());
 	}
 
 

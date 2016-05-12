@@ -53,7 +53,8 @@ public class DocumentGenerationController {
 		
 		try {
 			 FileCopyUtils.copy(outputStream.toByteArray(), response.getOutputStream());
-			 response.setContentType("application/pdf");      
+			 response.setContentType("application/pdf");     
+//			 response.getOutputStream().close();
 			 response.flushBuffer();
 		} catch (IOException  e) {
 			// TODO Auto-generated catch block 

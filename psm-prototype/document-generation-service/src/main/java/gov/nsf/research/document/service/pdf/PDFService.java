@@ -15,6 +15,7 @@ public interface PDFService {
 	public ByteArrayOutputStream CreateEntireProposalPDF(String tempPropId);
 	
 	public ByteArrayOutputStream stampPDF(ByteArrayOutputStream srcDocStream, SectionType sectionType);
+	public ByteArrayOutputStream stampPDF(ByteArrayOutputStream srcDocStream, SectionType sectionType,String stampText);
 	
 	
 }

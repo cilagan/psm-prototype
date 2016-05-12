@@ -62,7 +62,7 @@ public class PDFServiceiTextImplUnitTests {
 	   ByteArrayOutputStream output = pDFService.createPDF(SectionType.BIO_SKETCHES,"0000008");
 		
 		OutputStream fos;
-		fos = new FileOutputStream("C:/Users/spendyal/Desktop/generated_pdf_from_proj_text.pdf");
+		fos = new FileOutputStream("C:/PDFs/Psummary.pdf");
 		output.writeTo(fos);
 		output.flush();
 		output.close();
