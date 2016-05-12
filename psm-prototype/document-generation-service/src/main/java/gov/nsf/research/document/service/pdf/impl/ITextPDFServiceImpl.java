@@ -2,6 +2,7 @@ package gov.nsf.research.document.service.pdf.impl;
 
 import gov.nsf.research.document.service.model.SectionType;
 import gov.nsf.research.document.service.pdf.PDFService;
+import gov.nsf.research.psm.proposal.transfer.proposals.BioSketches;
 import gov.nsf.research.psm.proposal.transfer.proposals.GetProposalResponse;
 import gov.nsf.research.psm.proposal.webservice.client.ProposalDataServiceClient;
 
@@ -10,8 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
@@ -21,11 +20,11 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfImportedPage;
@@ -37,84 +36,11 @@ public class ITextPDFServiceImpl implements PDFService {
 
 	@Autowired
 	public ProposalDataServiceClient proposalDataServiceClient;
-
-	@Override
-	public ByteArrayOutputStream CreateEntireProposalPDF(String tempPropId) {
-
-		System.out.println("ITextPDFServiceImpl.CreateEntireProposalPDF()");
-
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		List<ByteArrayOutputStream> baosList = new ArrayList<ByteArrayOutputStream>();
-		ByteArrayOutputStream projsumm = createPDF(SectionType.PROJ_SUMM,
-				tempPropId);
-
-		projsumm = stampPDF(projsumm, SectionType.PROJ_SUMM, "Project Summary");
-
-		ByteArrayOutputStream biosketches = createPDF(SectionType.BIO_SKETCHES,
-				tempPropId);
-		biosketches = stampPDF(biosketches, SectionType.BIO_SKETCHES,"Bio Sketches");
-		
-		baosList.add(projsumm);
-		baosList.add(biosketches);
-
-		Map<String, PdfReader> filesToMerge = new TreeMap<String, PdfReader>();
-
-		try {
-			filesToMerge.put("01.Project Summary",
-					new PdfReader(projsumm.toByteArray()));
-			filesToMerge.put("02.Bio Sketches",
-					new PdfReader(biosketches.toByteArray()));
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		Map<SectionType, ByteArrayOutputStream> files = new TreeMap<SectionType, ByteArrayOutputStream>();
-		files.put(SectionType.PROJ_SUMM, projsumm);
-		files.put(SectionType.BIO_SKETCHES, biosketches);
-
-		baos = CreateEntireProposalInternal(tempPropId, baosList);
-
-		return baos;
-
-	}
-
-	private ByteArrayOutputStream CreateEntireProposalInternal(
-			String tempPropId, List<ByteArrayOutputStream> baosList) {
-		System.out
-				.println("ITextPDFServiceImpl.CreateEntireProposalInternal()");
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-		Document document = new Document();
-
-		PdfWriter writer = null;
-		PdfReader reader = null;
-		try {
-			writer = PdfWriter.getInstance(document, baos);
-
-			document.open();
-			PdfContentByte cb = writer.getDirectContent();
-			for (ByteArrayOutputStream ba : baosList) {
-
-				reader = new PdfReader(ba.toByteArray());
-
-				for (int i = 1; i <= reader.getNumberOfPages(); i++) {
-					document.newPage();
-					PdfImportedPage page = writer.getImportedPage(reader, i);
-					cb.addTemplate(page, 0, 0);
-				}
-			}
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		document.close();
-
-		return baos;
-	}
-
+	
+	
+	/**
+	 * 
+	 */
 	@Override
 	public ByteArrayOutputStream createPDF(SectionType sectionType,
 			String tempPropId) {
@@ -123,47 +49,69 @@ public class ITextPDFServiceImpl implements PDFService {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 		if (SectionType.PROJ_SUMM.equals(sectionType)) {
+			
+			baos = generateProjectSummaryPDF(tempPropId);
+			
+		} else if (SectionType.REF_CITED.equals(sectionType)) {
 
-			baos = generateProjectSummaryPDF1(tempPropId);
-		} else if (SectionType.BIO_SKETCHES.equals(sectionType)) {
-
-			baos = generateBioSketchesPDF1(tempPropId);
+			baos = generateRefCitedPDF(tempPropId);
 		}
 
 		return baos;
 	}
+	
+	
+
+	@Override
+	public ByteArrayOutputStream CreateEntireProposalPDF(String tempPropId) {
+
+		System.out.println("ITextPDFServiceImpl.CreateEntireProposalPDF()");
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		List<ByteArrayOutputStream> baosList = new ArrayList<ByteArrayOutputStream>();
+		
+		//Project Summary
+		ByteArrayOutputStream projsumm = createPDF(SectionType.PROJ_SUMM, tempPropId);
+		projsumm = stampPDF(projsumm, SectionType.PROJ_SUMM, "Project Summary");
+		
+		//Bio Sketches
+		ByteArrayOutputStream refcited = createPDF(SectionType.REF_CITED,	tempPropId);
+		refcited = stampPDF(refcited, SectionType.REF_CITED,"Reference Cited");
+		
+		//add Proposal Sections to the list
+		baosList.add(projsumm);
+		baosList.add(refcited);
+
+		//concatente PDF
+		baos = concatentePDF(baosList);
+
+		return baos;
+
+	}
+
+	
+
+	
 
 	private ByteArrayOutputStream generateProjectSummaryPDF(String tempPropId) {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		GetProposalResponse proposal = proposalDataServiceClient
-				.getProposal(tempPropId);
-		System.out.println("ITextPDFServiceImpl.generateProjectSummaryPDF()");
-
-		if (proposal.getProposal().getProposalSections().getProjectSummary()
-				.getFilePath() != null) {
-
-			// String filepath =
-			// proposal.getProposal().getProposalSections().getProjectSummary().getFilePath();
-			String filepath = "C:/PDFs/Psummary.pdf";
-			try {
-				File file = new File(filepath);
-
-				byte b[] = FileCopyUtils.copyToByteArray(file);
-
-				outputStream = new ByteArrayOutputStream(b.length);
-
-				outputStream.write(b);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+		
+		GetProposalResponse proposal = proposalDataServiceClient.getProposal(tempPropId);
+		
+		String filepath = proposal.getProposal().getProposalSections().getProjectSummary().getFilePath();
+		
+		//If file path is not empty , then read PDF from NFS mount
+		if (filepath != null) {		
+			filepath = "C:/Users/spendyal/Desktop/psm/Psummary.pdf";
+			outputStream = getPdfFromNfsMount(filepath);	
+			
 			return outputStream;
 		}
 
-		// page size
-		Document document = new Document(PageSize.A4, 50, 50, 50, 0);
+		//Read the text from database and generate PDF
+		// Project Summary template
+		Document document = new Document(PageSize.A4, 72, 72, 72, 72);
 
 		Paragraph overViewParagraph = null;
 		Paragraph brodrImptParagraph = null;
@@ -175,7 +123,7 @@ public class ITextPDFServiceImpl implements PDFService {
 
 			document.open();
 
-			// Proposal Sectioin Title format
+			// Proposal section Title format
 			mainHeader = new Paragraph("Project Summary", getTitleFont());
 			mainHeader.setAlignment(Element.ALIGN_CENTER);
 			document.add(mainHeader);
@@ -212,14 +160,31 @@ public class ITextPDFServiceImpl implements PDFService {
 
 	}
 
-	private ByteArrayOutputStream generateBioSketchesPDF(String tempPropId) {
+	private ByteArrayOutputStream generateRefCitedPDF(String tempPropId) {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		GetProposalResponse proposal = proposalDataServiceClient
 				.getProposal(tempPropId);
+		
+		String filepath = null;
+		
+		filepath =  proposal.getProposal()	.getProposalSections().getReferencesCited().getFilePath();
+		
+	
+		//If file path is not empty , then read PDF from NFS mount
+		if (filepath != null) {	
+			filepath = "C:/Users/spendyal/Desktop/psm/biosk.pdf";
+			outputStream = getPdfFromNfsMount(filepath);	
+			
+			return outputStream;
+		}
+
+		//Read the text from database and generate PDF
+		// Reference Cited template		
+		
 
 		// page size
-		Document document = new Document(PageSize.A4, 50, 50, 50, 0);
+		Document document = new Document(PageSize.A4, 72, 72, 72, 72);
 
 		Paragraph mainHeader = null;
 
@@ -229,14 +194,13 @@ public class ITextPDFServiceImpl implements PDFService {
 			document.open();
 
 			// Proposal Section Title format
-			mainHeader = new Paragraph("BIOGRAPHICAL SKETCH", getTitleFont());
+			mainHeader = new Paragraph("REFERENCES CITED", getTitleFont());
 			mainHeader.setAlignment(Element.ALIGN_CENTER);
 			document.add(mainHeader);
 
-			// BioSketches Paragraph set up
-
-			document.add(new Paragraph(proposal.getProposal()
-					.getProposalSections().getBioSketches().get(0).toString()));
+			
+			document.add(new Paragraph(proposal.getProposal()	.getProposalSections().getReferencesCited().getRefCitedTxt(), getTextFont()));
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -247,16 +211,8 @@ public class ITextPDFServiceImpl implements PDFService {
 
 	}
 
-	private Font getTitleFont() {
-		Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD);
-		return font;
-	}
-
-	private Font getSectioinFont() {
-		Font font = new Font(Font.FontFamily.HELVETICA, 9, Font.BOLD);
-		return font;
-	}
-
+	
+	
 	@Override
 	public ByteArrayOutputStream stampPDF(ByteArrayOutputStream srcDocStream,SectionType sectionType,String stampText) {
 		PdfReader reader = null;
@@ -296,19 +252,10 @@ public class ITextPDFServiceImpl implements PDFService {
 
 	}
 	
-	private ByteArrayOutputStream generateProjectSummaryPDF1(String tempPropId) {
-
+	private ByteArrayOutputStream getPdfFromNfsMount( String filepath) {
+		
+	
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//		GetProposalResponse proposal = proposalDataServiceClient
-//				.getProposal(tempPropId);
-		System.out.println("ITextPDFServiceImpl.generateProjectSummaryPDF1()");
-//
-//		if (proposal.getProposal().getProposalSections().getProjectSummary()
-//				.getFilePath() != null) {
-
-			// String filepath =
-			// proposal.getProposal().getProposalSections().getProjectSummary().getFilePath();
-			String filepath = "C:/PDFs/Psummary.pdf";
 			try {
 				File file = new File(filepath);
 
@@ -325,39 +272,64 @@ public class ITextPDFServiceImpl implements PDFService {
 			return outputStream;
 		}
 	
-	private ByteArrayOutputStream generateBioSketchesPDF1(String tempPropId) {
-
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//		GetProposalResponse proposal = proposalDataServiceClient
-//				.getProposal(tempPropId);
-		System.out.println("ITextPDFServiceImpl.generateBioSketchesPDF1()");
-//
-//		if (proposal.getProposal().getProposalSections().getProjectSummary()
-//				.getFilePath() != null) {
-
-			// String filepath =
-			// proposal.getProposal().getProposalSections().getProjectSummary().getFilePath();
-			String filepath = "C:/PDFs/biosk.pdf";
-			try {
-				File file = new File(filepath);
-
-				byte b[] = FileCopyUtils.copyToByteArray(file);
-
-				outputStream = new ByteArrayOutputStream(b.length);
-
-				outputStream.write(b);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			return outputStream;
-		}
+	
 
 	@Override
 	public ByteArrayOutputStream stampPDF(ByteArrayOutputStream srcDocStream, SectionType sectionType) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	private ByteArrayOutputStream concatentePDF( List<ByteArrayOutputStream> baosList) {
+		System.out.println("ITextPDFServiceImpl.CreateEntireProposalInternal()");
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+		Document document = new Document();
+
+		PdfWriter writer = null;
+		PdfReader reader = null;
+		try {
+			writer = PdfWriter.getInstance(document, baos);
+
+			document.open();
+			PdfContentByte cb = writer.getDirectContent();
+			for (ByteArrayOutputStream ba : baosList) {
+
+				reader = new PdfReader(ba.toByteArray());
+
+				for (int i = 1; i <= reader.getNumberOfPages(); i++) {
+					document.newPage();
+					PdfImportedPage page = writer.getImportedPage(reader, i);
+					cb.addTemplate(page, 0, 0);
+				}
+			}
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		document.close();
+
+		return baos;
+	}
+	
+	
+	private Font getTitleFont() {
+		Font font = new Font(Font.FontFamily.TIMES_ROMAN, 13, Font.BOLD);
+		return font;
+	}
+
+	private Font getSectioinFont() {
+		Font font = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+		return font;
+	}
+	
+	private Font getTextFont() {
+		Font font = new Font(Font.FontFamily.TIMES_ROMAN, 11);
+		return font;
+	}
+	
+	
 
 }

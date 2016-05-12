@@ -4,7 +4,6 @@ package gov.nsf.research.document.service.config;
 import gov.nsf.research.document.service.controller.DocumentGenerationController;
 import gov.nsf.research.document.service.pdf.PDFService;
 import gov.nsf.research.document.service.pdf.impl.ITextPDFServiceImpl;
-import gov.nsf.research.document.service.pdf.template.ProjectSummaryTemplate;
 import gov.nsf.research.psm.proposal.webservice.client.ProposalDataServiceClient;
 
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -60,7 +59,8 @@ public class AppConfig {
 	public ProposalDataServiceClient proposalDataServiceClient(Jaxb2Marshaller marshaller, 
 			HttpComponentsMessageSender messageSender){ 
 		ProposalDataServiceClient client = new ProposalDataServiceClient();
-		client.setDefaultUri("http://wsinside.intg.research.gov/pcv/proposal-service");
+		//client.setDefaultUri("http://wsinside.intg.research.gov/pcv/proposal-service");	
+		client.setDefaultUri("http://wsinside.acpt.research.gov/pcv/proposal-service");	
 		client.setMarshaller(marshaller);
 		client.setUnmarshaller(marshaller);
 		client.setMessageSender(messageSender);
@@ -73,11 +73,7 @@ public class AppConfig {
 		return new ITextPDFServiceImpl();
 	}
       
-	@Bean
-	public ProjectSummaryTemplate projectSummaryTemplate(){
-		return new ProjectSummaryTemplate();
-	}
-      
+	      
 	@Bean
 	public DocumentGenerationController documentGenerationController(){
 		return new DocumentGenerationController();

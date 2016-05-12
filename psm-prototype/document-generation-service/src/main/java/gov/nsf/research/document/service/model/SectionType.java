@@ -12,6 +12,8 @@ public enum SectionType {
 	
 	MENTOR_PLAN,
 	
-	PROJ_SUMM;
+	PROJ_SUMM,
+	
+	REF_CITED;
 
 }
