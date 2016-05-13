@@ -78,12 +78,6 @@ public class AppConfig {
 	public DocumentGenerationController documentGenerationController(){
 		return new DocumentGenerationController();
 	}
-      
-	
-	
-	
-    
-
 
 
 }
