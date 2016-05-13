@@ -1,11 +1,15 @@
 package gov.nsf.research.document.service.pdf.impl;
 
+import gov.nsf.research.document.service.model.SectionType;
+import gov.nsf.research.document.service.pdf.PDFService;
+import gov.nsf.research.psm.proposal.transfer.proposals.GetProposalResponse;
+import gov.nsf.research.psm.proposal.webservice.client.ProposalDataServiceClient;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -31,11 +35,6 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
-
-import gov.nsf.research.document.service.model.SectionType;
-import gov.nsf.research.document.service.pdf.PDFService;
-import gov.nsf.research.psm.proposal.transfer.proposals.GetProposalResponse;
-import gov.nsf.research.psm.proposal.webservice.client.ProposalDataServiceClient;
 
 public class ITextPDFServiceImpl implements PDFService {
 
@@ -85,7 +84,7 @@ public class ITextPDFServiceImpl implements PDFService {
 		//Reference Cited
 		ByteArrayOutputStream refcited = createPDF(SectionType.REF_CITED,	tempPropId);
 //		String stampText ="PI Transfer/Award No:1100423/Submitted on:"+new SimpleDateFormat("MMMM dd yyyy hh:mm a").format(new Date())+" /Electronic Signature";
-		String stampText ="Placce Holder for PI Transfer/Revised Budget Stamp";
+		String stampText ="Place Holder for PI Transfer/Revised Budget PDF Stamp";
 		refcited = stampPDF(refcited, SectionType.REF_CITED,stampText);
 		
 		//add Proposal Sections to the list
@@ -240,14 +239,14 @@ public class ITextPDFServiceImpl implements PDFService {
 			if(SectionType.PROJ_SUMM.equals(sectionType)){
 				Rectangle rect = reader.getPageSize(1);
 				PdfContentByte canvas = stamper.getOverContent(1);
-				Phrase stampPhrase = new Phrase(stampText, new Font(FontFamily.HELVETICA, 12, 0, BaseColor.BLUE));
-				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, stampPhrase,rect.getLeft(30), rect.getTop(45), 0);
+				Phrase stampPhrase = new Phrase(stampText, new Font(FontFamily.TIMES_ROMAN, 12, 0, BaseColor.BLUE));
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, stampPhrase,rect.getLeft(72), rect.getTop(45), 0);
 			}else{
 				for(int i=1; i <= n;i++){
     				Rectangle rect = reader.getPageSize(i);
 					PdfContentByte canvas = stamper.getOverContent(i);
-					Phrase stampPhrase = new Phrase(stampText, new Font(FontFamily.HELVETICA, 12, 0, BaseColor.RED));
-					ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, stampPhrase,rect.getLeft(35), rect.getBottom(30), 0);	
+					Phrase stampPhrase = new Phrase(stampText, new Font(FontFamily.TIMES_ROMAN, 12, 0, BaseColor.RED));
+					ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, stampPhrase,rect.getLeft(72), rect.getBottom(30), 0);	
 				}
 			}
 
