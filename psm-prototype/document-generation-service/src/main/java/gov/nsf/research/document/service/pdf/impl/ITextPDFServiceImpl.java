@@ -1,15 +1,11 @@
 package gov.nsf.research.document.service.pdf.impl;
 
-import gov.nsf.research.document.service.model.SectionType;
-import gov.nsf.research.document.service.pdf.PDFService;
-import gov.nsf.research.psm.proposal.transfer.proposals.BioSketches;
-import gov.nsf.research.psm.proposal.transfer.proposals.GetProposalResponse;
-import gov.nsf.research.psm.proposal.webservice.client.ProposalDataServiceClient;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +27,11 @@ import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import gov.nsf.research.document.service.model.SectionType;
+import gov.nsf.research.document.service.pdf.PDFService;
+import gov.nsf.research.psm.proposal.transfer.proposals.GetProposalResponse;
+import gov.nsf.research.psm.proposal.webservice.client.ProposalDataServiceClient;
 
 public class ITextPDFServiceImpl implements PDFService {
 
@@ -72,11 +73,12 @@ public class ITextPDFServiceImpl implements PDFService {
 		
 		//Project Summary
 		ByteArrayOutputStream projsumm = createPDF(SectionType.PROJ_SUMM, tempPropId);
-		projsumm = stampPDF(projsumm, SectionType.PROJ_SUMM, "Project Summary");
+		projsumm = stampPDF(projsumm, SectionType.PROJ_SUMM, "Supplement");
 		
 		//Bio Sketches
 		ByteArrayOutputStream refcited = createPDF(SectionType.REF_CITED,	tempPropId);
-		refcited = stampPDF(refcited, SectionType.REF_CITED,"Reference Cited");
+		String stampText ="PI Transfer/Award No:1100423/Submitted on:"+new SimpleDateFormat("MMMM dd yyyy hh:mm a").format(new Date())+" /Electronic Signature";
+		refcited = stampPDF(refcited, SectionType.REF_CITED,stampText);
 		
 		//add Proposal Sections to the list
 		baosList.add(projsumm);
@@ -223,17 +225,16 @@ public class ITextPDFServiceImpl implements PDFService {
 			System.out.println("ITextPDFServiceImpl.stampPDF() No of Pages : "+n);
 			stamper = new PdfStamper(reader, srcDocStream);
 
-			for(int i=1; i <= n;i++){
-
-				Rectangle rect = reader.getPageSize(i);
-				PdfContentByte canvas = stamper.getOverContent(i);
-
-				// TODO: Formatting options should be standardized/read from
-				// property file
-				Phrase stampPhrase = new Phrase(stampText, new Font(FontFamily.HELVETICA, 12, 0, BaseColor.RED));
-				if(SectionType.PROJ_SUMM.equals(sectionType)){
-					ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER, stampPhrase,rect.getRight(305), rect.getTop(30), 0);
-				}else{
+			if(SectionType.PROJ_SUMM.equals(sectionType)){
+				Rectangle rect = reader.getPageSize(1);
+				PdfContentByte canvas = stamper.getOverContent(1);
+				Phrase stampPhrase = new Phrase(stampText, new Font(FontFamily.HELVETICA, 12, 0, BaseColor.BLUE));
+				ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER, stampPhrase,rect.getRight(305), rect.getTop(60), 0);
+			}else{
+				for(int i=1; i <= n;i++){
+    				Rectangle rect = reader.getPageSize(i);
+					PdfContentByte canvas = stamper.getOverContent(i);
+					Phrase stampPhrase = new Phrase(stampText, new Font(FontFamily.HELVETICA, 12, 0, BaseColor.RED));
 					ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, stampPhrase,rect.getLeft(35), rect.getBottom(30), 0);	
 				}
 			}
@@ -247,6 +248,12 @@ public class ITextPDFServiceImpl implements PDFService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+//		if(SectionType.PROJ_SUMM.equals(sectionType)){
+//			srcDocStream = stampOnSinglePage(srcDocStream, stampText);
+//		}else{
+//			srcDocStream = stampOnMultiplePages(srcDocStream, stampText);
+//		}
 
 		return srcDocStream;
 
@@ -279,6 +286,7 @@ public class ITextPDFServiceImpl implements PDFService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 	
 	private ByteArrayOutputStream concatentePDF( List<ByteArrayOutputStream> baosList) {
 		System.out.println("ITextPDFServiceImpl.CreateEntireProposalInternal()");
