@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 
@@ -75,11 +77,15 @@ public class ITextPDFServiceImpl implements PDFService {
 		
 		//Project Summary
 		ByteArrayOutputStream projsumm = createPDF(SectionType.PROJ_SUMM, tempPropId);
-		projsumm = stampPDF(projsumm, SectionType.PROJ_SUMM, "Supplement");
+		GetProposalResponse proposal = proposalDataServiceClient.getProposal(tempPropId);
+		XMLGregorianCalendar xmlDate = proposal.getProposal().getProposalHeader().getSubmitTimeStamp();
+		java.util.Date date = xmlDate.toGregorianCalendar().getTime();
+		projsumm = stampPDF(projsumm, SectionType.PROJ_SUMM, "Corrected : "+new SimpleDateFormat("MM/dd/yyyy").format(date));
 		
 		//Reference Cited
 		ByteArrayOutputStream refcited = createPDF(SectionType.REF_CITED,	tempPropId);
-		String stampText ="PI Transfer/Award No:1100423/Submitted on:"+new SimpleDateFormat("MMMM dd yyyy hh:mm a").format(new Date())+" /Electronic Signature";
+//		String stampText ="PI Transfer/Award No:1100423/Submitted on:"+new SimpleDateFormat("MMMM dd yyyy hh:mm a").format(new Date())+" /Electronic Signature";
+		String stampText ="Placce Holder for PI Transfer/Revised Budget Stamp";
 		refcited = stampPDF(refcited, SectionType.REF_CITED,stampText);
 		
 		//add Proposal Sections to the list
@@ -235,7 +241,7 @@ public class ITextPDFServiceImpl implements PDFService {
 				Rectangle rect = reader.getPageSize(1);
 				PdfContentByte canvas = stamper.getOverContent(1);
 				Phrase stampPhrase = new Phrase(stampText, new Font(FontFamily.HELVETICA, 12, 0, BaseColor.BLUE));
-				ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER, stampPhrase,rect.getRight(305), rect.getTop(60), 0);
+				ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, stampPhrase,rect.getLeft(30), rect.getTop(45), 0);
 			}else{
 				for(int i=1; i <= n;i++){
     				Rectangle rect = reader.getPageSize(i);
