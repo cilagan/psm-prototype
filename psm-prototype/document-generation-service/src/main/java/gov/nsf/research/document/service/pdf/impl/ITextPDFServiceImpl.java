@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 
 import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -27,6 +28,7 @@ import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 
 import gov.nsf.research.document.service.model.SectionType;
 import gov.nsf.research.document.service.pdf.PDFService;
@@ -75,7 +77,7 @@ public class ITextPDFServiceImpl implements PDFService {
 		ByteArrayOutputStream projsumm = createPDF(SectionType.PROJ_SUMM, tempPropId);
 		projsumm = stampPDF(projsumm, SectionType.PROJ_SUMM, "Supplement");
 		
-		//Bio Sketches
+		//Reference Cited
 		ByteArrayOutputStream refcited = createPDF(SectionType.REF_CITED,	tempPropId);
 		String stampText ="PI Transfer/Award No:1100423/Submitted on:"+new SimpleDateFormat("MMMM dd yyyy hh:mm a").format(new Date())+" /Electronic Signature";
 		refcited = stampPDF(refcited, SectionType.REF_CITED,stampText);
@@ -105,7 +107,7 @@ public class ITextPDFServiceImpl implements PDFService {
 		
 		//If file path is not empty , then read PDF from NFS mount
 		if (filepath != null) {		
-			filepath = "C:/Users/spendyal/Desktop/psm/Psummary.pdf";
+			filepath = "ps.pdf";
 			outputStream = getPdfFromNfsMount(filepath);	
 			
 			return outputStream;
@@ -126,16 +128,18 @@ public class ITextPDFServiceImpl implements PDFService {
 			document.open();
 
 			// Proposal section Title format
-			mainHeader = new Paragraph("Project Summary", getTitleFont());
+			mainHeader = new Paragraph("PROJECT SUMMARY", getTitleFont());
 			mainHeader.setAlignment(Element.ALIGN_CENTER);
 			document.add(mainHeader);
+			Chunk linebreak = new Chunk(new LineSeparator());
+			document.add(linebreak);
 
 			// Overview Paragraph set up
 			overViewParagraph = new Paragraph("Overview :", getSectioinFont());
 			document.add(overViewParagraph);
 			document.add(new Paragraph(proposal.getProposal()
 					.getProposalSections().getProjectSummary()
-					.getProjSummaryText()));
+					.getProjSummaryText(),getTextFont()));
 
 			// BrodrImpt Paragraph set up
 			brodrImptParagraph = new Paragraph("Broader Impacts :",
@@ -143,7 +147,7 @@ public class ITextPDFServiceImpl implements PDFService {
 			document.add(brodrImptParagraph);
 			document.add(new Paragraph(proposal.getProposal()
 					.getProposalSections().getProjectSummary()
-					.getBroaderImpacts()));
+					.getBroaderImpacts(),getTextFont()));
 
 			// IntulMerit Paragraph set up
 			intulMeritParagraph = new Paragraph("Intellectual Merit :",
@@ -151,7 +155,7 @@ public class ITextPDFServiceImpl implements PDFService {
 			document.add(intulMeritParagraph);
 			document.add(new Paragraph(proposal.getProposal()
 					.getProposalSections().getProjectSummary()
-					.getIntellectualMerit()));
+					.getIntellectualMerit(),getTextFont()));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -163,6 +167,7 @@ public class ITextPDFServiceImpl implements PDFService {
 	}
 
 	private ByteArrayOutputStream generateRefCitedPDF(String tempPropId) {
+		System.out.println("ITextPDFServiceImpl.generateRefCitedPDF()");
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		GetProposalResponse proposal = proposalDataServiceClient
@@ -175,7 +180,7 @@ public class ITextPDFServiceImpl implements PDFService {
 	
 		//If file path is not empty , then read PDF from NFS mount
 		if (filepath != null) {	
-			filepath = "C:/Users/spendyal/Desktop/psm/biosk.pdf";
+			filepath = "rc.pdf";
 			outputStream = getPdfFromNfsMount(filepath);	
 			
 			return outputStream;
@@ -199,9 +204,11 @@ public class ITextPDFServiceImpl implements PDFService {
 			mainHeader = new Paragraph("REFERENCES CITED", getTitleFont());
 			mainHeader.setAlignment(Element.ALIGN_CENTER);
 			document.add(mainHeader);
+			Chunk linebreak = new Chunk(new LineSeparator());
+			document.add(linebreak);
 
 			
-			document.add(new Paragraph(proposal.getProposal()	.getProposalSections().getReferencesCited().getRefCitedTxt(), getTextFont()));
+			document.add(new Paragraph(proposal.getProposal().getProposalSections().getReferencesCited().getRefCitedTxt(), getTextFont()));
 			
 
 		} catch (Exception e) {
@@ -212,7 +219,6 @@ public class ITextPDFServiceImpl implements PDFService {
 		return outputStream;
 
 	}
-
 	
 	
 	@Override
@@ -329,7 +335,7 @@ public class ITextPDFServiceImpl implements PDFService {
 	}
 
 	private Font getSectioinFont() {
-		Font font = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+		Font font = new Font(Font.FontFamily.TIMES_ROMAN, 13, Font.BOLD);
 		return font;
 	}
 	
