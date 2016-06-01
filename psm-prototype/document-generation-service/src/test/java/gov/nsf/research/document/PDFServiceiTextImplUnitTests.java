@@ -27,6 +27,7 @@ public class PDFServiceiTextImplUnitTests {
 
 	@Autowired
 	PDFService pDFService;
+	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -55,6 +56,13 @@ public class PDFServiceiTextImplUnitTests {
 
 	
 	@Test
+	public void createPDFDocumentFromTextTest1() throws IOException {
+		
+		//System.out.println("value"+pDFService.createPDF(SectionType.PROJ_SUMM,"7664607"));
+		
+	}
+	
+
 	public void createPDFDocumentFromTextTest() throws IOException {
 		
 		//System.out.println("value"+pDFService.createPDF(SectionType.PROJ_SUMM,"7664607"));
@@ -72,6 +80,7 @@ public class PDFServiceiTextImplUnitTests {
 		
 		
 	}
+	
 	
 	
 	
