@@ -14,6 +14,8 @@ public enum SectionType {
 	
 	PROJ_SUMM,
 	
-	REF_CITED;
+	REF_CITED,
+	
+	FAC_EQUP;
 
 }
