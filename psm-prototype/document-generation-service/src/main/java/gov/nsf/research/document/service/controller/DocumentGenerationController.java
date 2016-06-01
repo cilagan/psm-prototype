@@ -45,6 +45,9 @@ public class DocumentGenerationController {
 		
 	}
 	
+	
+	
+	
 	@RequestMapping(path="/viewentirepdf/{tempPropId}", method = RequestMethod.GET)
 	public void getEntireProposal(@PathVariable String tempPropId, HttpServletResponse response){
 		System.out.println("DocumentGenerationController.getEntireProposal()");
@@ -61,6 +64,10 @@ public class DocumentGenerationController {
 			e.printStackTrace();
 		} 
 	}
+	
+	
+	
+	
 	
 	
 	
