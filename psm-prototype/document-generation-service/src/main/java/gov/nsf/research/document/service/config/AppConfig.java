@@ -10,6 +10,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -59,8 +60,8 @@ public class AppConfig {
 	public ProposalDataServiceClient proposalDataServiceClient(Jaxb2Marshaller marshaller, 
 			HttpComponentsMessageSender messageSender){ 
 		ProposalDataServiceClient client = new ProposalDataServiceClient();
-		//client.setDefaultUri("http://wsinside.intg.research.gov/pcv/proposal-service");	
-		client.setDefaultUri("http://wsinside.acpt.research.gov/pcv/proposal-service");	
+		client.setDefaultUri("http://wsinside.intg.research.gov/pcv/proposal-service");	
+		//client.setDefaultUri("http://wsinside.acpt.research.gov/pcv/proposal-service");	
 		client.setMarshaller(marshaller);
 		client.setUnmarshaller(marshaller);
 		client.setMessageSender(messageSender);
@@ -79,5 +80,7 @@ public class AppConfig {
 		return new DocumentGenerationController();
 	}
 
+	
+	
 
 }
