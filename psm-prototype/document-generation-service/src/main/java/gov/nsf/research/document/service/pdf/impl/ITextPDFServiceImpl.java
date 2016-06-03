@@ -331,7 +331,7 @@ public class ITextPDFServiceImpl implements PDFService {
 				for(int i=1; i <= n;i++){
     				Rectangle rect = reader.getPageSize(i);
 					PdfContentByte canvas = stamper.getOverContent(i);
-					Phrase stampPhrase = new Phrase(stampText, new Font(FontFamily.TIMES_ROMAN, 12, 0, BaseColor.RED));
+					Phrase stampPhrase = new Phrase(stampText, new Font(FontFamily.TIMES_ROMAN, 12, 0, BaseColor.GREEN));
 					ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, stampPhrase,rect.getLeft(72), rect.getBottom(30), 0);	
 				}
 			}
