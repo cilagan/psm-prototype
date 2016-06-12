@@ -1,0 +1,176 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="/static/scripts/fileinput.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/static/styles/app.css">
+<link rel="stylesheet" type="text/css" href="/static/styles/fileinput.min.css">
+
+</head>
+<body>
+
+<div class="container">
+      <div class="row">
+        <div class="col-xs-2 col-xs-offset-8">
+          <button class="btn btn-primary" type="button">Prepare New</button>
+        </div>
+        <div class="col-xs-2">
+          <button class="btn btn-primary" type="button">Temp Prop ID</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <h1 align="center"></h1>
+        </div>
+      </div>
+	  <br><br>
+      <div class="row">
+        <div class="col-xs-2">
+          <ul class="nav nav-pills nav-stacked">
+            <li role="presentation"><a href="">Cover Sheet</a></li>
+            <li role="presentation"><a href="">Project Description</a></li>
+            <li role="presentation"><a href="">Data Management Plan</a></li>
+          </ul>
+
+        </div>
+        <div class="col-xs-10">
+         
+          <form id="form" method="POST" enctype="multipart/form-data" action="http://localhost/docService/proposal/1234567/projdesc">
+			
+				Temp Prop Id: &nbsp;<input type="text" placeholder="Temp Prop Id" id="tempPropId"><br><br>
+				
+				Section Type: <select id="sectionType" name="sectionType">
+				  <option id="projdesc" value="projdesc">Project Description</option>
+				  <option id="dmp" value="dmp">Data Management Plan</option>
+				</select>
+				
+				<br><br>
+				
+				<div class="row" style="height:45%;">
+					<div class="col-xs-12">
+						<label class="control-label">File to upload:</label>
+						<input id="fileInput" name="uploadedFile" type="file" class="file-loading" accept=".pdf">
+					</div>
+				</div>
+				
+				<input class="btn btn-primary" type="submit" value="Upload">
+			
+			</form>
+		
+			<div class="row">
+				<div class="col-xs-4">
+					<table class="table table-bordered table-striped">
+						<thead><th colspan="2">Project Description</th></thead>
+						<tbody>
+							#foreach($doc in $pdList)
+							<tr><td>$doc.tempPropId</td><td><a target="_blank" href="/docService/proposal/$doc.tempPropId/$doc.getURLEnd()">Open</a> | <a href="/docService/delete/proposal/$doc.tempPropId/projdesc">Delete</a></td></tr>
+							#end
+						</tbody>
+					</table>
+				</div>
+				<div class="col-xs-4">
+					<table class="table table-bordered table-striped">
+						<thead><th colspan="2">Data Management Plan</th></thead>
+						<tbody>
+							#foreach($doc in $dmpList)
+							<tr><td>$doc.tempPropId</td><td><a target="_blank" href="/docService/proposal/$doc.tempPropId/$doc.getURLEnd()">Open</a> | <a href="/docService/delete/proposal/$doc.tempPropId/dmp">Delete</a></td></tr>
+							#end
+						</tbody>
+					</table>
+				</div>
+				<div class="col-xs-4">
+					<table class="table table-bordered table-striped">
+						<thead><th colspan="2">Proposals</th></thead>
+						<tbody>
+							#foreach($tempPropId in $propList)
+							<tr><td>$tempPropId</td><td><a target="_blank" href="/docService/proposal/$tempPropId">Open</a></td></tr>
+							#end
+						</tbody>
+					</table>
+				</div>
+				
+			</div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+<script>
+
+	$(document).ready(function(){
+		 $('input[type="submit"]').prop('disabled', true);
+		 
+		 $el = $("#fileInput"), initPlugin = function() {
+			$el.fileinput({
+				uploadUrl: "placeholder",
+				showUpload: false,
+				allowedFileExtensions: ["pdf"],
+				maxImageWidth: 100,
+				maxImageHeight: 100
+			});
+			};
+			
+		// initialize plugin
+		initPlugin();
+		 
+	});
+
+	$( "#tempPropId" ).change(function() {
+	
+		var eVal = $(this).val();
+		
+		var pattern = /\d{7}/;
+		var result = pattern.test(eVal);
+		
+		if (result) {
+		
+			action = $("#form").attr("action");
+			
+			action = action.replace(pattern, eVal);
+			
+			$("#form").attr("action", action);	
+		}
+	});
+	
+	function enableDisableButton() {
+		var eVal = $("#tempPropId").val();
+		
+		var pattern = /\d{7}/;
+		var result = pattern.test(eVal);
+	
+		if( result ) {
+		//if($("#fileInput").val() != '' && result ) {
+			$('input[type="submit"]').prop('disabled', false);
+		} else {
+			$('input[type="submit"]').prop('disabled', true);
+		}
+	}
+	
+	$(":input").change(enableDisableButton);
+	
+	$(".fileinput-remove").click(enableDisableButton);
+	
+	$("#sectionType").change(function() {
+		
+		value = $(this).val();
+		
+		action = $("#form").attr("action");
+		
+		lastSlash = action.lastIndexOf("/");
+		
+		remove = action.substring(lastSlash+1, action.length);
+		
+		action = action.replace(remove, value);
+		
+		$("#form").attr("action", action);		
+	});
+	
+</script>
+
+</body>
+</html>

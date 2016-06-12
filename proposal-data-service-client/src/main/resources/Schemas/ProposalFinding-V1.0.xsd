@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:propFinding="ProposalFinding-V1.0" 
+	targetNamespace="ProposalFinding-V1.0" 
+	elementFormDefault="qualified" 
+	attributeFormDefault="qualified" version="1.0">
+	
+	<xs:complexType name="ProposalFinding">
+		<xs:sequence>
+			<xs:element name="findingCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="findingLevel" type="propFinding:FindingLevel" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="findingMessage" type="xs:string" minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="FindingLevel">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="INFO"/>
+			<xs:enumeration value="WARNING"/>
+			<xs:enumeration value="ERROR"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

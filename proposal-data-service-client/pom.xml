@@ -1,0 +1,124 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>gov.nsf.research.psm.proposal</groupId>
+  <artifactId>proposal-data-service-client</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>proposal-management-service</name>
+	<description>Proposal Data Service Client Prototype</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.3.2.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<!-- *********************************************************************** -->
+	<!-- Project Properties                                                      -->
+	<!-- *********************************************************************** -->
+	<properties>
+		<jaxb.version>2.1</jaxb.version>
+		<cxf.version>2.2.3</cxf.version>
+		<cxf.runtime.version>2.6.0</cxf.runtime.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>	
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-ws</artifactId>
+		</dependency>
+		<!-- CXF Run Time and XJC Util Dependency  -->
+		<dependency>
+			<groupId>org.apache.cxf.xjc-utils</groupId>
+			<artifactId>cxf-xjc-runtime</artifactId>
+			<version>${cxf.runtime.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf.xjcplugins</groupId>
+			<artifactId>cxf-xjc-ts</artifactId>
+			<version>${cxf.runtime.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+		
+	</dependencies>
+<!-- *********************************************************************** -->
+	<!-- Project Build Requirements -->
+	<!-- *********************************************************************** -->
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<version>${cxf.version}</version>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<sourceRoot>${basedir}/target/generated-sources</sourceRoot>
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>${basedir}/src/main/resources/WSDLs/ProposalService.wsdl</wsdl>
+									<extraargs>
+										<extraarg>-sn</extraarg>
+										<extraarg>ProposalService</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>gov.nsf.research.services.proposal.v1</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>Proposal-V1.0=gov.nsf.research.services.proposal.v1</extraarg>
+										<extraarg>-xjc-Xts:style:multiline</extraarg>
+									</extraargs>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.cxf.xjcplugins</groupId>
+						<artifactId>cxf-xjc-ts</artifactId>
+						<version>${cxf.runtime.version}</version>
+					</dependency>
+			    </dependencies>
+			</plugin>		
+		</plugins>
+		<finalName>${project.artifactId}</finalName>
+	</build>
+</project>
