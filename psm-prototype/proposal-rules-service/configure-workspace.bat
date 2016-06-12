@@ -1,0 +1,1 @@
+mvn -Declipse.workspace="C:\Users\cilagan\Projects\PSM\Prototype\sprint3-psm-prototype\psm-prototype\proposal-rules-service" eclipse:configure-workspace & mvn clean install -Dmaven.test.skip=true & mvn eclipse:eclipse

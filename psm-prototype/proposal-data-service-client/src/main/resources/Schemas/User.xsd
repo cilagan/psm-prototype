@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:user="User-V1.0" 
+	targetNamespace="User-V1.0" 
+	elementFormDefault="qualified" 
+	attributeFormDefault="qualified" version="1.0">
+	
+	
+		<xs:complexType name="User">
+		<xs:sequence>
+			<xs:element name="UserId" type="user:UserNumber" />
+			<xs:element name="UserName" type="user:UserName" />
+			<xs:element name="LastName" type="user:LastName" />
+			<xs:element name="FirstName" type="user:FirstName" />
+			<xs:element name="MiddleInitial" type="user:MiddleInitial" />
+			<xs:element name="Suffix" type="user:Suffix" />
+			<xs:element name="EmailAddresses" type="user:EmailAddresses" />
+			<xs:element name="PhoneCountryCode" type="xs:integer" />
+			<xs:element name="PhoneNumber" type="user:PhoneNumber" />
+			<xs:element name="FaxNumber" type="user:FaxNumber" />	
+		</xs:sequence>
+	</xs:complexType>
+	
+		<xs:simpleType name="UserNumber">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0" />
+			<xs:maxLength value="7" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+		<xs:simpleType name="UserName">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0" />
+			<xs:maxLength value="180" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+		<xs:simpleType name="LastName">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0" />
+			<xs:maxLength value="180" />
+		</xs:restriction>
+	</xs:simpleType>
+			
+		<xs:simpleType name="FirstName">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0" />
+			<xs:maxLength value="180" />
+		</xs:restriction>
+	</xs:simpleType>
+
+		<xs:simpleType name="MiddleInitial">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0" />
+			<xs:maxLength value="12" />
+		</xs:restriction>
+	</xs:simpleType>	
+				
+		<xs:simpleType name="Suffix">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0" />
+			<xs:maxLength value="12" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+		<xs:simpleType name="EmailAddresses">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0" />
+			<xs:maxLength value="200" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	
+		<xs:simpleType name="PhoneNumber">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0" />
+			<xs:maxLength value="200" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+			<xs:simpleType name="FaxNumber">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="0" />
+			<xs:maxLength value="200" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	</xs:schema>

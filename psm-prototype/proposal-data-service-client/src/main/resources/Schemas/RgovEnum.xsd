@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:rgovEnum="RgovEnum-V1.0" 
+	targetNamespace="RgovEnum-V1.0" 
+	elementFormDefault="qualified" 
+	attributeFormDefault="qualified" version="1.0">
+	
+	<xs:simpleType name="Pilot">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="RPPR"/>
+			<xs:enumeration value="NONE"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:simpleType name="Severity">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ERROR"/>
+			<xs:enumeration value="WARN"/>
+			<xs:enumeration value="INFO"/>
+			<xs:enumeration value="FATAL"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
