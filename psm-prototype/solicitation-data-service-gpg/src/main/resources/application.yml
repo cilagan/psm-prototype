@@ -1,0 +1,18 @@
+# Spring Boot settings
+security: 
+    basic: 
+        enabled: false
+        
+# Spring settings
+spring: 
+    jmx: 
+        enabled: false
+    jackson: 
+        serialization-inclusion: non_null
+
+# Database connection settings
+databaseConnection:
+    driver: com.sybase.jdbc4.jdbc.SybDriver
+    url: "jdbc:sybase:Tds:fldevel15.nsf.gov:5000/fldb"
+    username: flpupd
+    password: k2,OnivH
