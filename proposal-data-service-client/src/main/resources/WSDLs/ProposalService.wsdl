@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ProposalService" 
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="ProposalService-V1.0" 
+	xmlns:tns="ProposalService-V1.0">
+
+	<!-- Request and Response Definitions -->
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+			xmlns:proposal="Proposal-V1.0"
+			xmlns:proposalFinding="ProposalFinding-V1.0"
+			xmlns:userSession="UserSession-V1.0"   
+			xmlns:tns="ProposalService-V1.0" 
+			attributeFormDefault="unqualified" 
+			elementFormDefault="unqualified" 
+			targetNamespace="ProposalService-V1.0">
+		  
+		  <xs:import schemaLocation="../Schemas/Proposal-V1.0.xsd" namespace="Proposal-V1.0"/>
+		  <xs:import schemaLocation="../Schemas/ProposalFinding-V1.0.xsd" namespace="ProposalFinding-V1.0"/>
+		  <xs:import schemaLocation="../Schemas/UserSession-V1.0.xsd" namespace="UserSession-V1.0"/>
+		  
+		  <xs:element name="getProposalRequest">
+			  	<xs:complexType>
+			  		<xs:sequence>
+			  			<xs:element name="temporaryProposalID" type="xs:string" minOccurs="1"/>
+						</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		   <xs:element name="getProposalResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="proposal" type="proposal:Proposal" minOccurs="0" maxOccurs="1"/>
+						<xs:element name="message" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		
+			<xs:element name="saveProposalFindingRequest">
+			  	<xs:complexType>
+			  		<xs:sequence>
+			  			<xs:element name="tempPropId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			  			<xs:element name="fundOppId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			  			<xs:element name="userSession" type="userSession:UserSession" minOccurs="1" maxOccurs="1"/>
+			  			<xs:element name="proposalFindingList" type="proposalFinding:ProposalFinding" minOccurs="1" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>	
+			<xs:element name="saveProposalFindingResponse">
+			  	<xs:complexType>
+			  		<xs:sequence>
+			  			<xs:element name="findingSavedFlag" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>	
+		  
+			  <xs:element name="InvalidProposalException">
+				  <xs:complexType>
+				    <xs:sequence>
+				      	<xs:element name="exceptionMessage" nillable="true" type="xs:string"/>
+				    </xs:sequence>
+				  </xs:complexType>
+			  </xs:element>
+		</xs:schema>
+	</wsdl:types>
+  
+<!--   <wsdl:message name="InvalidProposalExceptionMessage"> -->
+<!--     <wsdl:part name="InvalidProposalException" element="tns:InvalidProposalException"> -->
+<!--     </wsdl:part> -->
+<!--   </wsdl:message> -->
+  	
+  	<!-- Messages -->    
+	  <wsdl:message name="getProposalRequestMessage">
+	    <wsdl:part name="getProposalRequest" element="tns:getProposalRequest">
+	    </wsdl:part>
+	  </wsdl:message>
+	  
+	  <wsdl:message name="getProposalResponseMessage">
+	    <wsdl:part name="getProposalResponse" element="tns:getProposalResponse">
+	    </wsdl:part>
+	  </wsdl:message>
+	  
+	  <wsdl:message name="saveProposalFindingRequestMessage">
+	    <wsdl:part name="saveProposalFindingRequest" element="tns:saveProposalFindingRequest">
+	    </wsdl:part>
+	  </wsdl:message>
+	  
+	  <wsdl:message name="saveProposalFindingResponseMessage">
+	    <wsdl:part name="saveProposalFindingResponse" element="tns:saveProposalFindingResponse">
+	    </wsdl:part>
+	  </wsdl:message>
+	  
+	<!-- Ports -->	  
+  	<wsdl:portType name="ProposalService">
+   		<wsdl:operation name="getProposal">
+	      	<wsdl:input message="tns:getProposalRequestMessage">
+	    	</wsdl:input>
+	      	<wsdl:output message="tns:getProposalResponseMessage">
+	    	</wsdl:output>
+<!-- 	    <wsdl:fault message="tns:InvalidProposalExceptionMessage"> -->
+<!-- 	    </wsdl:fault> -->
+    	</wsdl:operation>
+    	<wsdl:operation name="saveProposalFinding">
+	   		<wsdl:input message="tns:saveProposalFindingRequestMessage">
+	   		</wsdl:input>
+	   		<wsdl:output message="tns:saveProposalFindingResponseMessage">
+	   		</wsdl:output>
+<!-- 	    <wsdl:fault message="tns:InvalidProposalExceptionMessage"> -->
+<!-- 	    </wsdl:fault> -->
+    	</wsdl:operation>
+  	</wsdl:portType>
+
+   <!-- Binding -->    
+	  <wsdl:binding name="ProposalServiceSoapBinding" type="tns:ProposalService">
+	    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+	    	<wsdl:operation name="getProposal">
+	    		<soap:operation soapAction="" style="document"/>
+	    			<wsdl:input name="getProposalRequest"><soap:body use="literal"/></wsdl:input>
+	       			<wsdl:output name="getProposalResponse"><soap:body use="literal"/></wsdl:output>
+	<!--         <wsdl:fault name="InvalidProposalException"><soap:fault name="InvalidProposalException" use="literal"/></wsdl:fault> -->
+	    	</wsdl:operation>
+	    	<wsdl:operation name="saveProposalFinding">
+	    		<soap:operation soapAction="" style="document"/>
+	    		<wsdl:input name="saveProposalFindingRequest"><soap:body use="literal"/></wsdl:input>
+	        	<wsdl:output name="saveProposalFindingResponse"><soap:body use="literal"/></wsdl:output>
+	<!--         <wsdl:fault name="InvalidProposalException"><soap:fault name="InvalidProposalException" use="literal"/></wsdl:fault> -->
+	    	</wsdl:operation>
+	  </wsdl:binding>
+
+	<!-- Service -->   
+ 	<wsdl:service name="ProposalService">
+    	<wsdl:port name="ProposalServicePort" binding="tns:ProposalServiceSoapBinding">
+     		<soap:address location="http://localhost:9090/ProposalServicePort"/>
+    	</wsdl:port>
+  	</wsdl:service>
+
+</wsdl:definitions>

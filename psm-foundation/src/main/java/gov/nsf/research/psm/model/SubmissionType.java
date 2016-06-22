@@ -1,0 +1,13 @@
+package gov.nsf.research.psm.model;
+
+public enum SubmissionType {
+
+	LETTER_OF_INTENT,
+	PRELIMINARY_PROPOSAL,
+	FULL_PROPOSAL,
+	RENEWAL,
+	RENEWAL_ABR,
+	COLLABORATIVE_LEAD,
+	COLLABORATIVE_NON_LEAD,
+	AWARD_SUPPLEMENT;
+}
