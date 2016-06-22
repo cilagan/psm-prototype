@@ -1,0 +1,1 @@
+mvn -Declipse.workspace="C:\NSF\snapviews\GitHub_Psm_Prototype\psm-prototype\psm-foundation-gpg" eclipse:configure-workspace & mvn clean install -Dmaven.test.skip=true & mvn eclipse:eclipse
