@@ -33,7 +33,7 @@ public final class Constants {
     public static final String STORED_PROC_GET_DIVISIONS_BY_FUND_OP_ID = "flp.pr_psm_get_divs_by_fund_op_gpg";
     public static final String STORED_PROC_GET_PROGRAM_ELEMENTS_BY_DIV_CODE = "flp.pr_psm_get_pgm_eles_by_div_gpg";
     public static final String STORED_PROC_GET_DIRECTORATES_BY_FUND_OP_ID = "flp.pr_psm_get_drcts_by_fundop_gpg";
-    public static final String STORED_PROC_GET_DIRECTORATE = "flp.pr_psm_get_dir_by_fund_op_id";
+    public static final String STORED_PROC_GET_DIRECTORATE = "flp.pr_psm_get_dir_by_fund_op_gpg";
     
     // Error constants
     public static final String INVALID_FUNDOP_ID = "Invalid Funding Opportunity ID '{0}'";
