@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- *********************************************************************** -->
+	<!--                 Project Identification                        -->
+	<!-- *********************************************************************** -->
+	<groupId>gov.nsf.psm</groupId>
+	<artifactId>solicitation-data-service-war</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<name>Solicitation Data Service WAR</name>
+	<description>PSM Solicitation Service WAR</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>solicitation-data-service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>	
+				 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<version>1.3.5.RELEASE</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+		<finalName>solicitation-data-service</finalName>
+	</build>
+	<!-- <build>
+		<finalName>solicitation-data-service</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>			
+				<configuration>
+					<webResources/>
+					<warSourceExcludes>src/main/webapp/WEB-INF/lib/**</warSourceExcludes>
+					<archive>
+						<manifestEntries>
+							<Build-Time>${buildNumber}</Build-Time>
+							<Build-Version>0.0.1-SNAPSHOT</Build-Version>
+							<Build-Baseline>${buildBaseline}</Build-Baseline>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build> -->
+</project>

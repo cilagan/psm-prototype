@@ -1,0 +1,94 @@
+[INFO ] 2016-06-17 10:40:09.986 [http-nio-8080-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 10:51:30.861 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 10:53:30.125 [http-nio-8080-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 10:53:42.621 [http-nio-8080-exec-2] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 10:53:54.447 [http-nio-8080-exec-3] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 11:01:56.593 [http-nio-8080-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 11:08:10.893 [http-nio-8080-exec-2] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 14:43:37.136 [http-nio-8080-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 14:43:53.112 [http-nio-8080-exec-2] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 14:49:50.451 [http-nio-8080-exec-1] SolicitationDataServiceController - User AUser is not authorized to use this endpoint
+[INFO ] 2016-06-17 14:50:27.076 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 14:50:50.613 [http-nio-8080-exec-1] SolicitationDataServiceController - User AUser is not authorized to use this endpoint
+[INFO ] 2016-06-17 14:51:02.583 [http-nio-8080-exec-2] SolicitationDataServiceController - User AUser is not authorized to use this endpoint
+[INFO ] 2016-06-17 14:51:30.343 [http-nio-8080-exec-3] SolicitationDataServiceController - User AUser is not authorized to use this endpoint
+[INFO ] 2016-06-17 14:51:47.083 [http-nio-8080-exec-4] SolicitationDataServiceController - User AUser is authorized to use this endpoint
+[INFO ] 2016-06-17 14:51:47.083 [http-nio-8080-exec-4] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 14:53:36.244 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 14:54:06.507 [http-nio-8080-exec-1] SolicitationDataServiceController - User 'AUser' is authorized to use this endpoint
+[INFO ] 2016-06-17 14:54:06.507 [http-nio-8080-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 14:54:11.800 [http-nio-8080-exec-2] SolicitationDataServiceController - User 'AUser' is not authorized to use this endpoint
+[INFO ] 2016-06-17 14:55:06.758 [http-nio-8080-exec-3] SolicitationDataServiceController - User 'AUser' is authorized to use this endpoint
+[INFO ] 2016-06-17 14:55:06.758 [http-nio-8080-exec-3] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 14:55:13.643 [http-nio-8080-exec-4] SolicitationDataServiceController - User 'AUser' is not authorized to use this endpoint
+[INFO ] 2016-06-17 14:55:42.711 [http-nio-8080-exec-5] SolicitationDataServiceController - User 'AUser' is authorized to use this endpoint
+[INFO ] 2016-06-17 14:55:42.711 [http-nio-8080-exec-5] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 14:55:50.916 [http-nio-8080-exec-6] SolicitationDataServiceController - User 'AUser' is not authorized to use this endpoint
+[INFO ] 2016-06-17 15:18:33.311 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 15:18:58.391 [http-nio-8080-exec-1] SolicitationDataServiceController - User 'AUser' is authorized to use this endpoint
+[INFO ] 2016-06-17 15:18:58.391 [http-nio-8080-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 15:19:02.707 [http-nio-8080-exec-2] SolicitationDataServiceController - User 'AUser' is not authorized to use this endpoint
+[INFO ] 2016-06-17 15:19:02.738 [http-nio-8080-exec-3] SolicitationDataServiceController - User 'AUser' is not authorized to use this endpoint
+[INFO ] 2016-06-17 15:19:02.738 [http-nio-8080-exec-2] SolicitationDataServiceController - User 'AUser' is authorized to use this endpoint
+[INFO ] 2016-06-17 15:19:02.738 [http-nio-8080-exec-2] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 15:19:02.738 [http-nio-8080-exec-3] SolicitationDataServiceController - User 'AUser' is authorized to use this endpoint
+[INFO ] 2016-06-17 15:19:02.738 [http-nio-8080-exec-3] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 15:29:12.691 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 15:29:26.319 [http-nio-8080-exec-4] SolicitationDataServiceController - User 'AUser' is authorized to use this endpoint
+[INFO ] 2016-06-17 15:29:26.319 [http-nio-8080-exec-4] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 15:29:31.670 [http-nio-8080-exec-5] SolicitationDataServiceController - User 'AUser' is not authorized to use this endpoint
+[INFO ] 2016-06-17 15:29:31.670 [http-nio-8080-exec-5] SolicitationDataServiceController - User 'AUser' is authorized to use this endpoint
+[INFO ] 2016-06-17 15:29:31.670 [http-nio-8080-exec-5] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 15:30:02.817 [http-nio-8080-exec-1] SolicitationDataServiceController - User 'AUser' is not authorized to use this endpoint
+[INFO ] 2016-06-17 15:34:49.605 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 15:35:27.634 [http-nio-8080-exec-1] SolicitationDataServiceController - User 'AUser' is authorized to use this endpoint
+[INFO ] 2016-06-17 15:35:27.636 [http-nio-8080-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 15:35:33.488 [http-nio-8080-exec-2] SolicitationDataServiceController - User 'AUser' is not authorized to use this endpoint
+[INFO ] 2016-06-17 15:38:13.572 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 15:38:42.358 [http-nio-8080-exec-1] SolicitationDataServiceController - User 'AUser' is not authorized to use this endpoint
+[INFO ] 2016-06-17 15:38:44.434 [http-nio-8080-exec-2] SolicitationDataServiceController - User 'AUser' is not authorized to use this endpoint
+[INFO ] 2016-06-17 15:52:19.986 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 15:52:46.712 [http-nio-8080-exec-1] SolicitationDataServiceController - User 'AUser' is not authorized to use this endpoint
+[INFO ] 2016-06-17 15:52:53.447 [http-nio-8080-exec-2] SolicitationDataServiceController - User 'AUser' is authorized to use this endpoint
+[INFO ] 2016-06-17 15:52:53.447 [http-nio-8080-exec-2] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 15:56:21.208 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 16:02:38.076 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-17 16:12:46.470 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 09:16:26.430 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 09:18:48.979 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 09:22:44.937 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 09:24:24.751 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 09:25:06.791 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 09:29:45.433 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 09:30:11.265 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 09:30:42.702 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 09:31:05.388 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 09:31:44.533 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 09:32:13.789 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 12:08:56.493 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 12:17:45.568 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 12:20:01.326 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 12:50:18.500 [http-nio-9090-exec-4] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 12:51:17.488 [http-nio-9090-exec-5] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 12:51:23.521 [http-nio-9090-exec-6] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 12:56:05.714 [http-nio-9090-exec-8] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 12:56:16.289 [http-nio-9090-exec-9] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 12:57:02.456 [http-nio-9090-exec-10] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 12:58:27.990 [http-nio-9090-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 13:00:09.947 [http-nio-9090-exec-2] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 13:27:44.370 [http-nio-9050-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 13:35:27.718 [http-nio-9050-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 13:35:44.274 [http-nio-9050-exec-3] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 13:37:58.452 [http-nio-9050-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 13:47:29.812 [http-nio-9050-exec-3] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 14:15:17.751 [http-nio-9050-exec-5] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-20 19:35:13.723 [http-nio-9050-exec-7] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-21 08:42:50.175 [http-nio-9050-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-21 14:48:57.183 [http-nio-9050-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-22 11:17:49.933 [main] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-23 13:29:01.022 [http-nio-9050-exec-1] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-23 13:30:28.855 [http-nio-9050-exec-2] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-23 13:31:01.670 [http-nio-9050-exec-4] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-23 13:54:38.691 [http-nio-9050-exec-6] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()
+[INFO ] 2016-06-28 10:32:20.981 [http-nio-9050-exec-2] SolicitationDataServiceController - User 'AUser' is authorized to use this endpoint
+[INFO ] 2016-06-28 10:32:21.028 [http-nio-9050-exec-2] SolicitationDataServiceController - SolicitationDataServiceController.getAllFundingOpportunities()

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Resource name="jdbc/PSMFastLane" auth="Container" 
+      type="javax.sql.DataSource"
+      driverClassName="com.sybase.jdbc4.jdbc.SybDriver"
+      url="jdbc:sybase:Tds:fldevel15.nsf.gov:5000/fldb"
+      username="flpupd"
+      password="k2,OnivH"
+        maxActive="20"
+        maxIdle="10"
+        maxWait="20000"/>
+</Context>
