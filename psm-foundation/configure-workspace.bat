@@ -1,1 +1,0 @@
-mvn -Declipse.workspace="C:\PSM_PDF\psm-prototype\psm-foundation" eclipse:configure-workspace & mvn clean install -Dmaven.test.skip=true & mvn eclipse:eclipse

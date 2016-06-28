@@ -1,1 +1,0 @@
-mvn -Declipse.workspace="C:\NSF\snapviews\PSM_2016\psm-prototype\document-service-mongodb-itext" eclipse:configure-workspace & mvn clean install -Dmaven.test.skip=true & mvn eclipse:eclipse

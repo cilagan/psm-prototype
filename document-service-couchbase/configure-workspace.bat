@@ -1,1 +1,0 @@
-mvn -Declipse.workspace="C:\NSF\snapviews\PSM_CouchDB_Prototype\psm-prototype\document-service-couchbase" eclipse:configure-workspace & mvn clean install -Dmaven.test.skip=true & mvn eclipse:eclipse
